@@ -1,0 +1,78 @@
+package shaotian.android.iamsingle.netsdk;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
+import android.util.Pair;
+
+
+
+public class SocketLocationCommunicator implements INetCommunicator{
+	Pair<String,Integer> server=null;
+	@SuppressLint("NewApi")
+	@Override
+	public void process(INetParam data) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			new AsyncSend().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		else
+			new AsyncSend().execute();
+        
+		
+	}
+
+	
+	@Override
+	public void setServer(String ip, int port) {
+		server=new Pair<String,Integer>(ip, new Integer(port));
+	}
+
+	
+	
+	private class AsyncSend extends AsyncTask<Void, Void, Void> {
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			try {
+				DatagramSocket s=new DatagramSocket();
+				InetAddress local;
+				byte[] ret=new byte[1000];
+				local = InetAddress.getLocalHost();
+				String data="test aloha";
+				DatagramPacket p=new DatagramPacket(data.getBytes(),data.length(),InetAddress.getByName(server.first),server.second);
+				s.send(p);
+				
+				//recieve
+				DatagramSocket s2=new DatagramSocket(server.second);
+				DatagramPacket r=new DatagramPacket(ret,1000);
+				s2.receive(r);
+				Log.v("******[srvr rsp] ",ret.toString() );
+				
+				
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+	        
+			return null;
+		}      
+
+        
+  }   
+}

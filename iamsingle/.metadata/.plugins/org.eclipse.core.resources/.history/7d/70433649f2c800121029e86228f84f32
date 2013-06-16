@@ -1,0 +1,81 @@
+package shaotian.android.iamsingle.netsdk;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import android.os.AsyncTask;
+import android.util.Pair;
+
+
+
+public class NetCommunicator implements INetCommunicator{
+	Pair<String,Integer> server=null;
+	@Override
+	public void send(INetParam data) {
+		
+        try {
+
+	        new AsyncSend(s,p).execute();
+	       
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void recieve(INetParam data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setServer(String ip, int port) {
+		server=new Pair<String,Integer>(ip, new Integer(port));
+	}
+
+	
+	
+	private class AsyncSend extends AsyncTask<Void, Void, Void> {
+		DatagramSocket socket;
+		DatagramPacket packet;
+		
+		public AsyncSend(DatagramSocket d, DatagramPacket p)
+		{
+			
+		}
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			try {
+				DatagramSocket s=new DatagramSocket();
+				InetAddress local;
+				local = InetAddress.getLocalHost();
+				DatagramPacket p=new DatagramPacket("123".getBytes(),3,local,11000);
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+	        
+			return null;
+		}      
+
+        
+  }   
+}

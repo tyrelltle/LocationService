@@ -1,0 +1,9 @@
+package shaotian.android.iamsingle.netsdk;
+
+public class NetParam implements INetParam{
+	public String data;
+	public NetParam (String data)
+	{
+		this.data=data;
+	}
+}

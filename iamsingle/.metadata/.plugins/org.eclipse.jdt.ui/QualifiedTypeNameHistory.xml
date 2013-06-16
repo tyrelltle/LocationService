@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.GoogleMap"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.R.layout"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.R.id"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.MapFragment"/>
+<fullyQualifiedTypeName name="android.app.DialogFragment"/>
+<fullyQualifiedTypeName name="com.google.android.gms.common.GooglePlayServicesUtil"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.UIShared.CustomDialogFragment"/>
+<fullyQualifiedTypeName name="com.google.android.gms.common.ConnectionResult"/>
+<fullyQualifiedTypeName name="android.app.Dialog"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.UIShared.SharedUtil"/>
+<fullyQualifiedTypeName name="com.google.android.gms.common.GooglePlayServicesClient"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="android.content.IntentSender"/>
+<fullyQualifiedTypeName name="com.google.android.gms.location.LocationRequest"/>
+<fullyQualifiedTypeName name="com.google.android.gms.location.LocationClient"/>
+<fullyQualifiedTypeName name="android.location.Location"/>
+<fullyQualifiedTypeName name="android.location.LocationListener"/>
+<fullyQualifiedTypeName name="com.google.android.gms.location.LocationListener"/>
+<fullyQualifiedTypeName name="java.net.DatagramPacket"/>
+<fullyQualifiedTypeName name="java.net.DatagramSocket"/>
+<fullyQualifiedTypeName name="java.net.InetAddress"/>
+<fullyQualifiedTypeName name="android.util.Pair"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.NetSendParam"/>
+<fullyQualifiedTypeName name="android.os.AsyncTask"/>
+<fullyQualifiedTypeName name="android.os.Build"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="android.content.pm.ApplicationInfo"/>
+<fullyQualifiedTypeName name="android.content.pm.PackageManager"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.NetParam"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.NetCommunicator"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.SocketLocationCommunicator"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.Constant"/>
+<fullyQualifiedTypeName name="java.net.SocketTimeoutException"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.LocUpdateCommunicator"/>
+</qualifiedTypeNameHistroy>
