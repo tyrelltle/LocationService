@@ -101,6 +101,8 @@ namespace SocketServer
 		
 		private System.Nullable<double> _longtitude;
 		
+		private System.Nullable<System.DateTime> _lastupdate;
+		
 		private EntitySet<User> _Users;
 		
 		private EntityRef<User> _User;
@@ -119,6 +121,8 @@ namespace SocketServer
     partial void OnlatitudeChanged();
     partial void OnlongtitudeChanging(System.Nullable<double> value);
     partial void OnlongtitudeChanged();
+    partial void OnlastupdateChanging(System.Nullable<System.DateTime> value);
+    partial void OnlastupdateChanged();
     #endregion
 		
 		public Location()
@@ -228,6 +232,26 @@ namespace SocketServer
 					this._longtitude = value;
 					this.SendPropertyChanged("longtitude");
 					this.OnlongtitudeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lastupdate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> lastupdate
+		{
+			get
+			{
+				return this._lastupdate;
+			}
+			set
+			{
+				if ((this._lastupdate != value))
+				{
+					this.OnlastupdateChanging(value);
+					this.SendPropertyChanging();
+					this._lastupdate = value;
+					this.SendPropertyChanged("lastupdate");
+					this.OnlastupdateChanged();
 				}
 			}
 		}

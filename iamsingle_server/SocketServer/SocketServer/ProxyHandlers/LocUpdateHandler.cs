@@ -56,8 +56,9 @@ namespace SocketServer.ProxyHandlers
                 //create new location record
                 Location newloc = new Location() {  userid=user.userid,
                                                     altitude = Convert.ToDouble(vals[1]), 
-                                                    latitude = Convert.ToDouble(vals[1]), 
-                                                    longtitude = Convert.ToDouble(vals[1]) };
+                                                    latitude = Convert.ToDouble(vals[2]), 
+                                                    longtitude = Convert.ToDouble(vals[3]), 
+                                                    lastupdate=DateTime.Now};
                 context.Locations.InsertOnSubmit(newloc);
                 context.SubmitChanges();
                 user.locationId = newloc.locationId;
@@ -77,8 +78,9 @@ namespace SocketServer.ProxyHandlers
                 }
 
                 loc.altitude = Convert.ToDouble(vals[1]); 
-                loc.latitude = Convert.ToDouble(vals[1]);
-                loc.longtitude = Convert.ToDouble(vals[1]);
+                loc.latitude = Convert.ToDouble(vals[2]);
+                loc.longtitude = Convert.ToDouble(vals[3]);
+                loc.lastupdate = DateTime.Now;
                 context.SubmitChanges();
 
             }
