@@ -29,6 +29,8 @@ namespace SocketServer.ProxyHandlers
                 return new TestProxyHandler();
             if (type.Equals(Constants.PROXY_LOC))
                 return new LocUpdateHandler();
+            if (type.Equals(Constants.PROXY_MAP))
+                return new GetLocMapHandler();
             return null;
         }
         

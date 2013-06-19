@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geo\GeoLocation.cs" />
     <Compile Include="LINQClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -55,6 +56,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ProxyHandlers\GetLocMapHandler.cs" />
     <Compile Include="ProxyHandlers\LocUpdateHandler.cs" />
     <Compile Include="ProxyHandlers\IProxyHandler.cs" />
     <Compile Include="ProxyHandlers\ProxyHandlerFactory.cs" />
@@ -83,6 +85,7 @@
       <DependentUpon>LINQClasses.dbml</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

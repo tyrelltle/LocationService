@@ -11,6 +11,7 @@ namespace SocketServer.ProxyHandlers
         //proxy type strings
         public const string PROXY_TEST="test";
         public const string PROXY_LOC = "loc";
+        public const string PROXY_MAP = "map";
         public const string EOF= "<!>"; 
 
     }
