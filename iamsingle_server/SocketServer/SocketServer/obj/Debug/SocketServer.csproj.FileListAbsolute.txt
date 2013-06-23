@@ -16,3 +16,9 @@ C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\So
 C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\bin\Debug\SocketServer.exe
 C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\bin\Debug\SocketServer.pdb
 C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\obj\Debug\SocketServer.csprojResolveAssemblyReference.cache
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\bin\Debug\SocketServer.exe.config
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\obj\Debug\SocketServer.exe
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\obj\Debug\SocketServer.pdb
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\bin\Debug\SocketServer.exe
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\bin\Debug\SocketServer.pdb
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\SocketServer\obj\Debug\SocketServer.csprojResolveAssemblyReference.cache

@@ -81,12 +81,14 @@ namespace SocketServer.ProxyHandlers
                 loc.latitude = Convert.ToDouble(vals[2]);
                 loc.longtitude = Convert.ToDouble(vals[3]);
                 loc.lastupdate = DateTime.Now;
+                context.Refresh(System.Data.Linq.RefreshMode.KeepChanges, loc);
                 context.SubmitChanges();
+                context.Dispose();
 
             }
 
              Console.Out.Write("ok");
-
+            
          }
 
 

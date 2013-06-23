@@ -12,3 +12,10 @@ C:\Users\tyler\Dropbox\Projects\iamsingle_server\SocketServer\Test\bin\Release\S
 C:\Users\tyler\Dropbox\Projects\iamsingle_server\SocketServer\Test\obj\Release\Test.csprojResolveAssemblyReference.cache
 C:\Users\tyler\Dropbox\Projects\iamsingle_server\SocketServer\Test\obj\Release\Test.dll
 C:\Users\tyler\Dropbox\Projects\iamsingle_server\SocketServer\Test\obj\Release\Test.pdb
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Release\Test.dll
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Release\Test.pdb
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Release\SocketServer.exe
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Release\SocketServer.pdb
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Release\Test.csprojResolveAssemblyReference.cache
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Release\Test.dll
+C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Release\Test.pdb

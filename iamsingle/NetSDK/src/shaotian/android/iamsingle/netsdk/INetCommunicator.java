@@ -6,6 +6,6 @@ public interface INetCommunicator {
 	
 	public void updateLoc(INetParam data) throws Exception;
 	
-	public void getMap();
+	public void getMap(INetParam data) throws Exception;
 
 }

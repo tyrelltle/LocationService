@@ -1,7 +1,9 @@
 ﻿/*
- * Protocol input:   loc userid.altitude.latitude.longtitude 
+ * Protocol input:   map userid_altitude_latitude_longtitude 
  * Note: param.input dosent contatin 'loc'
  * 
+ * protocol output:
+ * multiple
 
 */
 using SocketServer.Param;
@@ -23,9 +25,10 @@ namespace SocketServer.ProxyHandlers
         {
 
 
-            byte[] response = null;
+            
             Parameter param = base.param;
-
+            byte[] response = null;
+            IPEndPoint client = new IPEndPoint(param.clientip, param.clientport);
             string[] vals = base.param.input.Split('_');
             //now vals' value is like  {userid,altitude,latitude,longtitude }
 
@@ -37,55 +40,27 @@ namespace SocketServer.ProxyHandlers
                 
             }
 
-            //update db tables: User and Location
-            LINQClassesDataContext context = new LINQClassesDataContext();           
-            int uid=Convert.ToInt32(vals[0]);
-            User user=(from u in context.Users
-                      where u.userid==uid
-                          select u).Single();
-
-            if(null==user)
+            //retrieve user locs that is close to cur user
+            LINQClassesDataContext context = new LINQClassesDataContext();
+            int uid = Convert.ToInt32(vals[0]);
+            double lati = Convert.ToDouble(vals[2]);
+            double longti = Convert.ToDouble(vals[3]);
+            int nearRadius=Convert.ToInt32(ConfigurationSettings.AppSettings["nearRadius"]);
+            
+            var locs = from l in context.Locations
+                         where Math.Acos(Math.Sin(lati)*Math.Sin((double)l.latitude)+
+                                         Math.Cos(lati)*Math.Cos((double)l.latitude)*
+                                         Math.Cos((double)l.longtitude-longti))*6371
+                                         <=nearRadius
+                         select l;
+            
+            foreach (Location loc in locs)
             {
-                //user dose not exist
-                Console.Out.Write("user not exist");
-                return;
+                response = System.Text.Encoding.UTF8.GetBytes(locs.Count() + "_" + loc.userid + "_" + loc.altitude + "_" + loc.latitude + "_" + loc.longtitude);
+                param.server.Send(response, response.Length, client);
+                Console.Out.Write("sent client:" + loc.userid + "_"+loc.altitude+"_"+loc.latitude+"_"+loc.longtitude+"\n");
             }
-
-            if (user.locationId == null)
-            {
-                //create new location record
-                Location newloc = new Location() {  userid=user.userid,
-                                                    altitude = Convert.ToDouble(vals[1]), 
-                                                    latitude = Convert.ToDouble(vals[2]), 
-                                                    longtitude = Convert.ToDouble(vals[3]), 
-                                                    lastupdate=DateTime.Now};
-                context.Locations.InsertOnSubmit(newloc);
-                context.SubmitChanges();
-                user.locationId = newloc.locationId;
-                context.SubmitChanges();
-              
-            }
-            else 
-            { 
-                //update location record
-                Location loc = (from l in context.Locations
-                                where l.locationId == user.locationId
-                                select l).Single();
-                if (null == loc)
-                {
-                    Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.altitude.latitude.longtitude'");
-                    return;
-                }
-
-                loc.altitude = Convert.ToDouble(vals[1]); 
-                loc.latitude = Convert.ToDouble(vals[2]);
-                loc.longtitude = Convert.ToDouble(vals[3]);
-                loc.lastupdate = DateTime.Now;
-                context.SubmitChanges();
-
-            }
-
-             Console.Out.Write("ok");
+            Console.Out.Write("ok");
 
          }
 
