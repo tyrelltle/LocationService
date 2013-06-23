@@ -1,7 +1,9 @@
 package shaotian.android.iamsingle.async;
 
+
+
 import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
-import shaotian.android.iamsingle.netsdk.util.LocParam;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -9,7 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Toast;
+
 
 public class AsyncUpdateLocation extends AsyncTask<Void, Void, Void> {
 	 //Async classes 
@@ -33,7 +35,7 @@ public class AsyncUpdateLocation extends AsyncTask<Void, Void, Void> {
 
 				WorldModeCommunicator comm=new WorldModeCommunicator();
 				comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
-				comm.updateLoc(new LocParam(1,location.getAltitude(),location.getLatitude(),location.getLongitude()));
+				comm.updateLoc(new shaotian.android.iamsingle.netsdk.model.Location(1,location.getAltitude(),location.getLatitude(),location.getLongitude()));
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

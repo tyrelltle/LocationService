@@ -1,5 +1,5 @@
 /*
- * Protocol input:   loc userid.altitude.latitude.longtitude 
+ * Protocol input:   loc userid_altitude_latitude_longtitude 
  * Note: param.input dosent contatin 'loc'
  * 
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import shaotian.android.iamsingle.netsdk.util.Constant;
 import shaotian.android.iamsingle.netsdk.util.*;
-
+import shaotian.android.iamsingle.netsdk.model.*;
 
 
 
@@ -34,10 +34,10 @@ public class WorldModeCommunicator implements INetCommunicator{
 
 
 	@Override
-	public void updateLoc(INetParam para) throws Exception {
-		if(!(para instanceof LocParam))
+	public void updateLoc(Object para) throws Exception {
+		if(!(para instanceof Location))
 			throw new Exception("need to pass LocParam to WorldModeCommunicator.updateLoc()");
-		LocParam param=(LocParam)para;
+		Location param=(Location)para;
 		DatagramSocket s;
 		try {
 			s = new DatagramSocket();
@@ -64,14 +64,16 @@ public class WorldModeCommunicator implements INetCommunicator{
 			e.printStackTrace();
 		}
 		
+		
 	}
 
 
 	@Override
-	public Object getMap(INetParam para) throws Exception {
-		if(!(para instanceof LocParam))
+	public Object getMap(Object para) throws Exception {
+		if(!(para instanceof Location))
 			throw new Exception("need to pass LocParam to WorldModeCommunicator.updateLoc()");
-		LocParam param=(LocParam)para;
+		Location param=(Location)para;
+		LocationList lis=new LocationList();
 		DatagramSocket s;
 		try {
 			s = new DatagramSocket();
@@ -91,12 +93,12 @@ public class WorldModeCommunicator implements INetCommunicator{
 
 		DatagramPacket r=new DatagramPacket(ret,ret.length,InetAddress.getByName(server.first),server.second);
 		s.setSoTimeout(Constant.RECIEVE_TIMEOUT);
-		ArrayList<String> lis=new ArrayList<String>();
+		
 		while(true){
 			try{
 				s.receive(r);
 				String d=new String(ret,0,r.getLength());
-				lis.add(d);
+				lis.add(d.substring(d.indexOf("_")+1, d.length()));
 				
 				//terminate if message number equals to lis size
 				if(d.substring(0, d.indexOf("_")).equals(String.valueOf(lis.size())))
@@ -122,7 +124,7 @@ public class WorldModeCommunicator implements INetCommunicator{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return lis;
 		
 	}   
 }

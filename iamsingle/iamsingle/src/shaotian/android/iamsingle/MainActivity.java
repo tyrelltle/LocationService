@@ -2,6 +2,7 @@ package shaotian.android.iamsingle;
 
 import shaotian.android.iamsingle.UIShared.CustomDialogFragment;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
+import shaotian.android.iamsingle.async.AsyncGetGlobalLocMap;
 import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -181,8 +182,13 @@ public class MainActivity extends Activity implements
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			 locup.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		else
-			 locup.execute();		
+			 locup.execute();	
 		
+		AsyncGetGlobalLocMap getmap=new AsyncGetGlobalLocMap(this,this.mMap,location);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			getmap.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		else
+			getmap.execute();	
 	}
 
     @Override

@@ -3,7 +3,10 @@
  * Note: param.input dosent contatin 'loc'
  * 
  * protocol output:
- * multiple
+ * numOfMessages_userid_altitude_latitude_longtitude
+ * numOfMessages_userid_altitude_latitude_longtitude
+ * numOfMessages_userid_altitude_latitude_longtitude
+ * ......
 
 */
 using SocketServer.Param;

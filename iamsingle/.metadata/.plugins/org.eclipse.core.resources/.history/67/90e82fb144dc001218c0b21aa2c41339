@@ -1,0 +1,21 @@
+package shaotian.android.iamsingle.netsdk.util;
+
+import java.util.ArrayList;
+import shaotian.android.iamsingle.netsdk.model.*;
+
+
+public class LocListParam implements INetParam{
+
+	public ArrayList<Location> lis=new ArrayList<Location>();
+	
+	public LocListParam ()
+	{
+	
+	}
+	
+	public void add(String str) throws Exception
+	{
+		lis.add(Location.getFromServerRetStr(str));
+		
+	}
+}

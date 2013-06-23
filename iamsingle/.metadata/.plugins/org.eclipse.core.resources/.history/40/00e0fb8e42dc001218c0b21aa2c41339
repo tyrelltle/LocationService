@@ -1,0 +1,16 @@
+/*
+ * encapsulates a list of location informations
+ * 
+ * */
+
+package shaotian.android.iamsingle.netsdk.model;
+
+import java.util.Date;
+
+public class Location {
+	int locationid;
+	int userid;
+	double altitude,latitude,longtitude;
+	Date lastupdate;
+
+}

@@ -4,8 +4,8 @@ public interface INetCommunicator {
 
 	public void setServer(String ip,int port);
 	
-	public void updateLoc(INetParam data) throws Exception;
+	public void updateLoc(Object data) throws Exception;
 	
-	public Object getMap(INetParam data) throws Exception;
+	public Object getMap(Object data) throws Exception;
 
 }
