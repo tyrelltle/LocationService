@@ -1,0 +1,10 @@
+/*
+ * encapsulates a list of location informations
+ * 
+ * */
+
+package shaotian.android.iamsingle.netsdk.util;
+
+public class LocListParam {
+
+}

@@ -1,17 +1,8 @@
 package shaotian.android.iamsingle;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 import shaotian.android.iamsingle.UIShared.CustomDialogFragment;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
-import shaotian.android.iamsingle.netsdk.LocParam;
-import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
-
+import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -23,6 +14,8 @@ import com.google.android.gms.maps.MapFragment;
 
 import android.location.Location;
 
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
@@ -30,9 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.view.Menu;
 import android.widget.Toast;
 
@@ -181,30 +171,17 @@ public class MainActivity extends Activity implements
 
 	@Override
 	public void onLocationChanged(Location location) {
-		ApplicationInfo ai;
-		try {
-			ai = getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
-			Bundle bundle = ai.metaData;
-		    String myApiKey = bundle.getString("my_api_key");
-			
-	        String msg = "Updated Location: " +
-	                Double.toString(location.getLatitude()) + "," +
-	                Double.toString(location.getLongitude());
-	        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-	        
-	      
-					WorldModeCommunicator comm=new WorldModeCommunicator();
-					comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
-					comm.updateLoc(new LocParam(1,location.getAltitude(),location.getLatitude(),location.getLongitude()));
-		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    
-				
+		String msg = "Updated Location: " +
+                Double.toString(location.getLatitude()) + "," +
+                Double.toString(location.getLongitude());
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        
+        
+		AsyncUpdateLocation locup=new AsyncUpdateLocation(this, location);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			 locup.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		else
+			 locup.execute();		
 		
 	}
 
@@ -223,4 +200,8 @@ public class MainActivity extends Activity implements
         mLocationClient.removeLocationUpdates(this);
    
     }
+    
+    
+   
+    
 }

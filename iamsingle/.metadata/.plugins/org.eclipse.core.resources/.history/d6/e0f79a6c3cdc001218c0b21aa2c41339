@@ -1,0 +1,50 @@
+/*
+ * used for communicating with server. it directly calls NetSDK functions
+ * 
+ * */
+
+package shaotian.android.iamsingle.UIShared;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+import shaotian.android.iamsingle.netsdk.LocParam;
+import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
+
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.Toast;
+
+public class LocationNetHelper {
+
+	static private LocationNetHelper instance;
+	
+	private LocationNetHelper()
+	{}
+	
+	public static LocationNetHelper Instance()
+	{
+		if(instance==null)
+			instance=new LocationNetHelper();
+		return instance;
+
+	}
+	
+	
+	public void updateLoc()
+	{
+		
+		
+	}
+	
+	
+	
+	
+}

@@ -1,0 +1,5 @@
+package shaotian.android.iamsingle.async;
+
+public class AsyncUpdateLocation {
+
+}
