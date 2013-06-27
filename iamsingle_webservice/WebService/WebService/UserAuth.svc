@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WebService.WebServices.UserAuth" CodeBehind="UserAuth.svc.cs" %>
