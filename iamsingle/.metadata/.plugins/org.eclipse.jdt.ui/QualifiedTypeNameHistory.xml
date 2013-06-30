@@ -23,7 +23,6 @@
 <fullyQualifiedTypeName name="java.net.InetAddress"/>
 <fullyQualifiedTypeName name="android.util.Pair"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.NetSendParam"/>
-<fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="android.os.Build"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="android.content.pm.ApplicationInfo"/>
@@ -35,4 +34,21 @@
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.Constant"/>
 <fullyQualifiedTypeName name="java.net.SocketTimeoutException"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.LocUpdateCommunicator"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncUpdateLocation"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.os.AsyncTask"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.LocationList"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.model.MarkerOptions"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.model.LatLng"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncGetGlobalLocMap"/>
+<fullyQualifiedTypeName name="org.apache.http.HttpEntity"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.WSUtil"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.auth.AuthManager"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncRegister"/>
+<fullyQualifiedTypeName name="org.apache.http.client.methods.HttpPut"/>
+<fullyQualifiedTypeName name="org.apache.http.entity.StringEntity"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,39 @@
+package shaotian.android.iamsingle.netsdk.auth;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import shaotian.android.iamsingle.netsdk.util.WSUtil;
+public class AuthManager {
+	
+	public void register() throws UnsupportedEncodingException
+	{
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpContext localContext = new BasicHttpContext();
+		HttpPut httpPut = new HttpPut("http://192.168.0.11/webservice/userauth.svc/register");
+		StringEntity input = new StringEntity("{'email':'aloha@aloha.com','password':'wanysysbb'}");
+		input.setContentType("application/json");
+		httpPut.setEntity(input);
+		String text = null;
+		try {
+		HttpResponse response = httpClient.execute(httpPut, localContext);
+		HttpEntity entity = response.getEntity();
+		text = WSUtil.getContentFromEntity(entity);
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+		}
+		
+		
+		
+	}
+	
+
+}

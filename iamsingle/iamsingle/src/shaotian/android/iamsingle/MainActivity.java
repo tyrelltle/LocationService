@@ -3,6 +3,7 @@ package shaotian.android.iamsingle;
 import shaotian.android.iamsingle.UIShared.CustomDialogFragment;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.async.AsyncGetGlobalLocMap;
+import shaotian.android.iamsingle.async.AsyncRegister;
 import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -47,7 +48,7 @@ public class MainActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeMap();
-       
+new AsyncRegister(this).execute();
         mLocationClient = new LocationClient(this, this, this);
         mLocationRequest=LocationRequest.create();
         mLocationRequest.setPriority(

@@ -30,12 +30,12 @@ namespace SocketServer
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertLocation(Location instance);
-    partial void UpdateLocation(Location instance);
-    partial void DeleteLocation(Location instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
+    partial void InsertLocation(Location instance);
+    partial void UpdateLocation(Location instance);
+    partial void DeleteLocation(Location instance);
     #endregion
 		
 		public LINQClassesDataContext() : 
@@ -68,6 +68,14 @@ namespace SocketServer
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<User> Users
+		{
+			get
+			{
+				return this.GetTable<User>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Location> Locations
 		{
 			get
@@ -75,13 +83,256 @@ namespace SocketServer
 				return this.GetTable<Location>();
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		public System.Data.Linq.Table<User> Users
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _userid;
+		
+		private string _username;
+		
+		private string _email;
+		
+		private System.Nullable<int> _locationId;
+		
+		private string _ip;
+		
+		private string _password;
+		
+		private EntitySet<Location> _Locations;
+		
+		private EntityRef<Location> _Location;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnuseridChanging(int value);
+    partial void OnuseridChanged();
+    partial void OnusernameChanging(string value);
+    partial void OnusernameChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
+    partial void OnlocationIdChanging(System.Nullable<int> value);
+    partial void OnlocationIdChanged();
+    partial void OnipChanging(string value);
+    partial void OnipChanged();
+    partial void OnpasswordChanging(string value);
+    partial void OnpasswordChanged();
+    #endregion
+		
+		public User()
+		{
+			this._Locations = new EntitySet<Location>(new Action<Location>(this.attach_Locations), new Action<Location>(this.detach_Locations));
+			this._Location = default(EntityRef<Location>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int userid
 		{
 			get
 			{
-				return this.GetTable<User>();
+				return this._userid;
 			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					this.OnuseridChanging(value);
+					this.SendPropertyChanging();
+					this._userid = value;
+					this.SendPropertyChanged("userid");
+					this.OnuseridChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(MAX)")]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this.OnusernameChanging(value);
+					this.SendPropertyChanging();
+					this._username = value;
+					this.SendPropertyChanged("username");
+					this.OnusernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(MAX)")]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this.OnemailChanging(value);
+					this.SendPropertyChanging();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", DbType="Int")]
+		public System.Nullable<int> locationId
+		{
+			get
+			{
+				return this._locationId;
+			}
+			set
+			{
+				if ((this._locationId != value))
+				{
+					if (this._Location.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnlocationIdChanging(value);
+					this.SendPropertyChanging();
+					this._locationId = value;
+					this.SendPropertyChanged("locationId");
+					this.OnlocationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ip", DbType="VarChar(MAX)")]
+		public string ip
+		{
+			get
+			{
+				return this._ip;
+			}
+			set
+			{
+				if ((this._ip != value))
+				{
+					this.OnipChanging(value);
+					this.SendPropertyChanging();
+					this._ip = value;
+					this.SendPropertyChanged("ip");
+					this.OnipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="NVarChar(MAX)")]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this.OnpasswordChanging(value);
+					this.SendPropertyChanging();
+					this._password = value;
+					this.SendPropertyChanged("password");
+					this.OnpasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Location", Storage="_Locations", ThisKey="userid", OtherKey="userid")]
+		public EntitySet<Location> Locations
+		{
+			get
+			{
+				return this._Locations;
+			}
+			set
+			{
+				this._Locations.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_User", Storage="_Location", ThisKey="locationId", OtherKey="locationId", IsForeignKey=true)]
+		public Location Location
+		{
+			get
+			{
+				return this._Location.Entity;
+			}
+			set
+			{
+				Location previousValue = this._Location.Entity;
+				if (((previousValue != value) 
+							|| (this._Location.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Location.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._Location.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._locationId = value.locationId;
+					}
+					else
+					{
+						this._locationId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Location");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Locations(Location entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Locations(Location entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
 		}
 	}
 	
@@ -333,233 +584,6 @@ namespace SocketServer
 		{
 			this.SendPropertyChanging();
 			entity.Location = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _userid;
-		
-		private string _username;
-		
-		private string _email;
-		
-		private System.Nullable<int> _locationId;
-		
-		private string _ip;
-		
-		private EntitySet<Location> _Locations;
-		
-		private EntityRef<Location> _Location;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnuseridChanging(int value);
-    partial void OnuseridChanged();
-    partial void OnusernameChanging(string value);
-    partial void OnusernameChanged();
-    partial void OnemailChanging(string value);
-    partial void OnemailChanged();
-    partial void OnlocationIdChanging(System.Nullable<int> value);
-    partial void OnlocationIdChanged();
-    partial void OnipChanging(string value);
-    partial void OnipChanged();
-    #endregion
-		
-		public User()
-		{
-			this._Locations = new EntitySet<Location>(new Action<Location>(this.attach_Locations), new Action<Location>(this.detach_Locations));
-			this._Location = default(EntityRef<Location>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int userid
-		{
-			get
-			{
-				return this._userid;
-			}
-			set
-			{
-				if ((this._userid != value))
-				{
-					this.OnuseridChanging(value);
-					this.SendPropertyChanging();
-					this._userid = value;
-					this.SendPropertyChanged("userid");
-					this.OnuseridChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(MAX)")]
-		public string username
-		{
-			get
-			{
-				return this._username;
-			}
-			set
-			{
-				if ((this._username != value))
-				{
-					this.OnusernameChanging(value);
-					this.SendPropertyChanging();
-					this._username = value;
-					this.SendPropertyChanged("username");
-					this.OnusernameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(MAX)")]
-		public string email
-		{
-			get
-			{
-				return this._email;
-			}
-			set
-			{
-				if ((this._email != value))
-				{
-					this.OnemailChanging(value);
-					this.SendPropertyChanging();
-					this._email = value;
-					this.SendPropertyChanged("email");
-					this.OnemailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", DbType="Int")]
-		public System.Nullable<int> locationId
-		{
-			get
-			{
-				return this._locationId;
-			}
-			set
-			{
-				if ((this._locationId != value))
-				{
-					if (this._Location.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnlocationIdChanging(value);
-					this.SendPropertyChanging();
-					this._locationId = value;
-					this.SendPropertyChanged("locationId");
-					this.OnlocationIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ip", DbType="VarChar(MAX)")]
-		public string ip
-		{
-			get
-			{
-				return this._ip;
-			}
-			set
-			{
-				if ((this._ip != value))
-				{
-					this.OnipChanging(value);
-					this.SendPropertyChanging();
-					this._ip = value;
-					this.SendPropertyChanged("ip");
-					this.OnipChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Location", Storage="_Locations", ThisKey="userid", OtherKey="userid")]
-		public EntitySet<Location> Locations
-		{
-			get
-			{
-				return this._Locations;
-			}
-			set
-			{
-				this._Locations.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_User", Storage="_Location", ThisKey="locationId", OtherKey="locationId", IsForeignKey=true)]
-		public Location Location
-		{
-			get
-			{
-				return this._Location.Entity;
-			}
-			set
-			{
-				Location previousValue = this._Location.Entity;
-				if (((previousValue != value) 
-							|| (this._Location.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Location.Entity = null;
-						previousValue.Users.Remove(this);
-					}
-					this._Location.Entity = value;
-					if ((value != null))
-					{
-						value.Users.Add(this);
-						this._locationId = value.locationId;
-					}
-					else
-					{
-						this._locationId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Location");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Locations(Location entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Locations(Location entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
 		}
 	}
 }
