@@ -39,7 +39,7 @@ namespace SocketServer
     #endregion
 		
 		public LINQClassesDataContext() : 
-				base(global::SocketServer.Properties.Settings.Default.LocationServiceConnectionString, mappingSource)
+				base(global::SocketServer.Properties.Settings.Default.LocationServiceConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -383,7 +383,7 @@ namespace SocketServer
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int locationId
 		{
 			get

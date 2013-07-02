@@ -3,9 +3,9 @@
  * Note: param.input dosent contatin 'loc'
  * 
  * protocol output:
- * numOfMessages_userid_altitude_latitude_longtitude
- * numOfMessages_userid_altitude_latitude_longtitude
- * numOfMessages_userid_altitude_latitude_longtitude
+ * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
+ * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
+ * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
  * ......
 
 */
@@ -56,18 +56,48 @@ namespace SocketServer.ProxyHandlers
                                          Math.Cos((double)l.longtitude-longti))*6371
                                          <=nearRadius
                          select l;
-            
+            string accumulat = string.Empty;
+            int maxsize = Convert.ToInt32(ConfigurationSettings.AppSettings["packetsize"]);
+            int numPacket = (int) Math.Ceiling(((float)locdatalength(locs.First())*locs.Count()/(float)maxsize));
             foreach (Location loc in locs)
-            {
-                response = System.Text.Encoding.UTF8.GetBytes(locs.Count() + "_" + loc.userid + "_" + loc.altitude + "_" + loc.latitude + "_" + loc.longtitude);
-                param.server.Send(response, response.Length, client);
-                Console.Out.Write("sent client:" + loc.userid + "_"+loc.altitude+"_"+loc.latitude+"_"+loc.longtitude+"\n");
+            {//send multiple packet to client. approximately 15 loc info in each packet. fixed size is AppSettings["packetsize"]
+                string curlocdata = loc.userid + "_" + loc.altitude + "_" + loc.latitude + "_" + loc.longtitude;
+
+                if (maxsize <= curlocdata.Length + accumulat.Length)
+                { //current packet is large enough. send to client
+                    response = System.Text.Encoding.UTF8.GetBytes(numPacket+" "+accumulat);
+                    param.server.Send(response, response.Length, client);
+                    Console.Out.Write("sent client:" + accumulat +"\n");
+                    accumulat = "";
+                }
+
+                accumulat += curlocdata+" ";
             }
+            
+            if(accumulat.Length!=0)
+            {
+                response = System.Text.Encoding.UTF8.GetBytes(numPacket + " " + accumulat);
+                    param.server.Send(response, response.Length, client);
+                    Console.Out.Write("sent client:" + accumulat +"\n");
+                
+            }
+
+
+
             Console.Out.Write("ok");
 
          }
 
+        private int locdatalength(Location loc)
+        {
+            return loc.userid.ToString().Length +
+                   loc.altitude.ToString().Length +
+                   loc.latitude.ToString().Length +
+                   loc.longtitude.ToString().Length +
+                   4 +//count for the 4 '_' chars in each loc data 
+                   3;//the first info in loc data is the num of packages to be sent, here we count 3, assuming num of packages wont exist hundreds
 
+        }
 
         private void updateLoc()
         {

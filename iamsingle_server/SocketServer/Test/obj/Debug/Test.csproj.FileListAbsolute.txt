@@ -12,3 +12,10 @@ C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServe
 C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
 C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Debug\Test.dll
 C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Debug\Test.pdb
+C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Debug\Test.dll
+C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Debug\Test.pdb
+C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Debug\SocketServer.exe
+C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\bin\Debug\SocketServer.pdb
+C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Debug\Test.dll
+C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_server\SocketServer\Test\obj\Debug\Test.pdb

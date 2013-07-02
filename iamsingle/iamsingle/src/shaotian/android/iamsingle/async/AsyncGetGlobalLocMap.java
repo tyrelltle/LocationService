@@ -55,10 +55,11 @@ public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
 		@Override
 		protected void onPostExecute(LocationList result) {
 			super.onPostExecute(result);
+			mMap.clear();
 			for(int i=0;i<result.size();i++)
 			{
 				shaotian.android.iamsingle.netsdk.model.Location loc=result.lis.get(i);
-				mMap.clear();
+			
 				mMap.addMarker(new MarkerOptions()
 				        .position(new LatLng(loc.latitude, loc.longtitude))
 				        .title("user at "+loc.latitude+" , "+loc.longtitude));

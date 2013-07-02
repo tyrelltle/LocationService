@@ -1,21 +1,27 @@
 package shaotian.android.iamsingle.async;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import shaotian.android.iamsingle.MapActivity;
+import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
 import shaotian.android.iamsingle.netsdk.auth.AuthManager;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 public class AsyncRegister extends AsyncTask<Void, Void, JSONObject> {
@@ -25,10 +31,11 @@ public class AsyncRegister extends AsyncTask<Void, Void, JSONObject> {
 
 	
 		private Context context;
-		
-    	public AsyncRegister(Context context)
+		private String email,pwd;
+    	public AsyncRegister(Context context, String email,String pwd)
     	{
-    		
+    		this.email=email;
+    		this.pwd=pwd;
     		this.context=context;
     	
     		
@@ -43,7 +50,7 @@ public class AsyncRegister extends AsyncTask<Void, Void, JSONObject> {
 				Bundle bundle = ai.metaData;
 
 				AuthManager am=new AuthManager();
-				am.register();
+				return am.register(bundle.getString("wsserverip"),email,pwd);
 				/*WorldModeCommunicator comm=new WorldModeCommunicator();
 				comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
 				ret=(LocationList) comm.getMap(new shaotian.android.iamsingle.netsdk.model.Location(1,location.getAltitude(),location.getLatitude(),location.getLongitude()));*/
@@ -60,15 +67,25 @@ public class AsyncRegister extends AsyncTask<Void, Void, JSONObject> {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
-			/*for(int i=0;i<result.size();i++)
-			{
-				shaotian.android.iamsingle.netsdk.model.Location loc=result.lis.get(i);
-				mMap.clear();
-				mMap.addMarker(new MarkerOptions()
-				        .position(new LatLng(loc.latitude, loc.longtitude))
-				        .title("user at "+loc.latitude+" , "+loc.longtitude));
+			try {
+				if(result==null)
+					return;
+				int uid=result.getInt("userid");
+				if(uid==-1)
+					return;
+				//store to sharedpreference
+				SharedPreferences settings = context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0);
+			      SharedPreferences.Editor editor = settings.edit();
+			      editor.putInt(SharedUtil.SHARED_UID, uid);
+			      editor.commit();
+			      Intent i=new Intent(context, MapActivity.class);
+			      context.startActivity(i);
 				
-			}*/
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
   
 }

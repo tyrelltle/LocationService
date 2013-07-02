@@ -16,15 +16,15 @@ import org.json.JSONObject;
 import shaotian.android.iamsingle.netsdk.util.WSUtil;
 public class AuthManager {
 	
-	public void register() throws UnsupportedEncodingException, JSONException
+	public JSONObject register(String server, String email,String pwd) throws UnsupportedEncodingException, JSONException
 	{
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpContext localContext = new BasicHttpContext();
-		HttpPut httpPut = new HttpPut("http://192.168.0.11/webservice/userauth.svc/register");
+		HttpPut httpPut = new HttpPut("http://"+server+ "/webservice/userauth.svc/register");
 		
 		JSONObject json=new JSONObject();
-		json.put("email", "asd@fsa.com");
-		json.put("password", "oifidsjf");
+		json.put("email", email);
+		json.put("password", pwd);
 		StringEntity input = new StringEntity(json.toString());
 		input.setContentType("application/json");
 		httpPut.setEntity(input);
@@ -33,11 +33,12 @@ public class AuthManager {
 		HttpResponse response = httpClient.execute(httpPut, localContext);
 		HttpEntity entity = response.getEntity();
 		text = WSUtil.getContentFromEntity(entity);
+		return new JSONObject(text);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
 		
-		
+		return null;
 		
 	}
 	

@@ -14,4 +14,13 @@ public final class SharedUtil {
     public static final long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
     
     public static final String SHARED_PREFERENCES = "shaotian.android.iamsingle.location.SHARED_PREFERENCES";
+    
+
+    public static final String SHARED_EMAIL="email";
+    public static final String SHARED_PWD="password";
+    public static final String SHARED_UID="uid";
+
+    
+    	
+    	
 }

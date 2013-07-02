@@ -2,6 +2,10 @@
  * Protocol input:   loc userid_altitude_latitude_longtitude 
  * Note: param.input dosent contatin 'loc'
  * 
+ * 
+ * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
+ * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
+ * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
 
 */
 
@@ -98,10 +102,18 @@ public class WorldModeCommunicator implements INetCommunicator{
 			try{
 				s.receive(r);
 				String d=new String(ret,0,r.getLength());
-				lis.add(d.substring(d.indexOf("_")+1, d.length()));
+				String []arr=d.split(" ");
+				
+				for(int i=1;i<arr.length;i++)
+				{//ignore first index, which is num_of_packages
+					if(arr[i]!=null||!arr[i].equals(""))
+					lis.add(arr[i]);
+				}
+					
+				
 				
 				//terminate if message number equals to lis size
-				if(d.substring(0, d.indexOf("_")).equals(String.valueOf(lis.size())))
+				if(arr[0].equals(String.valueOf(lis.size())))
 					break;
 				
 				System.out.println("******[srvr rsp] "+ d);

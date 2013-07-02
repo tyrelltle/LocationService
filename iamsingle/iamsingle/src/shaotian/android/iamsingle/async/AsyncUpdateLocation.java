@@ -2,6 +2,7 @@ package shaotian.android.iamsingle.async;
 
 
 
+import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
 
 import android.content.Context;
@@ -28,6 +29,7 @@ public class AsyncUpdateLocation extends AsyncTask<Void, Void, Void> {
     	
 		@Override
 		protected Void doInBackground(Void... params) {
+			int uid=context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0).getInt(SharedUtil.SHARED_UID,-1);
 			ApplicationInfo ai;
 			try {
 				ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
@@ -35,7 +37,7 @@ public class AsyncUpdateLocation extends AsyncTask<Void, Void, Void> {
 
 				WorldModeCommunicator comm=new WorldModeCommunicator();
 				comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
-				comm.updateLoc(new shaotian.android.iamsingle.netsdk.model.Location(1,location.getAltitude(),location.getLatitude(),location.getLongitude()));
+				comm.updateLoc(new shaotian.android.iamsingle.netsdk.model.Location(uid,location.getAltitude(),location.getLatitude(),location.getLongitude()));
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

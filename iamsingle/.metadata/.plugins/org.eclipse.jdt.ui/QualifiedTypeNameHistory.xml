@@ -46,9 +46,9 @@
 <fullyQualifiedTypeName name="org.apache.http.HttpEntity"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.WSUtil"/>
-<fullyQualifiedTypeName name="org.json.JSONObject"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.auth.AuthManager"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncRegister"/>
 <fullyQualifiedTypeName name="org.apache.http.client.methods.HttpPut"/>
 <fullyQualifiedTypeName name="org.apache.http.entity.StringEntity"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
 </qualifiedTypeNameHistroy>

@@ -12,14 +12,12 @@ namespace Test
         [TestMethod]
         public void TestMethod1()
         {
-
-            /*
-            GetLocMapHandler handle = new GetLocMapHandler();
-            UdpClient srvr = new UdpClient();
-            Parameter p = new Parameter("1_0.11123_2.123124_3.12394",ref srvr,null,0);
-            handle.setParam(p);
-            handle.process();
-        */
+            string a = "qwesdasddsadsad1_0.11123_2.123124_3.123941_0.11123_2";
+            for (int i = 0; i < 15; i++)
+                a += "qwesdasddsadsad1_0.11123_2.123124_3.123941_0.11123_2";
+                
+            int w=System.Text.Encoding.UTF8.GetBytes(a).GetLength(0);
+           
            
         }
     }
