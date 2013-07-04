@@ -1,5 +1,8 @@
 package shaotian.android.iamsingle;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import shaotian.android.iamsingle.UIShared.CustomDialogFragment;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.async.AsyncGetGlobalLocMap;
@@ -19,6 +22,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -37,18 +41,23 @@ public class MapActivity extends Activity implements
     private boolean mUpdatesRequested=false;
     // Stores the current instantiation of the location client in this object
     private LocationClient mLocationClient; 
-    
+    private Timer getMapTimer;
+    private Context context;
     // Handle to SharedPreferences for this app
     SharedPreferences mPrefs;
 
     // Handle to a SharedPreferences editor
     SharedPreferences.Editor mEditor;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeMap();
-
+        context=this;
+        
+        
         mLocationClient = new LocationClient(this, this, this);
         mLocationRequest=LocationRequest.create();
         mLocationRequest.setPriority(
@@ -139,11 +148,36 @@ public class MapActivity extends Activity implements
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();	
-		 Location loc=mLocationClient.getLastLocation();
-	   
-	        	startPeriodicUpdates();
+		Location loc=mLocationClient.getLastLocation();
+	    startPeriodicUpdates();
 	    		
-	     
+	    
+	    //update map within given peroid
+	    final Handler handler = new Handler();
+	    getMapTimer = new Timer();
+	    TimerTask doAsynchronousTask = new TimerTask() {       
+	        @Override
+	        public void run() {
+	            handler.post(new Runnable() {
+	                public void run() {       
+	                    try {
+	                    	
+	                 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+	                 				new AsyncGetGlobalLocMap(context,mMap).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	                 			else
+	                 				new AsyncGetGlobalLocMap(context,mMap).execute();
+	                 	    
+	                    } catch (Exception e) {
+	                    	 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();	                    }
+	                }
+	            });
+	        }
+	    };
+	    getMapTimer.schedule(doAsynchronousTask, 0, 10000); //execute in every 50000 ms
+	    
+	    
+	    
+	   
 	}
 
 
@@ -152,6 +186,7 @@ public class MapActivity extends Activity implements
 	public void onDisconnected() {
 		Toast.makeText(this, "Disconnected. Please re-connect.",
                 Toast.LENGTH_SHORT).show();		
+		getMapTimer.cancel();
 	}
     	
 	
@@ -169,6 +204,14 @@ public class MapActivity extends Activity implements
         }
 		mLocationClient.disconnect();
 		super.onStop();
+		getMapTimer.cancel();
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		getMapTimer.cancel();
 	}
 
 	@Override
@@ -178,18 +221,22 @@ public class MapActivity extends Activity implements
                 Double.toString(location.getLongitude());
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         
-        
+        //put location to shared preference
+        SharedPreferences settings = getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0);
+	      SharedPreferences.Editor editor = settings.edit();
+	      editor.putFloat(SharedUtil.SHARED_ALTITUTE, (float) location.getAltitude());
+	      editor.putFloat(SharedUtil.SHARED_LATITUDE, (float) location.getLatitude());
+	      editor.putFloat(SharedUtil.SHARED_LONGTITUDE, (float) location.getLongitude());
+	      editor.commit();
+	      
+	      
 		AsyncUpdateLocation locup=new AsyncUpdateLocation(this, location);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			 locup.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		else
 			 locup.execute();	
 		
-		AsyncGetGlobalLocMap getmap=new AsyncGetGlobalLocMap(this,this.mMap,location);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-			getmap.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		else
-			getmap.execute();	
+	
 	}
 
     @Override

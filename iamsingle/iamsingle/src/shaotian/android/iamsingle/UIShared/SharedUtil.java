@@ -19,8 +19,11 @@ public final class SharedUtil {
     public static final String SHARED_EMAIL="email";
     public static final String SHARED_PWD="password";
     public static final String SHARED_UID="uid";
+    public static final String SHARED_ALTITUTE="altitute";
+    public static final String SHARED_LONGTITUDE="longtitude";
+    public static final String SHARED_LATITUDE="latitude";
 
-    
+
     	
     	
 }

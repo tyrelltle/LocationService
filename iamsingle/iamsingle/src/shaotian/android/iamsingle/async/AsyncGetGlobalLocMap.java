@@ -4,6 +4,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
 import android.content.Context;
@@ -22,17 +23,23 @@ public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
 
 		private GoogleMap mMap;
 		private Context context;
-		private Location location;
-    	public AsyncGetGlobalLocMap(Context context,GoogleMap map,Location location)
+		private float alti,lati,longti=0;
+    	public AsyncGetGlobalLocMap(Context context,GoogleMap map)
     	{
+    		
     		mMap=map;
     		this.context=context;
-    		this.location=location;
+    		
+    	    this.lati=context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0).getFloat(SharedUtil.SHARED_LATITUDE,-1);
+    	    this.longti=context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0).getFloat(SharedUtil.SHARED_LONGTITUDE,-1);
+    	    this.alti=context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0).getFloat(SharedUtil.SHARED_ALTITUTE,-1);
+
     		
     	}
     	
 		@Override
 		protected LocationList doInBackground(Void... params) {
+			
 			ApplicationInfo ai;
 			LocationList ret=null;
 			try {
@@ -41,7 +48,7 @@ public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
 
 				WorldModeCommunicator comm=new WorldModeCommunicator();
 				comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
-				ret=(LocationList) comm.getMap(new shaotian.android.iamsingle.netsdk.model.Location(1,location.getAltitude(),location.getLatitude(),location.getLongitude()));
+				ret=(LocationList) comm.getMap(new shaotian.android.iamsingle.netsdk.model.Location(1,alti,lati,longti));
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

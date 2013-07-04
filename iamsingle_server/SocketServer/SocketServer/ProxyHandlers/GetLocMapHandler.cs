@@ -56,6 +56,12 @@ namespace SocketServer.ProxyHandlers
                                          Math.Cos((double)l.longtitude-longti))*6371
                                          <=nearRadius
                          select l;
+            if (locs.Count() == 0)
+            {
+                Console.Out.Write("didnt find friends with location " + "(lati= " + lati + " ,lonti= " + longti + " )\n");
+                return;
+            }
+                
             string accumulat = string.Empty;
             int maxsize = Convert.ToInt32(ConfigurationSettings.AppSettings["packetsize"]);
             int numPacket = (int) Math.Ceiling(((float)locdatalength(locs.First())*locs.Count()/(float)maxsize));

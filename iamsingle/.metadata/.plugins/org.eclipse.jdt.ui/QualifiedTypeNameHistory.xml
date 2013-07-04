@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.google.android.gms.maps.GoogleMap"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.R.layout"/>
-<fullyQualifiedTypeName name="shaotian.android.iamsingle.R.id"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.MapFragment"/>
 <fullyQualifiedTypeName name="android.app.DialogFragment"/>
 <fullyQualifiedTypeName name="com.google.android.gms.common.GooglePlayServicesUtil"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.UIShared.CustomDialogFragment"/>
 <fullyQualifiedTypeName name="com.google.android.gms.common.ConnectionResult"/>
 <fullyQualifiedTypeName name="android.app.Dialog"/>
-<fullyQualifiedTypeName name="shaotian.android.iamsingle.UIShared.SharedUtil"/>
 <fullyQualifiedTypeName name="com.google.android.gms.common.GooglePlayServicesClient"/>
-<fullyQualifiedTypeName name="android.widget.Toast"/>
 <fullyQualifiedTypeName name="android.content.IntentSender"/>
 <fullyQualifiedTypeName name="com.google.android.gms.location.LocationRequest"/>
 <fullyQualifiedTypeName name="com.google.android.gms.location.LocationClient"/>
@@ -35,11 +31,9 @@
 <fullyQualifiedTypeName name="java.net.SocketTimeoutException"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.LocUpdateCommunicator"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncUpdateLocation"/>
-<fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.LocationList"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.MarkerOptions"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.LatLng"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncGetGlobalLocMap"/>
@@ -47,8 +41,23 @@
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.WSUtil"/>
 <fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.auth.AuthManager"/>
-<fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncRegister"/>
 <fullyQualifiedTypeName name="org.apache.http.client.methods.HttpPut"/>
 <fullyQualifiedTypeName name="org.apache.http.entity.StringEntity"/>
 <fullyQualifiedTypeName name="org.json.JSONObject"/>
+<fullyQualifiedTypeName name="android.widget.EditText"/>
+<fullyQualifiedTypeName name="android.widget.Button"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.R.id"/>
+<fullyQualifiedTypeName name="android.view.View"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.async.AsyncRegister"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.content.SharedPreferences"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.MapActivity"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.UIShared.SharedUtil"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.model.Location"/>
+<fullyQualifiedTypeName name="shaotian.android.iamsingle.netsdk.util.LocationList"/>
+<fullyQualifiedTypeName name="android.os.Handler"/>
+<fullyQualifiedTypeName name="java.util.Timer"/>
+<fullyQualifiedTypeName name="java.util.TimerTask"/>
 </qualifiedTypeNameHistroy>
