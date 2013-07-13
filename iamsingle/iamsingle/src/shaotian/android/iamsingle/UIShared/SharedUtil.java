@@ -1,15 +1,21 @@
 package shaotian.android.iamsingle.UIShared;
 
+import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+
 public final class SharedUtil {
 	public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 	// Milliseconds per second
 	public static final int MILLISECONDS_PER_SECOND = 1000;
     // Update frequency in seconds
-    public static final int UPDATE_INTERVAL_IN_SECONDS = 10;
+    public static final int UPDATE_INTERVAL_IN_SECONDS = 5;
     // Update frequency in milliseconds
     public static final long UPDATE_INTERVAL =MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
     // The fastest update frequency, in seconds
-    public static final int FASTEST_INTERVAL_IN_SECONDS = 10;
+    public static final int FASTEST_INTERVAL_IN_SECONDS = 1;
     // A fast frequency ceiling in milliseconds
     public static final long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
     
@@ -24,6 +30,27 @@ public final class SharedUtil {
     public static final String SHARED_LATITUDE="latitude";
 
 
+    
+    //retrieve application configuration settings
+    public static Object getConfig(Class c,String nm, Context context)
+    {
+    	Object ret=null;
+    	ApplicationInfo ai;
+		try {
+			ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+			Bundle bundle = ai.metaData;
+			
+			if(String.class.equals(c))
+				ret= bundle.getString(nm);
+			if(Integer.class.equals(c))
+				ret= bundle.getInt(nm);
+			
+		}finally
+		{
+			return ret;
+		}
+		
+    }
     	
     	
 }

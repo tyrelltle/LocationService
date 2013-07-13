@@ -155,6 +155,7 @@ public class MapActivity extends Activity implements
 	    //update map within given peroid
 	    final Handler handler = new Handler();
 	    getMapTimer = new Timer();
+	    
 	    TimerTask doAsynchronousTask = new TimerTask() {       
 	        @Override
 	        public void run() {
@@ -173,7 +174,7 @@ public class MapActivity extends Activity implements
 	            });
 	        }
 	    };
-	    getMapTimer.schedule(doAsynchronousTask, 0, 10000); //execute in every 50000 ms
+	    getMapTimer.schedule(doAsynchronousTask, 0, (Integer)SharedUtil.getConfig(Integer.class, "getLocFrequency", context)); //execute in every 50000 ms
 	    
 	    
 	    
