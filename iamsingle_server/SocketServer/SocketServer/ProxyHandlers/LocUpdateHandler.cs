@@ -8,6 +8,7 @@ using SocketServer.Param;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Linq;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -59,10 +60,16 @@ namespace SocketServer.ProxyHandlers
                                                     latitude = Convert.ToDouble(vals[2]), 
                                                     longtitude = Convert.ToDouble(vals[3]), 
                                                     lastupdate=DateTime.Now};
-                context.Locations.InsertOnSubmit(newloc);
-                context.SubmitChanges();
-                user.locationId = newloc.locationId;
-                context.SubmitChanges();
+                try
+                {
+                    context.Locations.InsertOnSubmit(newloc);
+                    context.SubmitChanges();
+                    user.locationId = newloc.locationId;
+                    context.SubmitChanges();
+                }
+                catch (ChangeConflictException e) {
+                    Console.Out.Write(      e.Message+"\n");
+                }
               
             }
             else 
@@ -77,13 +84,18 @@ namespace SocketServer.ProxyHandlers
                     return;
                 }
 
-                loc.altitude = Convert.ToDouble(vals[1]); 
-                loc.latitude = Convert.ToDouble(vals[2]);
-                loc.longtitude = Convert.ToDouble(vals[3]);
-                loc.lastupdate = DateTime.Now;
-                context.Refresh(System.Data.Linq.RefreshMode.KeepChanges, loc);
-                context.SubmitChanges();
-                context.Dispose();
+                try
+                {
+                    loc.altitude = Convert.ToDouble(vals[1]);
+                    loc.latitude = Convert.ToDouble(vals[2]);
+                    loc.longtitude = Convert.ToDouble(vals[3]);
+                    loc.lastupdate = DateTime.Now;
+                    context.Refresh(System.Data.Linq.RefreshMode.KeepChanges, loc);
+                    context.SubmitChanges();
+                    context.Dispose();
+                }
+                catch (ChangeConflictException e)
+                {  }
 
             }
 
