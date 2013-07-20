@@ -2,8 +2,10 @@ package shaotian.android.iamsingle.async;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import shaotian.android.iamsingle.UIShared.MapMarkerList;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
@@ -61,16 +63,33 @@ public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
 
 		@Override
 		protected void onPostExecute(LocationList result) {
+			//update map markers
 			super.onPostExecute(result);
-			mMap.clear();
+			//mMap.clear();
 			for(int i=0;i<result.size();i++)
 			{
 				shaotian.android.iamsingle.netsdk.model.Location loc=result.lis.get(i);
-			
-				mMap.addMarker(new MarkerOptions()
-				        .position(new LatLng(loc.latitude, loc.longtitude))
-				        .title("user at "+loc.latitude+" , "+loc.longtitude));
+				MapMarkerList mlist=MapMarkerList.Instance();
+			    int uid=loc.userid;
+			    Marker m=null;
+			    
+			    if(!mlist.containsKey(uid))
+				{	
+			    	m=mMap.addMarker(new MarkerOptions()
+				        		.position(new LatLng(loc.latitude, loc.longtitude))
+				        		.title("user at "+loc.latitude+" , "+loc.longtitude));
 				
+					mlist.addMarker(uid, m);
+				}
+			    else
+			    {	//only update changed location
+			    	LatLng newlatlng=new LatLng(loc.latitude, loc.longtitude);
+			    	m=mlist.getMarker(uid);
+			    	if(!m.getPosition().equals(newlatlng))
+			    		m.setPosition(newlatlng);
+			    	
+			    	
+			    }
 			}
 		}
   

@@ -15,7 +15,7 @@ public final class SharedUtil {
     // Update frequency in milliseconds
     public static final long UPDATE_INTERVAL =MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
     // The fastest update frequency, in seconds
-    public static final int FASTEST_INTERVAL_IN_SECONDS = 1;
+    public static final int FASTEST_INTERVAL_IN_SECONDS = 5;
     // A fast frequency ceiling in milliseconds
     public static final long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
     
