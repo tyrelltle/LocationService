@@ -18,7 +18,10 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import android.location.Location;
 
@@ -51,6 +54,8 @@ public class MapActivity extends Activity {
 
     // Handle to a SharedPreferences editor
     SharedPreferences.Editor mEditor;
+    
+    LatLngBounds bound;
     private boolean mBound = false;
     
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -70,6 +75,7 @@ public class MapActivity extends Activity {
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
             mBound = false;
+            
         }
 
 	
@@ -113,6 +119,16 @@ public class MapActivity extends Activity {
 			}
         
         mMap.setMyLocationEnabled(true);
+        mMap.setOnCameraChangeListener(new OnCameraChangeListener(){
+
+			@Override
+			public void onCameraChange(CameraPosition position) {
+            	bound=mMap.getProjection().getVisibleRegion().latLngBounds;
+         			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+         				new AsyncGetGlobalLocMap(context,mMap,bound).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+         			else
+         				new AsyncGetGlobalLocMap(context,mMap,bound).execute();
+			}});
     }
 
 
@@ -120,7 +136,7 @@ public class MapActivity extends Activity {
 
 	public void startGetLocTimer() {
 		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();	
-
+		
 	    		
 	    
 	    //update map within given peroid
@@ -133,11 +149,11 @@ public class MapActivity extends Activity {
 	            handler.post(new Runnable() {
 	                public void run() {       
 	                    try {
-	                    	
+	                    	bound=mMap.getProjection().getVisibleRegion().latLngBounds;
 	                 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-	                 				new AsyncGetGlobalLocMap(context,mMap).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	                 				new AsyncGetGlobalLocMap(context,mMap,bound).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	                 			else
-	                 				new AsyncGetGlobalLocMap(context,mMap).execute();
+	                 				new AsyncGetGlobalLocMap(context,mMap,bound).execute();
 	                 	    
 	                    } catch (Exception e) {
 	                    	 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();	                    }

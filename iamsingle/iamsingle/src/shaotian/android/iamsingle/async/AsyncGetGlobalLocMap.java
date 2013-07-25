@@ -2,20 +2,24 @@ package shaotian.android.iamsingle.async;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import shaotian.android.iamsingle.UIShared.MapMarkerList;
+import shaotian.android.iamsingle.UIShared.MapMarkerManager;
+import shaotian.android.iamsingle.UIShared.MapMarkerManager.MapMarkerInvalidStateException;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
+import shaotian.android.iamsingle.netsdk.model.LocBoundBox;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.location.Location;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
@@ -25,18 +29,15 @@ public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
 
 		private GoogleMap mMap;
 		private Context context;
-		private float alti,lati,longti=0;
-    	public AsyncGetGlobalLocMap(Context context,GoogleMap map)
+
+		private LatLngBounds bound=null;
+    	public AsyncGetGlobalLocMap(Context context,GoogleMap map,LatLngBounds b)
     	{
     		
     		mMap=map;
     		this.context=context;
     		
-    	    this.lati=context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0).getFloat(SharedUtil.SHARED_LATITUDE,-1);
-    	    this.longti=context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0).getFloat(SharedUtil.SHARED_LONGTITUDE,-1);
-    	    this.alti=context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0).getFloat(SharedUtil.SHARED_ALTITUTE,-1);
-
-    		
+    		this.bound=b;
     	}
     	
 		@Override
@@ -48,9 +49,14 @@ public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
 				ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
 				Bundle bundle = ai.metaData;
 
+				//get visible region bounding box
+				
+				LatLng ne=bound.northeast;
+				LatLng sw=bound.southwest;
+				
 				WorldModeCommunicator comm=new WorldModeCommunicator();
 				comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
-				ret=(LocationList) comm.getMap(new shaotian.android.iamsingle.netsdk.model.Location(1,alti,lati,longti));
+				ret=(LocationList) comm.getMap(new LocBoundBox(ne.latitude,ne.longitude,sw.latitude,sw.longitude));
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -62,34 +68,45 @@ public class AsyncGetGlobalLocMap extends AsyncTask<Void, Void, LocationList> {
 		}      
 
 		@Override
-		protected void onPostExecute(LocationList result) {
+		protected    void onPostExecute(LocationList result) {
 			//update map markers
 			super.onPostExecute(result);
 			//mMap.clear();
-			for(int i=0;i<result.size();i++)
-			{
-				shaotian.android.iamsingle.netsdk.model.Location loc=result.lis.get(i);
-				MapMarkerList mlist=MapMarkerList.Instance();
-			    int uid=loc.userid;
-			    Marker m=null;
-			    
-			    if(!mlist.containsKey(uid))
-				{	
-			    	m=mMap.addMarker(new MarkerOptions()
-				        		.position(new LatLng(loc.latitude, loc.longtitude))
-				        		.title("user at "+loc.latitude+" , "+loc.longtitude));
-				
-					mlist.addMarker(uid, m);
+			if(result==null)
+				return;
+			
+			MapMarkerManager mgn=MapMarkerManager.Instance();
+			synchronized(mgn){
+				try{
+					mgn.start();
+					for(int i=0;i<result.size();i++)
+					{
+						shaotian.android.iamsingle.netsdk.model.Location loc=result.lis.get(i);
+						
+					    int uid=loc.userid;
+					    Marker m=null;
+					    
+					    if(!mgn.contains(uid))
+						{	
+					    	m=mMap.addMarker(new MarkerOptions()
+						        		.position(new LatLng(loc.latitude, loc.longtitude))
+						        		.title("user at "+loc.latitude+" , "+loc.longtitude));
+						
+					    	mgn.addMarker(uid, m);
+						}
+					    else
+					    {	//only update changed location
+					    	LatLng newlatlng=new LatLng(loc.latitude, loc.longtitude);
+					    	mgn.updateMarker(uid, newlatlng);
+					    	
+					    	
+					    }
+					}
+					mgn.finish();
+				}catch(MapMarkerInvalidStateException e)
+				{
+					Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG ).show();
 				}
-			    else
-			    {	//only update changed location
-			    	LatLng newlatlng=new LatLng(loc.latitude, loc.longtitude);
-			    	m=mlist.getMarker(uid);
-			    	if(!m.getPosition().equals(newlatlng))
-			    		m.setPosition(newlatlng);
-			    	
-			    	
-			    }
 			}
 		}
   
