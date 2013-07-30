@@ -4,12 +4,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import shaotian.android.iamsingle.UIShared.CustomDialogFragment;
+import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
-import shaotian.android.iamsingle.async.AsyncGetGlobalLocMap;
+import shaotian.android.iamsingle.UIShared.MapMarkerManager.MapMarkerInvalidStateException;
+import shaotian.android.iamsingle.async.GetLocManager;
 import shaotian.android.iamsingle.async.AsyncRegister;
 import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation.ServiceUpdateLocBinder;
+import shaotian.android.iamsingle.async.UpdateMapLocTask;
+import shaotian.android.iamsingle.netsdk.util.LocationList;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -21,7 +25,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.Location;
 
@@ -42,11 +49,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
-public class MapActivity extends Activity {
+public class MapActivity extends Activity implements LocChangeListener{
 	private GoogleMap mMap;
 	private ServiceUpdateLocation mService=null;
-
-    
+	private Handler handler=null;
+    GetLocManager locMgr=null;
     private Timer getMapTimer;
     private Context context;
     // Handle to SharedPreferences for this app
@@ -68,7 +75,7 @@ public class MapActivity extends Activity {
             mService = binder.getService();
             mService.StartUpdateLoc(context);
             mBound = true;
-    		startGetLocTimer();
+    		//startGetLocTimer();
             
         }
 
@@ -87,7 +94,7 @@ public class MapActivity extends Activity {
         setContentView(R.layout.activity_main);
         initializeMap();
         context=this;
-        
+        handler=new Handler();
         
         
         // Open Shared Preferences
@@ -96,6 +103,19 @@ public class MapActivity extends Activity {
         // Get an editor
         mEditor = mPrefs.edit();
         bindService();
+        locMgr=GetLocManager.instance();
+        locMgr.setListener(this);
+        locMgr.start();
+        if(mMap!=null){
+	        mMap.setOnCameraChangeListener(new OnCameraChangeListener(){
+	        	
+				@Override
+				public void onCameraChange(CameraPosition position) {
+					Log.d("app log", "map drag hiten");
+					locMgr.enqueTask(mMap.getProjection().getVisibleRegion().latLngBounds);
+					
+				}});
+	    }
     }
 
 
@@ -111,7 +131,7 @@ public class MapActivity extends Activity {
         mMap=((MapFragment)this.getFragmentManager().findFragmentById(R.id.map)).getMap();
         if(mMap==null)
 			try {
-				throw new Exception("map service not installed, thus can not get map");
+				Toast.makeText(context, "map service not installed, thus can not get map", Toast.LENGTH_LONG).show();
 			} catch (Exception e) {
 			
 				e.printStackTrace();
@@ -119,59 +139,9 @@ public class MapActivity extends Activity {
 			}
         
         mMap.setMyLocationEnabled(true);
-        mMap.setOnCameraChangeListener(new OnCameraChangeListener(){
-
-			@Override
-			public void onCameraChange(CameraPosition position) {
-            	bound=mMap.getProjection().getVisibleRegion().latLngBounds;
-         			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-         				new AsyncGetGlobalLocMap(context,mMap,bound).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-         			else
-         				new AsyncGetGlobalLocMap(context,mMap,bound).execute();
-			}});
+ 
     }
 
-
-
-
-	public void startGetLocTimer() {
-		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();	
-		
-	    		
-	    
-	    //update map within given peroid
-	    final Handler handler = new Handler();
-	    getMapTimer = new Timer();
-	    
-	    TimerTask doAsynchronousTask = new TimerTask() {       
-	        @Override
-	        public void run() {
-	            handler.post(new Runnable() {
-	                public void run() {       
-	                    try {
-	                    	bound=mMap.getProjection().getVisibleRegion().latLngBounds;
-	                 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-	                 				new AsyncGetGlobalLocMap(context,mMap,bound).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-	                 			else
-	                 				new AsyncGetGlobalLocMap(context,mMap,bound).execute();
-	                 	    
-	                    } catch (Exception e) {
-	                    	 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();	                    }
-	                }
-	            });
-	        }
-	    };
-	    getMapTimer.schedule(doAsynchronousTask, 0, (Integer)SharedUtil.getConfig(Integer.class, "getLocFrequency", context)); //execute in every 50000 ms
-	    
-	    
-	    
-	   
-	}
-
-
-
-
-    	
 	
 	@Override
 	protected void onStart() {
@@ -218,6 +188,11 @@ public class MapActivity extends Activity {
 			getApplicationContext().unbindService(this.mConnection);
 			mBound=false;
 		}
+    }
+    @Override
+    public void handleLocMapChange(LocationList result)
+    {	
+		this.handler.post(new UpdateMapLocTask(result,mMap));
     }
 
    
