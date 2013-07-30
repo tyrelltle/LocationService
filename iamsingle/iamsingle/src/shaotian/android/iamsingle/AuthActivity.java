@@ -1,6 +1,6 @@
 package shaotian.android.iamsingle;
 
-import shaotian.android.iamsingle.async.AsyncRegister;
+import shaotian.android.iamsingle.async.AsyncUserOp;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,7 +26,18 @@ public class AuthActivity extends Activity {
 		register=(Button)this.findViewById(R.id.btnregister);
 		register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AsyncRegister reg=new AsyncRegister(context, txt_email.getText().toString(), txt_pwd.getText().toString());
+                AsyncUserOp reg=new AsyncUserOp(AsyncUserOp.ACTION.REGISTER, context, txt_email.getText().toString(), txt_pwd.getText().toString());
+        		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        			reg.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        		else
+        			reg.execute();	
+            }
+        });
+		
+		logon=(Button)this.findViewById(R.id.btnlogon);
+		logon.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AsyncUserOp reg=new AsyncUserOp(AsyncUserOp.ACTION.LOGON, context, txt_email.getText().toString(), txt_pwd.getText().toString());
         		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
         			reg.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         		else

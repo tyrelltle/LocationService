@@ -8,7 +8,7 @@ import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager.MapMarkerInvalidStateException;
 import shaotian.android.iamsingle.async.GetLocManager;
-import shaotian.android.iamsingle.async.AsyncRegister;
+import shaotian.android.iamsingle.async.AsyncUserOp;
 import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation.ServiceUpdateLocBinder;
