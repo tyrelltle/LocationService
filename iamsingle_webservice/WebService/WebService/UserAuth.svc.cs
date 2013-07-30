@@ -11,6 +11,12 @@ namespace WebService.WebServices
     // NOTE: In order to launch WCF Test Client for testing this service, please select UserAuth.svc or UserAuth.svc.cs at the Solution Explorer and start debugging.
     public class UserAuth : IUserAuth
     {
+
+        public string test()
+        {
+            return "success";
+        
+        }
         public registerReturn register(UserInfo user)
         {
             DataClassesDataContext context = new DataClassesDataContext();
@@ -19,17 +25,15 @@ namespace WebService.WebServices
                 //invalid input
                 return new registerReturn { userid = -1 };
 
-            Boolean has=((from u in context.Users
-                            where u.email == user.email
-                            select u).Count())>0;
-            if (has)
+            User retuser=(from u in context.Users
+                            where u.email == user.email && u.password==user.password
+                            select u).First();
+            if (retuser==null)
                 //user already exists
                 return new registerReturn { userid = -1 };
 
-            User newuser = new User() {  email=user.email, password=user.password};
-            context.Users.InsertOnSubmit(newuser);
-            context.SubmitChanges();
-            return new registerReturn() { userid = newuser.userid };
+
+            return new registerReturn() { userid = retuser.userid };
 
 
         }
