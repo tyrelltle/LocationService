@@ -37,7 +37,7 @@ public class AsyncUpdateLocation extends AsyncTask<Void, Void, Void> {
 
 				WorldModeCommunicator comm=new WorldModeCommunicator();
 				comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
-				comm.updateLoc(new shaotian.android.iamsingle.netsdk.model.Location(uid,location.getAltitude(),location.getLatitude(),location.getLongitude()));
+				comm.updateLoc(new shaotian.android.iamsingle.netsdk.model.Location(uid,location.getLatitude(),location.getLongitude()));
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -38,7 +38,7 @@ public class UpdateMapLocTask implements Runnable{
 				{	
 			    	m=mMap.addMarker(new MarkerOptions()
 				        		.position(new LatLng(loc.latitude, loc.longtitude))
-				        		.title("user at "+loc.latitude+" , "+loc.longtitude));
+				        		.title(loc.uname));
 				
 			    	mgn.addMarker(uid, m);
 				}

@@ -1,11 +1,12 @@
-﻿/*
- * Protocol input:   map userid_altitude_latitude_longtitude 
- * Note: param.input dosent contatin 'loc'
+﻿using SocketServer.Geo;
+/*
+ * Protocol input:   map northeastlat_northeastlng_sourthwestlat_sourthwestlng
+ * Note: defines the visible region
  * 
  * protocol output:
- * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
- * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
- * numOfMessages userid_altitude_latitude_longtitude  userid_altitude_latitude_longtitude    userid_altitude_latitude_longtitude
+ * numOfMessages userid_username_latitude_longtitude  userid_username_latitude_longtitude    userid_username_latitude_longtitude
+ * numOfMessages userid_username_latitude_longtitude  userid_username_latitude_longtitude    userid_username_latitude_longtitude
+ * numOfMessages userid_username_latitude_longtitude  userid_username_latitude_longtitude    userid_username_latitude_longtitude
  * ......
 
 */
@@ -33,7 +34,7 @@ namespace SocketServer.ProxyHandlers
             byte[] response = null;
             IPEndPoint client = new IPEndPoint(param.clientip, param.clientport);
             string[] vals = base.param.input.Split('_');
-            //now vals' value is like  {userid,altitude,latitude,longtitude }
+            
 
             if (vals.Length != 4)
             {                
@@ -43,31 +44,30 @@ namespace SocketServer.ProxyHandlers
                 
             }
 
-            //retrieve user locs that is close to cur user
-            LINQClassesDataContext context = new LINQClassesDataContext();
-            int uid = Convert.ToInt32(vals[0]);
-            double lati = Convert.ToDouble(vals[2]);
-            double longti = Convert.ToDouble(vals[3]);
-            int nearRadius=Convert.ToInt32(ConfigurationSettings.AppSettings["nearRadius"]);
             
-            var locs = from l in context.Locations
-                         where Math.Acos(Math.Sin(lati)*Math.Sin((double)l.latitude)+
-                                         Math.Cos(lati)*Math.Cos((double)l.latitude)*
-                                         Math.Cos((double)l.longtitude-longti))*6371
-                                         <=nearRadius
-                         select l;
+            LINQClassesDataContext context = new LINQClassesDataContext();
+            
+            double northeast_lati = Convert.ToDouble(vals[0]);
+            double northeast_longi = Convert.ToDouble(vals[1]);
+            double southeast_lati = Convert.ToDouble(vals[2]);
+            double southeast_longi = Convert.ToDouble(vals[3]);
+
+            Region region = new Region(new LatLng(northeast_lati, northeast_longi), new LatLng(southeast_lati, southeast_longi));
+
+
+
+            var locs = context.InBoundBox(northeast_lati, northeast_longi, southeast_lati, southeast_longi).ToList();
             if (locs.Count() == 0)
             {
-                Console.Out.Write("didnt find friends with location " + "(lati= " + lati + " ,lonti= " + longti + " )\n");
                 return;
             }
                 
             string accumulat = string.Empty;
             int maxsize = Convert.ToInt32(ConfigurationSettings.AppSettings["packetsize"]);
             int numPacket = (int) Math.Ceiling(((float)locdatalength(locs.First())*locs.Count()/(float)maxsize));
-            foreach (Location loc in locs)
+            foreach (InBoundBoxResult loc in locs)
             {//send multiple packet to client. approximately 15 loc info in each packet. fixed size is AppSettings["packetsize"]
-                string curlocdata = loc.userid + "_" + loc.altitude + "_" + loc.latitude + "_" + loc.longtitude;
+                string curlocdata = loc.userid + "_" + loc.username + "_" + loc.latitude + "_" + loc.longtitude;
 
                 if (maxsize <= curlocdata.Length + accumulat.Length)
                 { //current packet is large enough. send to client
@@ -94,10 +94,10 @@ namespace SocketServer.ProxyHandlers
 
          }
 
-        private int locdatalength(Location loc)
+        private int locdatalength(InBoundBoxResult loc)
         {
             return loc.userid.ToString().Length +
-                   loc.altitude.ToString().Length +
+                   loc.username.ToString().Length +
                    loc.latitude.ToString().Length +
                    loc.longtitude.ToString().Length +
                    4 +//count for the 4 '_' chars in each loc data 

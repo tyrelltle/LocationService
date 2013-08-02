@@ -1,5 +1,5 @@
 ﻿/*
- * Protocol input:   loc userid.altitude.latitude.longtitude 
+ * Protocol input:   loc userid.latitude.longtitude 
  * Note: param.input dosent contatin 'loc'
  * 
 
@@ -30,10 +30,10 @@ namespace SocketServer.ProxyHandlers
             string[] vals = base.param.input.Split('_');
             //now vals' value is like  {userid,altitude,latitude,longtitude }
 
-            if (vals.Length != 4)
+            if (vals.Length != 3)
             {                
                 //input ill formated
-                Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.altitude.latitude.longtitude'");
+                Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.latitude.longtitude'");
                 return;
                 
             }
@@ -56,9 +56,9 @@ namespace SocketServer.ProxyHandlers
             {
                 //create new location record
                 Location newloc = new Location() {  userid=user.userid,
-                                                    altitude = Convert.ToDouble(vals[1]), 
-                                                    latitude = Convert.ToDouble(vals[2]), 
-                                                    longtitude = Convert.ToDouble(vals[3]), 
+                                                    
+                                                    latitude = Convert.ToDouble(vals[1]), 
+                                                    longtitude = Convert.ToDouble(vals[2]), 
                                                     lastupdate=DateTime.Now};
                 try
                 {
@@ -80,15 +80,15 @@ namespace SocketServer.ProxyHandlers
                                 select l).Single();
                 if (null == loc)
                 {
-                    Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.altitude.latitude.longtitude'");
+                    Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.latitude.longtitude'");
                     return;
                 }
 
                 try
                 {
-                    loc.altitude = Convert.ToDouble(vals[1]);
-                    loc.latitude = Convert.ToDouble(vals[2]);
-                    loc.longtitude = Convert.ToDouble(vals[3]);
+                   
+                    loc.latitude = Convert.ToDouble(vals[1]);
+                    loc.longtitude = Convert.ToDouble(vals[2]);
                     loc.lastupdate = DateTime.Now;
                     context.Refresh(System.Data.Linq.RefreshMode.KeepChanges, loc);
                     context.SubmitChanges();
