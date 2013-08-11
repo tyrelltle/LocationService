@@ -1,0 +1,14 @@
+package shaotian.android.iamsingle;
+
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public abstract class IUserInfoContainer {
+	TextView txt_username=null;
+	ImageView img_usericon=null;
+	public void populateInfo()
+	{
+		
+		
+	}
+}

@@ -17,23 +17,25 @@ namespace WebService.WebServices
             return "success";
         
         }
-        public registerReturn register(UserInfo user)
+        public UserIdsingle register(UserInfo user)
         {
             DataClassesDataContext context = new DataClassesDataContext();
 
             if(user==null||user.email==null)
                 //invalid input
-                return new registerReturn { userid = -1 };
+                return new UserIdsingle { userid = -1 };
 
-            User retuser=(from u in context.Users
-                            where u.email == user.email && u.password==user.password
-                            select u).First();
-            if (retuser==null)
+            Boolean has=((from u in context.Users
+                            where u.email == user.email
+                            select u).Count())>0;
+            if (has)
                 //user already exists
-                return new registerReturn { userid = -1 };
+                return new UserIdsingle { userid = -1 };
 
-
-            return new registerReturn() { userid = retuser.userid };
+            User newuser = new User() {  email=user.email, password=user.password};
+            context.Users.InsertOnSubmit(newuser);
+            context.SubmitChanges();
+            return new UserIdsingle() { userid = newuser.userid };
 
 
         }
@@ -41,22 +43,22 @@ namespace WebService.WebServices
 
 
 
-        public registerReturn logon(UserInfo user)
+        public UserIdsingle logon(UserInfo user)
         {
             DataClassesDataContext context = new DataClassesDataContext();
 
             if (user == null || user.email == null)
                 //invalid input
-                return new registerReturn { userid = -1 };
+                return new UserIdsingle { userid = -1 };
 
             var usr = (from u in context.Users
                             where u.email == user.email
                             select u);
             if (usr==null||usr.Count()==0)
                 //user not exist
-                return new registerReturn { userid = -1 };
+                return new UserIdsingle { userid = -1 };
 
-            return new registerReturn() { userid = usr.Single().userid };
+            return new UserIdsingle() { userid = usr.Single().userid };
 
 
         }

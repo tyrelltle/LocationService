@@ -1,0 +1,19 @@
+import shaotian.android.iamsingle.netsdk.LocationCommunicator;
+import shaotian.android.iamsingle.netsdk.model.Location;
+import shaotian.android.iamsingle.netsdk.util.LocationList;
+
+
+public class test {
+	public static void main(String []args) throws Exception
+	{
+		/*LocationList ret;
+		LocationCommunicator wc=new LocationCommunicator();
+		wc.setServer("192.168.0.11", 11000);
+		ret=(LocationList)wc.getMap(new Location(1,49.280156,-122.784035));
+		wc.setServer("0", 0);
+*/
+	}
+	
+	
+}
+

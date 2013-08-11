@@ -1,0 +1,16 @@
+package shaotian.android.iamsingle.netsdk;
+
+public class NetFactory {
+
+	private static NetFactory instance=null;
+	public static NetFactory instance()
+	{
+		if(instance==null)
+			instance=new NetFactory();
+		return instance;
+		
+	}
+	
+	public LocationCommunicator getLocationCommunicator()
+	
+}

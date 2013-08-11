@@ -13,16 +13,28 @@ namespace WebService.WebServices
     public interface IUserAuth
     {
         [OperationContract]
+        [WebInvoke(UriTemplate = "test", Method = "GET")]
+        string test();
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "register", RequestFormat=WebMessageFormat.Json,ResponseFormat=WebMessageFormat.Json, Method = "PUT")]
-        registerReturn register(UserInfo user);
+        UserIdsingle register(UserInfo user);
 
         [OperationContract]
         [WebInvoke(UriTemplate = "logon", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST")]
-        registerReturn logon(UserInfo user);
+        UserIdsingle logon(UserInfo user);
+
     }
 
+
+
+
+
+
+
+
     [DataContract]
-    public class registerReturn
+    public class UserIdsingle
     {
         private int mUid;
         [DataMember]

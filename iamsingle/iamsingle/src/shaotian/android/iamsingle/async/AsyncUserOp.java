@@ -9,8 +9,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import shaotian.android.iamsingle.MapActivity;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
-import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
-import shaotian.android.iamsingle.netsdk.auth.AuthManager;
+import shaotian.android.iamsingle.netsdk.AuthManager;
+import shaotian.android.iamsingle.netsdk.LocationCommunicator;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
 import android.content.Context;
 import android.content.Intent;
@@ -62,7 +62,7 @@ public class AsyncUserOp extends AsyncTask<Void, Void, JSONObject> {
 				
 				}
 				
-				/*WorldModeCommunicator comm=new WorldModeCommunicator();
+				/*LocationCommunicator comm=new LocationCommunicator();
 				comm.setServer(bundle.getString("serverip"), bundle.getInt("serverport"));
 				ret=(LocationList) comm.getMap(new shaotian.android.iamsingle.netsdk.model.Location(1,location.getAltitude(),location.getLatitude(),location.getLongitude()));*/
 			} catch (NameNotFoundException e) {

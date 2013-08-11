@@ -1,0 +1,22 @@
+package shaotian.android.iamsingle.UIShared;
+
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public abstract class UserInfoUIContainer {
+	TextView txt_username=null;
+	TextView txt_userdesc=null;
+	TextView txt_userhobby=null;
+	ImageView img_usericon=null;
+	
+	
+	public UserInfoUIContainer()
+	{
+		
+	}
+	public void populateInfo()
+	{
+		
+		
+	}
+}

@@ -1,0 +1,16 @@
+package shaotian.android.iamsingle.netsdk.model;
+/*
+ * user details when clicking on map markers
+ * */
+public class UserInfo {
+	private byte [] usericon=null;
+	private int uid;
+	private String username;
+	private String hobby;
+	private String selfintro;
+	
+	
+	public UserInfo()
+	{}
+	
+}

@@ -9,22 +9,23 @@ import java.util.Date;
 
 public class Location {
 	public int userid;
-	public double altitude,latitude,longtitude;
+	public double latitude,longtitude;
+	public String uname;
 	public Date lastupdate;
 	
-	public Location(int uid,double alt,double lat, double lon)
+	public Location(int uid,String uname,double lat, double lon)
 	{
 		
 		this.userid=uid;
-		this.altitude=alt;
+		this.uname=uname;
 		this.latitude=lat;
 		this.longtitude=lon;
 		
 	}
 	
-	public Location(double alt,double lat, double lon)
+	public Location(int uid,double lat, double lon)
 	{
-		this.altitude=alt;
+		this.userid=uid;
 		this.latitude=lat;
 		this.longtitude=lon;		
 	}
@@ -35,7 +36,7 @@ public class Location {
 		
 			String []arr=str.split("_");
 			int uid=Integer.valueOf(arr[0]);
-			double alt=Double.valueOf(arr[1]);
+			String alt=arr[1];
 			double lat=Double.valueOf(arr[2]);
 			double lon=Double.valueOf(arr[3]);
 			return new Location(uid,alt,lat,lon);

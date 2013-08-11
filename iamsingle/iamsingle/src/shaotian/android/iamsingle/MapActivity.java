@@ -3,53 +3,34 @@ package shaotian.android.iamsingle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import shaotian.android.iamsingle.UIShared.CustomDialogFragment;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
-import shaotian.android.iamsingle.UIShared.MapMarkerManager.MapMarkerInvalidStateException;
 import shaotian.android.iamsingle.async.GetLocManager;
-import shaotian.android.iamsingle.async.AsyncUserOp;
-import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation.ServiceUpdateLocBinder;
 import shaotian.android.iamsingle.async.UpdateMapLocTask;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import android.location.Location;
-
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.Toast;
 
 public class MapActivity extends Activity implements LocChangeListener{
+	
 	private GoogleMap mMap;
 	private ServiceUpdateLocation mService=null;
 	private Handler handler=null;
@@ -75,7 +56,7 @@ public class MapActivity extends Activity implements LocChangeListener{
             mService = binder.getService();
             mService.StartUpdateLoc(context);
             mBound = true;
-    		//startGetLocTimer();
+    	
             
         }
 
@@ -87,6 +68,9 @@ public class MapActivity extends Activity implements LocChangeListener{
 
 	
     };
+    
+    
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,13 +96,50 @@ public class MapActivity extends Activity implements LocChangeListener{
 				@Override
 				public void onCameraChange(CameraPosition position) {
 					Log.d("app log", "map drag hiten");
-					locMgr.enqueTask(mMap.getProjection().getVisibleRegion().latLngBounds);
+					locMgr.enqueTask(GetLocManager.Priority.LOW,mMap.getProjection().getVisibleRegion().latLngBounds);
 					
 				}});
+	        
+	        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+
+				@Override
+				public boolean onMarkerClick(Marker marker) {
+					// TODO Auto-generated method stub
+					int uid=MapMarkerManager.Instance().getUidByMarker(marker);
+					if(uid==-1)
+						return false;
+					Intent i=new Intent(context, UserInfoActivity.class);
+					
+					i.putExtra("uid", uid);
+				    context.startActivity(i);
+					
+					return true;
+				}});
+	        
+	        
+	        startGetLocTimer();
 	    }
     }
 
+    public void startGetLocTimer() {
 
+	    //update map within given peroid
+	    final Handler handler = new Handler();
+	    getMapTimer = new Timer();
+
+	    TimerTask doAsynchronousTask = new TimerTask() {       
+	        @Override
+	        public void run() {
+	            handler.post(new Runnable() {
+	                public void run() {       
+						locMgr.enqueTask(GetLocManager.Priority.HIGH,mMap.getProjection().getVisibleRegion().latLngBounds);
+     
+	                }
+	            });
+	        }
+	    };
+	    getMapTimer.schedule(doAsynchronousTask, 0, (Integer)SharedUtil.getConfig(Integer.class, "getLocFrequency", context)); //execute in every 50000 ms
+	}
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     
@@ -155,14 +176,16 @@ public class MapActivity extends Activity implements LocChangeListener{
         
 		super.onStop();
 		unbindService();
-		getMapTimer.cancel();
+		if(getMapTimer!=null)
+			getMapTimer.cancel();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		unbindService();
-		getMapTimer.cancel();
+		if(getMapTimer!=null)
+			getMapTimer.cancel();
 	}
 
 

@@ -83,6 +83,13 @@ namespace SocketServer
 				return this.GetTable<Location>();
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InBoundBox")]
+		public ISingleResult<InBoundBoxResult> InBoundBox([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> northEastLat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> northEastLng, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> southWestLat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> southWestLng)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), northEastLat, northEastLng, southWestLat, southWestLng);
+			return ((ISingleResult<InBoundBoxResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
@@ -584,6 +591,86 @@ namespace SocketServer
 		{
 			this.SendPropertyChanging();
 			entity.Location = null;
+		}
+	}
+	
+	public partial class InBoundBoxResult
+	{
+		
+		private string _username;
+		
+		private int _userid;
+		
+		private System.Nullable<double> _latitude;
+		
+		private System.Nullable<double> _longtitude;
+		
+		public InBoundBoxResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(MAX)")]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this._username = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", DbType="Int NOT NULL")]
+		public int userid
+		{
+			get
+			{
+				return this._userid;
+			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					this._userid = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float")]
+		public System.Nullable<double> latitude
+		{
+			get
+			{
+				return this._latitude;
+			}
+			set
+			{
+				if ((this._latitude != value))
+				{
+					this._latitude = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longtitude", DbType="Float")]
+		public System.Nullable<double> longtitude
+		{
+			get
+			{
+				return this._longtitude;
+			}
+			set
+			{
+				if ((this._longtitude != value))
+				{
+					this._longtitude = value;
+				}
+			}
 		}
 	}
 }

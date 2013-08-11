@@ -12,15 +12,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import shaotian.android.iamsingle.LocChangeListener;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager.MapMarkerInvalidStateException;
-import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
+import shaotian.android.iamsingle.netsdk.LocationCommunicator;
 import shaotian.android.iamsingle.netsdk.model.LocBoundBox;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
 
 public class GetMapLocTask implements Runnable{
 	private LatLngBounds bound=null;
-	private WorldModeCommunicator wc=null;
+	private LocationCommunicator wc=null;
 	private LocChangeListener act=null;
-    public GetMapLocTask(LatLngBounds bound, WorldModeCommunicator wc, LocChangeListener act)
+    public GetMapLocTask(LatLngBounds bound, LocationCommunicator wc, LocChangeListener act)
     {
     	this.bound=new LatLngBounds( new LatLng(bound.southwest.latitude,bound.southwest.longitude), 
     								 new LatLng(bound.northeast.latitude,bound.northeast.longitude));

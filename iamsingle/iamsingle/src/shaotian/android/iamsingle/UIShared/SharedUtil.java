@@ -1,6 +1,6 @@
 package shaotian.android.iamsingle.UIShared;
 
-import shaotian.android.iamsingle.netsdk.WorldModeCommunicator;
+import shaotian.android.iamsingle.netsdk.LocationCommunicator;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;

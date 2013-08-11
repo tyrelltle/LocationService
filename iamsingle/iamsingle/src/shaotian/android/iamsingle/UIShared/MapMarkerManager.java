@@ -113,8 +113,22 @@ public class MapMarkerManager {
 	
 //---------------end state sensitive methods	
 	
-	
+	public int getUidByMarker(Marker m)
+	{
+		for(int i : this.a.keySet())
+		{
+			if(a.get(i).isSame(m))
+				return i;
+		}
+		for(int j : this.b.keySet())
+		{
+			if(b.get(j).isSame(m))
+				return j;
+		}
+		return -1;
+	}
 
+	
 	public class MapMarkerInvalidStateException extends Exception
 	{
 		private static final long serialVersionUID = 1L;
@@ -139,6 +153,15 @@ public class MapMarkerManager {
 		
 
 		
+		
+		public boolean isSame(Marker m) {
+			
+			
+			return this.marker.equals(m);
+		}
+
+
+
 		public void startTime()
 		{
 			if(time==null)

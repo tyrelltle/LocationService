@@ -83,6 +83,13 @@ namespace WebService
 				return this.GetTable<User>();
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InBoundBox")]
+		public ISingleResult<InBoundBoxResult> InBoundBox([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> northEastLat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> northEastLng, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> southWestLat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> southWestLng)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), northEastLat, northEastLng, southWestLat, southWestLng);
+			return ((ISingleResult<InBoundBoxResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Location")]
@@ -102,10 +109,6 @@ namespace WebService
 		private System.Nullable<double> _longtitude;
 		
 		private System.Nullable<System.DateTime> _lastupdate;
-		
-		private EntitySet<User> _Users;
-		
-		private EntityRef<User> _User;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -127,12 +130,10 @@ namespace WebService
 		
 		public Location()
 		{
-			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
-			this._User = default(EntityRef<User>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int locationId
 		{
 			get
@@ -163,10 +164,6 @@ namespace WebService
 			{
 				if ((this._userid != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnuseridChanging(value);
 					this.SendPropertyChanging();
 					this._userid = value;
@@ -256,53 +253,6 @@ namespace WebService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_User", Storage="_Users", ThisKey="locationId", OtherKey="locationId")]
-		public EntitySet<User> Users
-		{
-			get
-			{
-				return this._Users;
-			}
-			set
-			{
-				this._Users.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Location", Storage="_User", ThisKey="userid", OtherKey="userid", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.Locations.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.Locations.Add(this);
-						this._userid = value.userid;
-					}
-					else
-					{
-						this._userid = default(int);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -321,18 +271,6 @@ namespace WebService
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Location = this;
-		}
-		
-		private void detach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.Location = null;
 		}
 	}
 	
@@ -354,9 +292,11 @@ namespace WebService
 		
 		private string _password;
 		
-		private EntitySet<Location> _Locations;
+		private System.Data.Linq.Binary _icon;
 		
-		private EntityRef<Location> _Location;
+		private string _hobby;
+		
+		private string _desc;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -374,12 +314,16 @@ namespace WebService
     partial void OnipChanged();
     partial void OnpasswordChanging(string value);
     partial void OnpasswordChanged();
+    partial void OniconChanging(System.Data.Linq.Binary value);
+    partial void OniconChanged();
+    partial void OnhobbyChanging(string value);
+    partial void OnhobbyChanged();
+    partial void OndescChanging(string value);
+    partial void OndescChanged();
     #endregion
 		
 		public User()
 		{
-			this._Locations = new EntitySet<Location>(new Action<Location>(this.attach_Locations), new Action<Location>(this.detach_Locations));
-			this._Location = default(EntityRef<Location>);
 			OnCreated();
 		}
 		
@@ -454,10 +398,6 @@ namespace WebService
 			{
 				if ((this._locationId != value))
 				{
-					if (this._Location.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnlocationIdChanging(value);
 					this.SendPropertyChanging();
 					this._locationId = value;
@@ -507,49 +447,62 @@ namespace WebService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Location", Storage="_Locations", ThisKey="userid", OtherKey="userid")]
-		public EntitySet<Location> Locations
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_icon", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary icon
 		{
 			get
 			{
-				return this._Locations;
+				return this._icon;
 			}
 			set
 			{
-				this._Locations.Assign(value);
+				if ((this._icon != value))
+				{
+					this.OniconChanging(value);
+					this.SendPropertyChanging();
+					this._icon = value;
+					this.SendPropertyChanged("icon");
+					this.OniconChanged();
+				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_User", Storage="_Location", ThisKey="locationId", OtherKey="locationId", IsForeignKey=true)]
-		public Location Location
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hobby", DbType="VarChar(MAX)")]
+		public string hobby
 		{
 			get
 			{
-				return this._Location.Entity;
+				return this._hobby;
 			}
 			set
 			{
-				Location previousValue = this._Location.Entity;
-				if (((previousValue != value) 
-							|| (this._Location.HasLoadedOrAssignedValue == false)))
+				if ((this._hobby != value))
 				{
+					this.OnhobbyChanging(value);
 					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Location.Entity = null;
-						previousValue.Users.Remove(this);
-					}
-					this._Location.Entity = value;
-					if ((value != null))
-					{
-						value.Users.Add(this);
-						this._locationId = value.locationId;
-					}
-					else
-					{
-						this._locationId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Location");
+					this._hobby = value;
+					this.SendPropertyChanged("hobby");
+					this.OnhobbyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[desc]", Storage="_desc", DbType="VarChar(MAX)")]
+		public string desc
+		{
+			get
+			{
+				return this._desc;
+			}
+			set
+			{
+				if ((this._desc != value))
+				{
+					this.OndescChanging(value);
+					this.SendPropertyChanging();
+					this._desc = value;
+					this.SendPropertyChanged("desc");
+					this.OndescChanged();
 				}
 			}
 		}
@@ -573,17 +526,85 @@ namespace WebService
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+	}
+	
+	public partial class InBoundBoxResult
+	{
 		
-		private void attach_Locations(Location entity)
+		private string _username;
+		
+		private int _userid;
+		
+		private System.Nullable<double> _latitude;
+		
+		private System.Nullable<double> _longtitude;
+		
+		public InBoundBoxResult()
 		{
-			this.SendPropertyChanging();
-			entity.User = this;
 		}
 		
-		private void detach_Locations(Location entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(MAX)")]
+		public string username
 		{
-			this.SendPropertyChanging();
-			entity.User = null;
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this._username = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", DbType="Int NOT NULL")]
+		public int userid
+		{
+			get
+			{
+				return this._userid;
+			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					this._userid = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_latitude", DbType="Float")]
+		public System.Nullable<double> latitude
+		{
+			get
+			{
+				return this._latitude;
+			}
+			set
+			{
+				if ((this._latitude != value))
+				{
+					this._latitude = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_longtitude", DbType="Float")]
+		public System.Nullable<double> longtitude
+		{
+			get
+			{
+				return this._longtitude;
+			}
+			set
+			{
+				if ((this._longtitude != value))
+				{
+					this._longtitude = value;
+				}
+			}
 		}
 	}
 }

@@ -1,0 +1,5 @@
+package shaotian.android.iamsingle;
+
+public interface IUserInfoContainer {
+
+}

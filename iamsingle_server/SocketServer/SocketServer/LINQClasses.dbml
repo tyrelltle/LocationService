@@ -24,4 +24,16 @@
       <Association Name="User_Location" Member="User" ThisKey="userid" OtherKey="userid" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
+  <Function Name="dbo.InBoundBox" Method="InBoundBox">
+    <Parameter Name="northEastLat" Type="System.Double" DbType="Float" />
+    <Parameter Name="northEastLng" Type="System.Double" DbType="Float" />
+    <Parameter Name="southWestLat" Type="System.Double" DbType="Float" />
+    <Parameter Name="southWestLng" Type="System.Double" DbType="Float" />
+    <ElementType Name="InBoundBoxResult">
+      <Column Name="username" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="userid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="longtitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

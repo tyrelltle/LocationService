@@ -36,18 +36,18 @@
             android:value="AIzaSyAgOH6HfvrLm1UZX9EFjQLpTINNtvqhJpg" />
         <meta-data
             android:name="serverip"
-            android:value="192.168.0.11" />
+            android:value="172.16.42.29" />
         <meta-data
             android:name="serverport"
             android:value="11000" />
 
         <meta-data
             android:name="wsserverip"
-            android:value="192.168.0.11" />
+            android:value="172.16.42.29" />
         
         <meta-data
             android:name="getLocFrequency"
-            android:value="5000" />
+            android:value="50000" />
         
         <activity
             android:name="shaotian.android.iamsingle.MapActivity"
@@ -68,6 +68,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="shaotian.android.iamsingle.UserInfoActivity"
+            android:label="@string/title_activity_auth" >
+
+        </activity>
+        
         
         <service android:name="shaotian.android.iamsingle.async.ServiceUpdateLocation" android:enabled="true">
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
@@ -75,6 +82,7 @@
 	            <action android:name="android.accessibilityservice.AccessibilityService" />
 	        </intent-filter>
         </service>
+
     </application>
 
     <uses-feature
