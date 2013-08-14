@@ -10,13 +10,15 @@ import java.util.Date;
 public class Location {
 	public int userid;
 	public double latitude,longtitude;
-	public String uname;
+	public String uname; 
+	public String gender;
 	public Date lastupdate;
 	
-	public Location(int uid,String uname,double lat, double lon)
+	public Location(int uid,String gender,String uname,double lat, double lon)
 	{
 		
 		this.userid=uid;
+		this.gender=gender;
 		this.uname=uname;
 		this.latitude=lat;
 		this.longtitude=lon;
@@ -36,10 +38,11 @@ public class Location {
 		
 			String []arr=str.split("_");
 			int uid=Integer.valueOf(arr[0]);
-			String alt=arr[1];
-			double lat=Double.valueOf(arr[2]);
-			double lon=Double.valueOf(arr[3]);
-			return new Location(uid,alt,lat,lon);
+			String gender=String.valueOf(arr[1]);
+			String uname=arr[2];
+			double lat=Double.valueOf(arr[3]);
+			double lon=Double.valueOf(arr[4]);
+			return new Location(uid,gender,uname,lat,lon);
 		
 		
 		

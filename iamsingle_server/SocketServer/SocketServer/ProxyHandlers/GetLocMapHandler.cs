@@ -4,9 +4,9 @@
  * Note: defines the visible region
  * 
  * protocol output:
- * numOfMessages userid_username_latitude_longtitude  userid_username_latitude_longtitude    userid_username_latitude_longtitude
- * numOfMessages userid_username_latitude_longtitude  userid_username_latitude_longtitude    userid_username_latitude_longtitude
- * numOfMessages userid_username_latitude_longtitude  userid_username_latitude_longtitude    userid_username_latitude_longtitude
+ * numOfMessages userid_gender_username_latitude_longtitude  userid_gender_username_latitude_longtitude    userid_gender_username_latitude_longtitude
+ * numOfMessages userid_gender_username_latitude_longtitude  userid_gender_username_latitude_longtitude    userid_gender_username_latitude_longtitude
+ * numOfMessages userid_gender_username_latitude_longtitude  userid_gender_username_latitude_longtitude    userid_gender_username_latitude_longtitude
  * ......
 
 */
@@ -67,7 +67,7 @@ namespace SocketServer.ProxyHandlers
             int numPacket = (int) Math.Ceiling(((float)locdatalength(locs.First())*locs.Count()/(float)maxsize));
             foreach (InBoundBoxResult loc in locs)
             {//send multiple packet to client. approximately 15 loc info in each packet. fixed size is AppSettings["packetsize"]
-                string curlocdata = loc.userid + "_" + loc.username + "_" + loc.latitude + "_" + loc.longtitude;
+                string curlocdata = loc.userid + "_"+loc.gender+"_" + loc.username + "_" + loc.latitude + "_" + loc.longtitude;
 
                 if (maxsize <= curlocdata.Length + accumulat.Length)
                 { //current packet is large enough. send to client
@@ -97,6 +97,7 @@ namespace SocketServer.ProxyHandlers
         private int locdatalength(InBoundBoxResult loc)
         {
             return loc.userid.ToString().Length +
+                   loc.gender.ToString().Length+
                    loc.username.ToString().Length +
                    loc.latitude.ToString().Length +
                    loc.longtitude.ToString().Length +

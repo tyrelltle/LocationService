@@ -1,9 +1,11 @@
 package shaotian.android.iamsingle.async;
 
+import android.R;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -19,6 +21,15 @@ public class UpdateMapLocTask implements Runnable{
     {
     	lis=list;
     	mMap=m;
+    }
+    
+    private static void setMarkerGender(String gender, Marker m)
+    {
+    	if(gender.equals("f"))
+    	{	m.setIcon(BitmapDescriptorFactory.fromResource(shaotian.android.iamsingle.R.drawable.marker_f));}
+    	else
+    	{	m.setIcon(BitmapDescriptorFactory.fromResource(shaotian.android.iamsingle.R.drawable.marker_m));}
+    	
     }
     @Override
 	public void run() {
@@ -39,7 +50,8 @@ public class UpdateMapLocTask implements Runnable{
 			    	m=mMap.addMarker(new MarkerOptions()
 				        		.position(new LatLng(loc.latitude, loc.longtitude))
 				        		.title(loc.uname));
-				
+			    	
+			    	setMarkerGender(loc.gender,m);
 			    	mgn.addMarker(uid, m);
 				}
 			    else

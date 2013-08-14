@@ -30,22 +30,88 @@ namespace WebService
         [WebInvoke(UriTemplate = "getuserinfo?uid={uid}", ResponseFormat = WebMessageFormat.Json, RequestFormat=WebMessageFormat.Json, Method = "GET")]
         UserInfo getuserinfo(int uid);
 
+        [OperationContract]
+        [WebInvoke(UriTemplate = "getuserinfofull", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        UserInfo getuserinfofull(SecureUserInfoParam input);
     }
 
+    [DataContract]
+    public class SecureUserInfoParam
+    {
+        private int mid;
+        private string mmail;
+        private string mpsw;
+
+        [DataMember]
+        public int id
+        {  set { mid = value; }
+            get { return mid; } 
+        }
+
+        [DataMember]
+        public string email
+        {
+            set { mmail = value; }
+            get { return mmail; }
+        }
+
+        [DataMember]
+        public string password
+        {
+            set { mpsw = value; }
+            get { return mpsw; }
+        }
+    }
 
     [DataContract]
     public class UserInfo
     {
-        private string mUname;
-        private string mUdesc;
-        private string mUhobby;
+        protected string mMail;
+        protected string mUname;
+        protected string mUdesc;
+        protected string mUhobby;
+        private string mPsw;
+
+        private Action action;
+        //need action=post to make secure fields enabled.  ex, password
+        public enum Action{ GET,POST}
+
+
+        public UserInfo()
+        {
+            action = Action.GET;
+        }
+        public UserInfo(Action a)
+        {
+            action = a;
+        }
+            
+
+        private static string valueOnAction(string val, Action action)
+        {
+            switch (action) { 
+                case Action.GET:
+                    return "";
+                case Action.POST:
+                    return val;
+                default: return "";
+            }
+        }
         [DataMember]
         public string username
         {
             get { return mUname; }
             set { mUname = value; }
         }
-         [DataMember]
+        
+        [DataMember]
+        public string email
+        {
+            get { return UserInfo.valueOnAction(mMail,action); }
+            set { mMail = value; }
+        }
+
+        [DataMember]
         public string userdescription
         {
             get { return mUdesc; }
@@ -57,9 +123,16 @@ namespace WebService
             get { return mUhobby; }
             set { mUhobby = value; }
         }
+
+         [DataMember]
+        public string password
+        {
+            get { return UserInfo.valueOnAction(mPsw,action); }
+            set { mPsw = value; }
+        }
     }
 
-
+   
     [DataContract]
     public class UserIconParam
     {

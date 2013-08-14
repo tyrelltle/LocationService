@@ -18,6 +18,38 @@ namespace WebService
             return "hello world";
         }
 
+
+        public UserInfo getuserinfofull(SecureUserInfoParam input)
+        {
+            UserInfo ret = new UserInfo(UserInfo.Action.POST);
+            DataClassesDataContext context = new DataClassesDataContext();
+
+            try
+            {
+                var user = (from u in context.Users
+                            where u.userid == input.id &&
+                                  u.password == input.password &&
+                                  u.email == input.email
+                            select u).First();
+                if (user == null)
+                    return null;
+
+                ret.email = user.email;
+                ret.userdescription = user.desc;
+                ret.userhobby = user.hobby;
+                ret.password = user.password;
+                ret.username = user.username;
+
+                return ret;
+
+
+            }
+            catch { return null; }
+            return null;
+        
+        }
+
+
         public UserInfo getuserinfo(int uid)
         {
             try
