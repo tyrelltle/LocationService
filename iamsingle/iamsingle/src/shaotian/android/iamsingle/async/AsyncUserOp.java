@@ -11,6 +11,7 @@ import shaotian.android.iamsingle.MapActivity;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.netsdk.AuthManager;
 import shaotian.android.iamsingle.netsdk.LocationCommunicator;
+import shaotian.android.iamsingle.netsdk.WSFactory;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
 import android.content.Context;
 import android.content.Intent;
@@ -53,12 +54,12 @@ public class AsyncUserOp extends AsyncTask<Void, Void, JSONObject> {
 				ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
 				Bundle bundle = ai.metaData;
 
-				AuthManager am=new AuthManager(bundle.getString("wsserverip"));
+				
 				switch(action)
 				{
-				case LOGON:	return am.logon(email,pwd);
+				case LOGON:	return WSFactory.Instance().LogonUser(email,pwd);
 							
-				default:	return am.register(email,pwd);
+				default:	return WSFactory.Instance().RegisterUser(email,pwd);
 				
 				}
 				

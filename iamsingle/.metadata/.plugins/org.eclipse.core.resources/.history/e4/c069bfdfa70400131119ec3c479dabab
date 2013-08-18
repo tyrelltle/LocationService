@@ -1,0 +1,47 @@
+package shaotian.android.iamsingle.netsdk;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import shaotian.android.iamsingle.netsdk.WSProvider.METHOD;
+
+//web service provider
+public class WSProvider {
+
+	HttpClient httpClient = new DefaultHttpClient();
+	HttpContext localContext = new BasicHttpContext();
+	HttpRequestBase mMethod;
+	private String mServerIP;
+	private String mAction;
+	public enum METHOD{
+		GET,PUT,POST
+	}
+	
+	
+	
+	public WSProvider(String serverIp) {
+		this.mServerIP=serverIp;
+	}
+
+
+
+	public void setAction(METHOD post, String string) {
+		switch(post){
+		
+		case POST:mMethod = new HttpPost("http://"+mServerIP+ string);
+				  break;
+		case GET: mMethod = new HttpGet("http://"+mServerIP+ string);
+				  break;
+		case PUT: mMethod = new HttpPut("http://"+mServerIP+ string);
+		  		  break;
+		}
+	}
+
+}

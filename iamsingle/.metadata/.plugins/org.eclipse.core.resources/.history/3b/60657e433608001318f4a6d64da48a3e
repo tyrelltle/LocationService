@@ -1,0 +1,20 @@
+package shaotian.android.iamsingle.test;
+
+import static org.junit.Assert.*;
+import junit.framework.TestCase;
+
+import org.junit.Test;
+
+import com.google.android.gms.maps.model.Marker;
+
+import shaotian.android.iamsingle.UIShared.MapMarkerManager;
+import shaotian.android.iamsingle.UIShared.SharedUtil;
+
+public class UtilsTest extends TestCase{
+
+	
+	public void testReflectCtor() {
+		SharedUtil.getClassConstructor(MapMarkerManager.TimedMarker.class, new Class[]{Marker.class});
+	}
+
+}

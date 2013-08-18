@@ -1,0 +1,32 @@
+package shaotian.android.iamsingle.test;
+
+import org.junit.Test;
+
+import shaotian.android.iamsingle.IInfoContainer;
+import shaotian.android.iamsingle.netsdk.WSFactory;
+import shaotian.android.iamsingle.netsdk.WSFactory.Methods;
+
+import junit.framework.TestCase;
+
+public class UserInfoPageTest extends TestCase {
+
+	private class InfoContainerStub implements IInfoContainer{
+
+		@Override
+		public Methods getWSMethodType() {
+			// TODO Auto-generated method stub
+			return WSFactory.Methods.LogonUser;
+		}
+		
+		
+	}
+	@Test
+	public void InfoContainer_Test()
+	{
+		IInfoContainer i=new InfoContainerStub();
+		assertEquals(WSFactory.Methods.LogonUser,i.getWSMethodType());
+		
+		
+	}
+	
+}

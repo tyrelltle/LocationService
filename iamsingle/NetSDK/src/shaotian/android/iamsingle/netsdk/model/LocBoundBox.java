@@ -2,7 +2,7 @@ package shaotian.android.iamsingle.netsdk.model;
 
 
 
-public class LocBoundBox {
+public class LocBoundBox implements IModel{
 	public double northEast_lat,
 		   northEast_lng,
 		   southWest_lat,

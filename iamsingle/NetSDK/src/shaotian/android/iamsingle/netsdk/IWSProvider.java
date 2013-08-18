@@ -1,0 +1,29 @@
+package shaotian.android.iamsingle.netsdk;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONObject;
+
+import shaotian.android.iamsingle.netsdk.WSProvider.METHOD;
+
+public interface IWSProvider {
+
+	/*
+	 * sets http method
+	 * @param   method: action name
+	 * @param   actionurl: url of the service
+	 * */
+	void setAction(METHOD method, String actionurl);
+	
+	
+	/*
+	 * sets http request body.  body should be json
+	 * */
+	public void setJSONContent(JSONObject json) throws UnsupportedEncodingException;
+	
+	JSONObject getJSONFromResult() throws UnsupportedEncodingException;
+
+	byte[] getBinaryFromResult() throws ClientProtocolException, IOException;
+}

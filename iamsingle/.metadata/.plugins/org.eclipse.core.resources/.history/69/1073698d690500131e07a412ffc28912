@@ -1,0 +1,48 @@
+package shaotian.android.iamsingle.netsdk;
+
+import org.json.JSONObject;
+
+public class WSFactory {
+
+	private static WSFactory instance;
+	private IWSProvider provider;
+	
+	private WSFactory(IWSProvider provider)
+	{
+		this.provider=provider;
+	}
+	public static WSFactory Initialize(IWSProvider provider)
+	{
+		if(instance==null)
+		{
+			instance=new WSFactory(provider);
+		}
+		return instance;
+	}
+	
+	public static WSFactory Instance() {
+	
+		return instance;
+	}
+	
+	
+	//-----------factory methods--------------
+	public JSONObject RegisterUser(String string, String string2) {
+		
+		return null;
+	}
+	public JSONObject LogonUser(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public JSONObject GetUserInfo(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public byte[] GetUserIcon(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+}

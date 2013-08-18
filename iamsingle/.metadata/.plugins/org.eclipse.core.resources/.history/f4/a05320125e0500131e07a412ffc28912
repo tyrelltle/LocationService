@@ -1,0 +1,57 @@
+import static org.junit.Assert.*;
+
+import java.io.UnsupportedEncodingException;
+
+import org.json.JSONObject;
+import org.junit.Test;
+
+import shaotian.android.iamsingle.netsdk.AuthManager;
+import shaotian.android.iamsingle.netsdk.IWSProvider;
+import shaotian.android.iamsingle.netsdk.WSManager;
+import shaotian.android.iamsingle.netsdk.WSProvider;
+import shaotian.android.iamsingle.netsdk.WSProvider.METHOD;
+
+
+public class WSManagerTest {
+
+	private class WSProviderStub extends WSProvider
+	{
+	
+		JSONObject inputjson;
+		JSONObject outputjson=new JSONObject();
+		@Override
+		public void setJSONContent(String string, JSONObject json)
+				throws UnsupportedEncodingException {
+			// TODO Auto-generated method stub
+			inputjson=new JSONObject(json);
+		}
+
+		public WSProviderStub(String serverIp) {
+			super(serverIp);
+			
+		}
+
+		@Override
+		public void setAction(METHOD post, String string) {
+			
+			this.mServerIP=string;
+			this.mMethodType=post;
+			
+		}
+
+		@Override
+		public JSONObject getJSONFromResult(String string, JSONObject json)
+				throws UnsupportedEncodingException {
+			JSONObject json=new JSONObject();
+			
+			return null;
+		}
+		
+	}
+	@Test
+	public void WSAuthManagerTest() {
+		
+		WSManager mgr=new AuthManager(null);
+	}
+
+}

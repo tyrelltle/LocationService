@@ -13,6 +13,7 @@ public class LocationList implements INetParam{
 	
 	}
 	
+	//add new loc from server returned string
 	public void add(String str) throws Exception
 	{
 		lis.add(Location.getFromServerRetStr(str));

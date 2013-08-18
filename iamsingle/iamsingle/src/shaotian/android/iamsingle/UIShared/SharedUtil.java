@@ -1,5 +1,9 @@
 package shaotian.android.iamsingle.UIShared;
 
+import java.lang.reflect.Constructor;
+
+import com.google.android.gms.maps.model.Marker;
+
 import shaotian.android.iamsingle.netsdk.LocationCommunicator;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -29,7 +33,15 @@ public final class SharedUtil {
     public static final String SHARED_LONGTITUDE="longtitude";
     public static final String SHARED_LATITUDE="latitude";
 
-
+	public static class MapMarkerInvalidStateException extends Exception
+	{
+		private static final long serialVersionUID = 1L;
+		
+		public MapMarkerInvalidStateException(String message)
+		{
+			super(message);
+		}
+	}
     
     //retrieve application configuration settings
     public static Object getConfig(Class c,String nm, Context context)
@@ -51,6 +63,22 @@ public final class SharedUtil {
 		}
 		
     }
-    	
-    	
+	public static Constructor getClassConstructor(Class T,Class[] parameters)
+	{
+		Constructor [] ctors=T.getConstructors();
+		for(Constructor c:ctors)
+		{
+			Class [] ts=c.getParameterTypes();
+			if(ts.length==parameters.length)
+			{
+				for(int i =0;i<ts.length;i++)
+					if(!ts[i].equals(parameters[i]))
+							return null;
+				return c;
+			}
+		}
+		return null;
+	}	
+	
+	
 }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;WSProviderTest.java&apos; to &apos;test.java&apos;&#x0D;&#x0A;- Original project: &apos;NetSDK_Test&apos;&#x0D;&#x0A;- Destination element: &apos;test.java&apos;&#x0D;&#x0A;- Original element: &apos;shaotian.android.iamsingle.test.WSProviderTest.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="=SDKTest/src&lt;{test.java" element1="/src&lt;shaotian.android.iamsingle.test{WSProviderTest.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1376462283919" units="1" version="1.0"/>
+</session>

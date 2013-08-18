@@ -1,0 +1,52 @@
+package shaotian.android.iamsingle.test;
+
+import static org.junit.Assert.*;
+import junit.framework.TestCase;
+
+import org.junit.Test;
+
+import shaotian.android.iamsingle.UIShared.MapMarkerManager;
+import shaotian.android.iamsingle.UIShared.MapMarkerManager.MapMarkerInvalidStateException;
+
+public class MarkerManagerTest  extends TestCase{
+
+	
+	public void test() {
+		MapMarkerManager mgn=MapMarkerManager.Instance();
+		boolean haserror=false;
+		try {
+			mgn.finish();
+			mgn.start();
+
+		} catch (MapMarkerInvalidStateException e) {
+			haserror=true;
+		}
+		assertTrue(haserror);
+		
+		
+		
+		haserror=false;
+		try {
+			
+			mgn.updateMarker(0, null);
+
+		} catch (MapMarkerInvalidStateException e) {
+			haserror=true;
+		}
+		assertTrue(haserror);
+		
+		haserror=false;
+		
+			
+		try {
+			mgn.addMarker(0, null);
+		} catch (MapMarkerInvalidStateException e) {
+			// TODO Auto-generated catch block
+			haserror=true;
+		}
+
+		assertTrue(haserror);
+		
+	}
+
+}

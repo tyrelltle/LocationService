@@ -7,7 +7,7 @@ package shaotian.android.iamsingle.netsdk.model;
 
 import java.util.Date;
 
-public class Location {
+public class Location implements IModel{
 	public int userid;
 	public double latitude,longtitude;
 	public String uname; 

@@ -1,0 +1,24 @@
+import static org.junit.Assert.*;
+
+import java.io.UnsupportedEncodingException;
+
+import org.json.JSONObject;
+import org.junit.Test;
+
+import shaotian.android.iamsingle.netsdk.AuthManager;
+import shaotian.android.iamsingle.netsdk.IWSProvider;
+import shaotian.android.iamsingle.netsdk.WSManager;
+import shaotian.android.iamsingle.netsdk.WSProvider;
+import shaotian.android.iamsingle.netsdk.WSProvider.METHOD;
+
+
+public class WSManagerTest {
+
+
+	@Test
+	public void WSAuthManagerTest() {
+		
+		WSManager mgr=new AuthManager(null);
+	}
+
+}

@@ -1,0 +1,174 @@
+import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.Test;
+
+import shaotian.android.iamsingle.netsdk.AuthManager;
+import shaotian.android.iamsingle.netsdk.UserProfileManager;
+import shaotian.android.iamsingle.netsdk.WSFactory;
+import shaotian.android.iamsingle.netsdk.WSProvider;
+import shaotian.android.iamsingle.netsdk.model.UserInfo;
+
+
+public class WSManagerTest {
+
+	
+	/*
+	 * used to test various WSManager impl clases. 
+	 * 
+	 * return json should have syntax:
+	 * 
+	 * {actiontype:?,  actionurl:?, serverip:?, inputjson:{?}}
+	 * 
+	 * */
+	
+	private class WSUserInfoProviderMock extends WSProviderMock
+	{
+
+		@Override
+		public JSONObject getJSONFromResult()
+				throws UnsupportedEncodingException {
+
+			JSONObject json=new JSONObject();
+			
+			try {
+				json.put("userhobby","userhobby");
+				json.put("userdescription","userdescription");
+				json.put("username","username");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return json;
+		}
+
+		public WSUserInfoProviderMock(String serverIp) {
+			super(serverIp);
+			
+		}
+		
+		
+	}
+	
+	
+	
+	private class WSProviderMock extends WSProvider
+	{
+	
+		@Override
+		public byte[] getBinaryFromResult() throws ClientProtocolException,
+				IOException {
+			return "helloworld".getBytes();
+		}
+
+		JSONObject inputjson;
+		
+		@Override
+		public void setJSONContent(JSONObject json)
+				throws UnsupportedEncodingException {
+			try {
+				inputjson=new JSONObject(json.toString());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public WSProviderMock(String serverIp) {
+			super(serverIp);
+			
+		}
+
+		@Override
+		public void setAction(METHOD post, String string) {
+			
+			this.mServerIP=string;
+			this.mMethodType=post;
+			
+		}
+
+		@Override
+		public JSONObject getJSONFromResult()
+				throws UnsupportedEncodingException {
+			JSONObject json=new JSONObject();
+			try {
+				json.put("actiontype", this.mMethodType.toString());
+				json.put("actionurl", this.mAction);
+				json.put("server ip", this.mServerIP);
+				json.put("inputjson", this.inputjson);
+			} catch (JSONException e) {
+				return null;
+			}
+			
+			return json;
+		}
+		
+	}
+	
+	
+	@Test
+	public void Factory_Invoke_Test() throws UnsupportedEncodingException, JSONException {
+		
+		WSFactory fact=WSFactory.Initialize(new WSProviderMock("localhost"));
+		String error="";
+		try{
+			JSONObject j;
+			UserInfo ui;
+			j=fact.RegisterUser("","");
+			j=fact.LogonUser("","");
+			fact=WSFactory.Initialize(new WSUserInfoProviderMock("localhost"));
+			ui=fact.GetUserInfo(1);
+			
+		}catch(Exception e){
+			error=e.getStackTrace().toString();
+			
+		}
+		assertEquals(error,"");
+		
+	}
+	
+	@Test
+	public void WSAuthManager_Register_Test() throws UnsupportedEncodingException, JSONException {
+		
+		AuthManager mgr=new AuthManager(new WSProviderMock("localhost"));
+	    JSONObject json=mgr.register("username", "password");
+	    assertEquals("{\"server ip\":\"/webservice/userauth.svc/register\",\"inputjson\":{\"email\":\"username\",\"password\":\"password\"},\"actiontype\":\"PUT\"}"
+	    			,json.toString());
+		
+	}
+	
+	@Test
+	public void WSAuthManager_logon_Test() throws UnsupportedEncodingException, JSONException {
+		
+		AuthManager mgr=new AuthManager(new WSProviderMock("localhost"));
+	    JSONObject json=mgr.logon("username", "password");
+	    assertEquals("{\"server ip\":\"/webservice/userauth.svc/logon\",\"inputjson\":{\"email\":\"username\",\"password\":\"password\"},\"actiontype\":\"POST\"}"
+	    			,json.toString());
+		
+	}
+	@Test
+	public void WSUserInfoManager_GetInserInfo_Test() throws Exception
+	{
+		WSFactory fact=WSFactory.Initialize(new WSUserInfoProviderMock("localhost"));
+		UserInfo ui=fact.GetUserInfo(1);
+		assertEquals("helloworld", new String(ui.usericon));
+		assertEquals("username",ui.username);
+		assertEquals("userhobby",ui.hobby);
+		assertEquals("userdescription",ui.selfintro);
+		
+	}
+
+	@Test
+	public void WSFactory_GetMethodByType()
+	{
+		
+		
+	}
+
+}

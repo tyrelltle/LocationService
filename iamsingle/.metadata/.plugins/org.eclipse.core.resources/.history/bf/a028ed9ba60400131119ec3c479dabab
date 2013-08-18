@@ -1,0 +1,11 @@
+package shaotian.android.iamsingle.netsdk;
+
+//web service provider
+public class WSProvider {
+
+	private String mServerIP;
+	public WSProvider(String serverIp) {
+		this.mServerIP=serverIp;
+	}
+
+}

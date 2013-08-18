@@ -1,0 +1,45 @@
+import static org.junit.Assert.*;
+
+import java.io.UnsupportedEncodingException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.Test;
+
+import shaotian.android.iamsingle.netsdk.WSProvider;
+
+
+public class ProviderTest {
+
+	@Test
+	public void test_WSProvider_logon_sucess() throws JSONException, UnsupportedEncodingException  {
+		WSProvider p=new WSProvider("localhost");
+		int s=0;
+		
+			p.setAction(WSProvider.METHOD.POST,"/webservice/userauth.svc/logon");
+			JSONObject json=new JSONObject();
+			json.put("email", "");
+			json.put("password", "");
+			
+			JSONObject json2=p.getJSONFromResult("application/json",json);
+			s=(Integer) json2.get("userid");
+		
+		assertEquals(120,s);
+	}
+	
+	@Test
+	public void test_WSProvider_logon_fail() throws JSONException, UnsupportedEncodingException  {
+		WSProvider p=new WSProvider("localhost");
+		int s=0;
+		
+			p.setAction(WSProvider.METHOD.POST,"/webservice/userauth.svc/logon");
+			JSONObject json=new JSONObject();
+			json.put("email", "2");
+			json.put("password", "");
+			
+			JSONObject json2=p.getJSONFromResult("application/json",json);
+			s=(Integer) json2.get("userid");
+		
+		assertEquals(-1,s);
+	}
+}

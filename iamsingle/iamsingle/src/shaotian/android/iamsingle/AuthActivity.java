@@ -1,6 +1,9 @@
 package shaotian.android.iamsingle;
 
+import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.async.AsyncUserOp;
+import shaotian.android.iamsingle.netsdk.WSFactory;
+import shaotian.android.iamsingle.netsdk.WSProvider;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +23,9 @@ public class AuthActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
+		
+		WSFactory.Initialize(new WSProvider((String) SharedUtil.getConfig(String.class, "wsserverip", this)));
+		
 		context=this;
 		txt_email=(EditText) this.findViewById(R.id.email);
 		txt_pwd=(EditText) this.findViewById(R.id.pwd);

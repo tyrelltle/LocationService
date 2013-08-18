@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
+import shaotian.android.iamsingle.UIShared.TimedMarker;
 import shaotian.android.iamsingle.async.GetLocManager;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation.ServiceUpdateLocBinder;
@@ -79,7 +80,7 @@ public class MapActivity extends Activity implements LocChangeListener{
         initializeMap();
         context=this;
         handler=new Handler();
-        
+        MapMarkerManager.Initialize(TimedMarker.class);
         
         // Open Shared Preferences
         mPrefs = getSharedPreferences(SharedUtil.SHARED_PREFERENCES, Context.MODE_PRIVATE);

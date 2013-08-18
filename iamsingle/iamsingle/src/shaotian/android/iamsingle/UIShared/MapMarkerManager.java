@@ -1,6 +1,8 @@
 package shaotian.android.iamsingle.UIShared;
 
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-public class MapMarkerManager {
+public class MapMarkerManager<T extends TimedMarker> {
 
 	static private MapMarkerManager mInstance=null;
 	
@@ -22,30 +24,55 @@ public class MapMarkerManager {
 				//call finish()
 		
 	}
-	private HashMap<Integer, TimedMarker> a=new HashMap<Integer, TimedMarker>();
-	private HashMap<Integer, TimedMarker> b=new HashMap<Integer, TimedMarker>();
-	private HashMap<Integer, TimedMarker> keeplist=a;
-	private HashMap<Integer, TimedMarker> dellist=b;
+	private HashMap<Integer, T> a=new HashMap<Integer, T>();
+	private HashMap<Integer, T> b=new HashMap<Integer, T>();
+	private HashMap<Integer, T> keeplist=a;
+	private HashMap<Integer, T> dellist=b;
 	private STATE state=STATE.START;
 	private GoogleMap map=null;
+	private Class T_Class;
 	
-	
-	public static MapMarkerManager Instance()
+
+	public MapMarkerManager(Class timedMarkerClass) {
+		this.T_Class=timedMarkerClass;
+	}
+	public static <T extends TimedMarker>MapMarkerManager Initialize(Class TimedMarkerClass)
 	{
 		if(mInstance==null)
-			mInstance=new MapMarkerManager();
+			mInstance=new MapMarkerManager<T>(TimedMarkerClass);
 		return mInstance;
 		
 	}
 	
+	public static <T extends TimedMarker>MapMarkerManager Instance()
+	{
+		
+		return mInstance;
+		
+	}
+	public int size()
+	{return keeplist==null?0:keeplist.size();}
+	
+	public boolean containsWithoutState(int key) throws SharedUtil.MapMarkerInvalidStateException
+	{//this contains is not state sensitive. 
+		
+		return keeplist.containsKey(key);
+	}
 //-------------------------below are state sensitive methods-----------
-	public void start() throws MapMarkerInvalidStateException
+	public boolean contains(int key) throws SharedUtil.MapMarkerInvalidStateException
+	{
+		if(state!=STATE.ITERATE)
+			throw new SharedUtil.MapMarkerInvalidStateException("invalid mapMarker manager state: contains() only allow state of STATE.ITERATE");
+		return dellist.containsKey(key);
+	}
+	
+	public void start() throws SharedUtil.MapMarkerInvalidStateException
 			
 	{
 		if(state!=STATE.START)
-			throw new MapMarkerInvalidStateException("invalid mapMarker manager state: start() only allow state of STATE.START");
+			throw new SharedUtil.MapMarkerInvalidStateException("invalid mapMarker manager state: start() only allow state of STATE.START");
 		
-		HashMap<Integer, TimedMarker> tmp=dellist;
+		HashMap<Integer, T> tmp=dellist;
 		dellist=keeplist;
 		keeplist=tmp;
 		
@@ -54,32 +81,28 @@ public class MapMarkerManager {
 	}
 	
 	
-	public boolean contains(int key) throws MapMarkerInvalidStateException
-	{
-		if(state!=STATE.ITERATE)
-			throw new MapMarkerInvalidStateException("invalid mapMarker manager state: contains() only allow state of STATE.ITERATE");
-		return dellist.containsKey(key);
-	}
+
 	
-	public void addMarker(int key,Marker m) throws MapMarkerInvalidStateException	
+	public void addMarker(int key,Marker m) throws SharedUtil.MapMarkerInvalidStateException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException	
 	{
 		if(state!=STATE.ITERATE)
-			throw new MapMarkerInvalidStateException("invalid mapMarker manager state: addMarker() only allow state of STATE.ITERATE");
+			throw new SharedUtil.MapMarkerInvalidStateException("invalid mapMarker manager state: addMarker() only allow state of STATE.ITERATE");
 		
-		keeplist.put(key, new TimedMarker(m));
+		Constructor ctor=SharedUtil.getClassConstructor(this.T_Class, new Class[]{Marker.class});
+		keeplist.put(key, (T)ctor.newInstance(m));
 		
 
 				
 	}
 	
-	public void updateMarker(int key, LatLng loc) throws MapMarkerInvalidStateException
+	public void updateMarker(int key, LatLng loc) throws SharedUtil.MapMarkerInvalidStateException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
 	{
 		if(state!=STATE.ITERATE)
-			throw new MapMarkerInvalidStateException("invalid mapMarker manager state: updateMarker() only allow state of STATE.ITERATE");
-		TimedMarker m=dellist.remove(key);
+			throw new SharedUtil.MapMarkerInvalidStateException("invalid mapMarker manager state: updateMarker() only allow state of STATE.ITERATE");
+		T m=dellist.remove(key);
 		
 		Marker mkr=m.getMarker();
-		if(m!=null && !mkr.getPosition().equals(loc))
+		if(m!=null && mkr!=null&& mkr.getPosition().equals(loc))
 		{
 			mkr.setPosition(loc);
 			
@@ -89,20 +112,23 @@ public class MapMarkerManager {
 	}
 	
 
-	public void finish() throws MapMarkerInvalidStateException
+	public void finish() throws SharedUtil.MapMarkerInvalidStateException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
 	{//in dellist, update time stamp.  if exeeds predefined max idel time, delete!
 		if(state!=STATE.ITERATE)
-			throw new MapMarkerInvalidStateException("invalid mapMarker manager state: finish() only allow state of STATE.ITERATE");
+			throw new SharedUtil.MapMarkerInvalidStateException("invalid mapMarker manager state: finish() only allow state of STATE.ITERATE");
 
 		for(int i :dellist.keySet())
 		{
-			TimedMarker tmp=dellist.get(i);
-			tmp.startTime();
+			T tmp=dellist.get(i);
+			
 			if(tmp.timeout()){
-				tmp.getMarker().remove();
-				Log.d("****[deleting unvisited marker]", tmp.getMarker().getPosition().toString());
+				if(tmp.getMarker()!=null)
+				{	tmp.getMarker().remove();
+					Log.d("****[deleting unvisited marker]", tmp.getMarker().getPosition().toString());
+				}
 			}
 			else{
+				tmp.startTime();
 				keeplist.put(i, tmp);
 			}
 		}
@@ -129,61 +155,7 @@ public class MapMarkerManager {
 	}
 
 	
-	public class MapMarkerInvalidStateException extends Exception
-	{
-		private static final long serialVersionUID = 1L;
-		
-		public MapMarkerInvalidStateException(String message)
-		{
-			super(message);
-		}
-	}
+
 	
-	public class TimedMarker
-	{
-		public static final int MAX_IDLE_TIME=5000;
-		private Marker marker;
-		private Timestamp  time=null;
-		
-		public TimedMarker(Marker m)
-		{
-			marker=m;
-			
-		}
-		
-
-		
-		
-		public boolean isSame(Marker m) {
-			
-			
-			return this.marker.equals(m);
-		}
-
-
-
-		public void startTime()
-		{
-			if(time==null)
-				time=new Timestamp(new Date().getTime());
-		}
-		
-		public void clearTime()
-		{
-			time=null;
-		}
-		public Marker getMarker()
-		{
-			return marker;
-		}
-		
-		
-
-		public boolean timeout()
-		{
-			if(time==null)
-				return false;
-			return (new Date().getTime())-time.getTime()>=this.MAX_IDLE_TIME;
-		}
-	}
+	
 }

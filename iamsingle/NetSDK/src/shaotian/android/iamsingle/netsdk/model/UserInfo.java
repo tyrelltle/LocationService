@@ -6,7 +6,7 @@ import org.json.JSONObject;
 /*
  * user details when clicking on map markers
  * */
-public class UserInfo {
+public class UserInfo implements IModel{
 	public byte [] usericon=null;
 	public int uid;
 	public String username;

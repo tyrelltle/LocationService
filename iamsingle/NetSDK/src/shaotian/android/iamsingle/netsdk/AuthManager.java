@@ -15,64 +15,38 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import shaotian.android.iamsingle.netsdk.util.WSUtil;
-public class AuthManager {
+public class AuthManager extends WSManager{
 	
-    private String server=null;
-	public AuthManager(String server)
-	{
-		this.server=server;
+
+
+	
+	public AuthManager(IWSProvider wsProvider) {
+		super(wsProvider);
 	}
-	
+
 	public JSONObject register(String email,String pwd) throws UnsupportedEncodingException, JSONException
 	{
 		
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpContext localContext = new BasicHttpContext();
-		HttpPut httpPut = new HttpPut("http://"+server+ "/webservice/userauth.svc/register");
-		//get
+		this.mWsProvider.setAction(WSProvider.METHOD.PUT, "/webservice/userauth.svc/register");
+		
 		JSONObject json=new JSONObject();
 		json.put("email", email);
 		json.put("password", pwd);
-		StringEntity input = new StringEntity(json.toString());
-		input.setContentType("application/json");
-		httpPut.setEntity(input);
-		String text = null;
-		try {
-		HttpResponse response = httpClient.execute(httpPut, localContext);
-		HttpEntity entity = response.getEntity();
-		text = WSUtil.getContentFromEntity(entity);
-		return new JSONObject(text);
-		} catch (Exception e) {
-			System.out.print(e.getMessage());
-		}
-		
-		return null;
+		this.mWsProvider.setJSONContent(json);
+		return this.mWsProvider.getJSONFromResult();
 		
 	}
 	
 	public JSONObject logon(String email,String pwd) throws UnsupportedEncodingException, JSONException
 	{
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpContext localContext = new BasicHttpContext();
-		HttpPost httpPost = new HttpPost("http://"+server+ "/webservice/userauth.svc/logon");
+		
+		this.mWsProvider.setAction(WSProvider.METHOD.POST, "/webservice/userauth.svc/logon");
 		
 		JSONObject json=new JSONObject();
 		json.put("email", email);
 		json.put("password", pwd);
-		StringEntity input = new StringEntity(json.toString());
-		input.setContentType("application/json");
-		httpPost.setEntity(input);
-		String text = null;
-		try {
-		HttpResponse response = httpClient.execute(httpPost, localContext);
-		HttpEntity entity = response.getEntity();
-		text = WSUtil.getContentFromEntity(entity);
-		return new JSONObject(text);
-		} catch (Exception e) {
-			System.out.print(e.getMessage());
-		}
-		
-		return null;
-		
+		this.mWsProvider.setJSONContent(json);
+		return this.mWsProvider.getJSONFromResult();
+
 	}
 }

@@ -1,0 +1,141 @@
+package shaotian.android.iamsingle.test;
+
+import static org.junit.Assert.*;
+
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import shaotian.android.iamsingle.UIShared.MapMarkerManager;
+import shaotian.android.iamsingle.UIShared.MapMarkerManager.MapMarkerInvalidStateException;
+import shaotian.android.iamsingle.UIShared.MapMarkerManager.TimedMarker;
+import shaotian.android.iamsingle.netsdk.model.Location;
+import shaotian.android.iamsingle.netsdk.util.LocationList;
+import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class TimedMarkerManagerTest {
+
+	private LocationList loclis;
+	
+	private class TimedMarkerStub extends TimedMarker	
+	{
+
+		public TimedMarkerStub(MapMarkerManager mapMarkerManager, Marker m) {
+			mapMarkerManager.super(m);
+		}
+
+		@Override
+		public boolean timeout() {
+			if(super.time==null)
+				return false;
+			return (new Date().getTime())-time.getTime()>0;
+		}
+		
+	
+	
+	}
+	
+/*
+ * initialize: put 4 markers into mgr
+ * test: update 2 markers. see iff other  markers still exist
+ * 
+ * 
+ * 
+ * */
+	
+	@Before
+	public void init()
+	{
+		this.loclis=new LocationList();
+		for(int i=0;i<4;i++)
+		{
+			loclis.lis.add(new Location(i, i, i));
+			
+		}
+	}
+	
+	
+	@Test
+	public void testMarkerMgrStates_Fail(){
+		MapMarkerManager mgn=MapMarkerManager.Instance();
+		boolean haserror=false;
+		try {
+			mgn.finish();
+			mgn.start();
+
+		} catch (MapMarkerInvalidStateException e) {
+			haserror=true;
+		}
+		assertTrue(haserror);
+		
+		
+		
+		haserror=false;
+		try {
+			
+			mgn.updateMarker(0, null);
+
+		} catch (MapMarkerInvalidStateException e) {
+			haserror=true;
+		}
+		assertTrue(haserror);
+		
+		haserror=false;
+		
+			
+		try {
+			mgn.addMarker(0, null);
+		} catch (MapMarkerInvalidStateException e) {
+			// TODO Auto-generated catch block
+			haserror=true;
+		}
+
+		assertTrue(haserror);
+		
+	}
+	
+	/*
+	@Test
+	public void test() {
+		try{
+			MapMarkerManager mgn=MapMarkerManager.Instance();
+
+			mgn.start();
+			for(int i=0;i<lis.size();i++)
+			{
+				shaotian.android.iamsingle.netsdk.model.Location loc=lis.lis.get(i);
+				
+			    int uid=loc.userid;
+			    Marker m=null;
+			    
+			    if(!mgn.contains(uid))
+				{	
+			    	m=mMap.addMarker(new MarkerOptions()
+				        		.position(new LatLng(loc.latitude, loc.longtitude))
+				        		.title(loc.uname));
+			    	
+			    	setMarkerGender(loc.gender,m);
+			    	mgn.addMarker(uid, m);
+				}
+			    else
+			    {	//only update changed location
+			    	LatLng newlatlng=new LatLng(loc.latitude, loc.longtitude);
+			    	mgn.updateMarker(uid, newlatlng);
+			    	
+			    	
+			    }
+			}
+			mgn.finish();
+			Log.d("app log", "end update marker loop");
+
+		}catch(MapMarkerInvalidStateException e)
+		{
+		}
+	}
+*/
+}

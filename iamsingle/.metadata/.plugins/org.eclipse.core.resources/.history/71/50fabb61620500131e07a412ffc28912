@@ -1,0 +1,76 @@
+import static org.junit.Assert.*;
+
+import java.io.UnsupportedEncodingException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.Test;
+
+import shaotian.android.iamsingle.netsdk.AuthManager;
+import shaotian.android.iamsingle.netsdk.IWSProvider;
+import shaotian.android.iamsingle.netsdk.WSManager;
+import shaotian.android.iamsingle.netsdk.WSProvider;
+import shaotian.android.iamsingle.netsdk.WSProvider.METHOD;
+
+
+public class WSManagerTest {
+
+	
+	/*
+	 * used to test various WSManager impl clases. 
+	 * 
+	 * return json should have syntax:
+	 * 
+	 * {actiontype:?,  actionurl:?, serverip:?, inputjson:{?}}
+	 * 
+	 * */
+	
+	private class WSProviderMock extends WSProvider
+	{
+	
+		JSONObject inputjson;
+		
+		@Override
+		public void setJSONContent(JSONObject json)
+				throws UnsupportedEncodingException {
+			inputjson=new JSONObject(json);
+		}
+
+		public WSProviderMock(String serverIp) {
+			super(serverIp);
+			
+		}
+
+		@Override
+		public void setAction(METHOD post, String string) {
+			
+			this.mServerIP=string;
+			this.mMethodType=post;
+			
+		}
+
+		@Override
+		public JSONObject getJSONFromResult()
+				throws UnsupportedEncodingException {
+			JSONObject json=new JSONObject();
+			try {
+				json.put("actiontype", this.mMethodType.toString());
+				json.put("actionurl", this.mAction);
+				json.put("server ip", this.mServerIP);
+			} catch (JSONException e) {
+				return null;
+			}
+			
+			return json;
+		}
+		
+	}
+	@Test
+	public void WSAuthManagerTest() {
+		
+		AuthManager mgr=new AuthManager(new WSProviderMock("localhost"));
+	    mgr.register(", pwd)
+		
+	}
+
+}

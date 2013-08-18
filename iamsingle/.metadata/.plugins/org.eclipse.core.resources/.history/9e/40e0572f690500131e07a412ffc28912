@@ -1,0 +1,27 @@
+package shaotian.android.iamsingle.netsdk;
+
+public class WSFactory {
+
+	private static WSFactory instance;
+	private IWSProvider provider;
+	
+	private WSFactory(IWSProvider provider)
+	{
+		this.provider=provider;
+	}
+	public static WSFactory Initialize(IWSProvider provider)
+	{
+		if(instance==null)
+		{
+			instance=new WSFactory(provider);
+		}
+		return instance;
+	}
+	
+	public static WSFactory Instance() {
+	
+		return instance;
+	}
+
+	
+}

@@ -1,2 +1,12 @@
 1376251245102	Delete element
 1376456519705	Delete element
+1376457755919	Rename type 'CommunicatorFactoryTest'
+1376457841448	Rename type 'NETFactoryTest'
+1376459267841	Rename type 'NETLocationManagerTest'
+1376459614660	Rename compilation unit 'WSManagerTest.java'
+1376461835948	Move package
+1376535913624	Copy file
+1376537413003	Delete element
+1376537439536	Copy package
+1376537458504	Delete elements
+1376537934773	Rename type 'IWSManager'

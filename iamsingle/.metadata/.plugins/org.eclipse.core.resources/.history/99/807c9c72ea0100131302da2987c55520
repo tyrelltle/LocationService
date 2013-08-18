@@ -1,9 +1,0 @@
-package shaotian.android.iamsingle;
-
-import android.widget.ImageView;
-import android.widget.TextView;
-
-public interface IUserInfoContainer {
-	TextView txt_username;
-	ImageView img_usericon;
-}

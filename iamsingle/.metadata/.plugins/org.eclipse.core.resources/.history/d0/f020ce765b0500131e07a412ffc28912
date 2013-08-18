@@ -1,0 +1,13 @@
+package shaotian.android.iamsingle.netsdk;
+
+import org.json.JSONObject;
+
+import shaotian.android.iamsingle.netsdk.WSProvider.METHOD;
+
+public interface IWSProvider {
+
+	void setAction(METHOD post, String string);
+
+	JSONObject getJSONFromResult(String string, JSONObject json);
+
+}

@@ -1,0 +1,32 @@
+
+
+import org.json.JSONObject;
+import org.junit.Test;
+
+import shaotian.android.iamsingle.netsdk.WSProvider;
+
+import junit.framework.TestCase;
+
+public class WSProviderTest extends TestCase {
+
+	@Test
+	public void test_WSProvider_logon()  {
+		WSProvider p=new WSProvider("localhost");
+		String s="";
+		try{
+			p.setAction(WSProvider.METHOD.POST,"/webservice/userauth.svc/logon");
+			JSONObject json=new JSONObject();
+			json.put("email", "1");
+			json.put("password", "");
+			
+			JSONObject json2=p.getJSONFromResult("application/json",json);
+			s=(String)json2.get("userid");
+		}
+		catch(Exception e)
+		{}
+		assertEquals("-1",s);
+	}
+
+
+
+}

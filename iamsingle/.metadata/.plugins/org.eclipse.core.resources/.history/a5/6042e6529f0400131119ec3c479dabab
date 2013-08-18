@@ -1,7 +1,0 @@
-package shaotian.android.iamsingle.netsdk.test;
-
-import junit.framework.TestCase;
-
-public class CommunicatorFactoryTest extends TestCase {
-
-}

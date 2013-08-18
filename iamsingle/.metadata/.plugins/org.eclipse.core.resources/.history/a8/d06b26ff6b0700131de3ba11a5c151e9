@@ -1,0 +1,54 @@
+package shaotian.android.iamsingle.netsdk;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import shaotian.android.iamsingle.netsdk.model.UserInfo;
+
+
+public class WSFactory {
+
+	private static WSFactory instance;
+	private IWSProvider provider;
+	
+	private WSFactory(IWSProvider provider)
+	{
+		this.provider=provider;
+	}
+	public static WSFactory Initialize(IWSProvider provider)
+	{
+		instance=new WSFactory(provider);
+		
+		return instance;
+	}
+	
+	public static WSFactory Instance() {
+	
+		return instance;
+	}
+	
+	
+	//-----------factory methods--------------
+	public JSONObject RegisterUser(String username, String password) throws UnsupportedEncodingException, JSONException {
+		AuthManager mgr=new AuthManager(this.provider);
+	    return mgr.register("username", "password");
+	}
+	public JSONObject LogonUser(String string, String string2) throws UnsupportedEncodingException, JSONException {
+		AuthManager mgr=new AuthManager(this.provider);
+	    return mgr.logon("username", "password");
+	}
+	public UserInfo GetUserInfo(int i) throws Exception {
+		UserProfileManager mgr=new UserProfileManager(this.provider);
+		return mgr.getUserInfo(i);
+	}
+	public byte[] GetUserIcon(int i) throws ClientProtocolException, IOException {
+		UserProfileManager mgr=new UserProfileManager(this.provider);
+		return mgr.GetUserImage(i);
+	}
+
+	
+}

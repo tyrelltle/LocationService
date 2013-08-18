@@ -1,7 +1,0 @@
-package shaotian.android.iamsingle.ws;
-
-public interface IWsCommunicator {
-
-	
-	
-}
