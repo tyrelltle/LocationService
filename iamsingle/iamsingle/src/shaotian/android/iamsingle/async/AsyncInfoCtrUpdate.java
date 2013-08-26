@@ -10,15 +10,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import shaotian.android.iamsingle.IInfoContainer;
 import shaotian.android.iamsingle.MapActivity;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
-import shaotian.android.iamsingle.netsdk.AuthManager;
-import shaotian.android.iamsingle.netsdk.LocationCommunicator;
-import shaotian.android.iamsingle.netsdk.UserProfileManager;
-import shaotian.android.iamsingle.netsdk.WSFactory;
-import shaotian.android.iamsingle.netsdk.WSManager;
-import shaotian.android.iamsingle.netsdk.WSFactory.Methods;
+
 import shaotian.android.iamsingle.netsdk.model.IModel;
 import shaotian.android.iamsingle.netsdk.model.UserInfo;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
+import shaotian.android.iamsingle.wssdk.WSFactory;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;

@@ -1,0 +1,63 @@
+package shaotian.android.iamsingle.netsdk.model;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Iterator;
+
+public class MessageHistory implements IModel{
+
+
+	private ArrayList<Message> stack = new ArrayList<Message>();
+	
+	public MessageHistory(){}
+	
+	public int getSize(){return stack.size();}
+
+	public void addMessage(Message msg) {
+		stack.add(msg);
+	}
+
+	public Message getMessage(int i) {
+		
+		return stack.get(i);
+	}
+	
+	
+
+	public MessageIterator getIterator() {
+		return new MessageIterator(stack);
+		
+	}
+
+	public void remove(int i) {
+		this.stack.remove(i);
+	}
+	
+	public static class MessageIterator implements Iterator{
+
+		private ArrayList<Message> mStack;
+		private int index=0;
+		public MessageIterator(ArrayList<Message> stack) {
+			mStack=stack;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return index<mStack.size();
+		}
+
+		@Override
+		public Message next() {
+			return mStack.get(index++);
+		}
+
+		@Override
+		public void remove() {
+			mStack.remove(index);
+		}
+		
+		
+		
+	}
+}

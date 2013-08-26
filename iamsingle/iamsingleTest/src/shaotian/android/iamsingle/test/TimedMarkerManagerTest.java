@@ -150,7 +150,7 @@ public class TimedMarkerManagerTest  extends TestCase{
 			}
 			
 			//makesure exipred markers are deleted
-			assertTrue(mgn.size()==loclis.size());
+			assertEquals(mgn.size(),loclis.size());
 			assertTrue(mgn.containsWithoutState(2)&&mgn.containsWithoutState(3));
 			assertTrue(!mgn.containsWithoutState(0)&&!mgn.containsWithoutState(1));
 		

@@ -8,13 +8,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import shaotian.android.iamsingle.netsdk.AuthManager;
-import shaotian.android.iamsingle.netsdk.UserProfileManager;
-import shaotian.android.iamsingle.netsdk.WSFactory;
-import shaotian.android.iamsingle.netsdk.WSFactory.Methods;
-import shaotian.android.iamsingle.netsdk.WSManager;
-import shaotian.android.iamsingle.netsdk.WSProvider;
+
 import shaotian.android.iamsingle.netsdk.model.UserInfo;
+import shaotian.android.iamsingle.wssdk.AuthManager;
+import shaotian.android.iamsingle.wssdk.UserProfileManager;
+import shaotian.android.iamsingle.wssdk.WSFactory;
+import shaotian.android.iamsingle.wssdk.WSManager;
+import shaotian.android.iamsingle.wssdk.WSProvider;
+import shaotian.android.iamsingle.wssdk.WSFactory.Methods;
 
 
 public class WSManagerTest {

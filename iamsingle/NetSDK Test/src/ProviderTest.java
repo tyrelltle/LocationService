@@ -6,8 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import shaotian.android.iamsingle.netsdk.IWSProvider;
-import shaotian.android.iamsingle.netsdk.WSProvider;
+import shaotian.android.iamsingle.wssdk.IWSProvider;
+import shaotian.android.iamsingle.wssdk.WSProvider;
 
 
 public class ProviderTest {

@@ -19,7 +19,7 @@ public class TimedMarkerStub extends TimedMarker
 	public boolean timeout() {
 		if(super.time==null)
 			return false;
-		return (new Date().getTime())-time.getTime()>0;
+		return (new Date().getTime())>time.getTime();
 	}
 	
 

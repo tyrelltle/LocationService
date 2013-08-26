@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 
 import com.google.android.gms.maps.model.Marker;
 
-import shaotian.android.iamsingle.netsdk.LocationCommunicator;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -63,22 +62,7 @@ public final class SharedUtil {
 		}
 		
     }
-	public static Constructor getClassConstructor(Class T,Class[] parameters)
-	{
-		Constructor [] ctors=T.getConstructors();
-		for(Constructor c:ctors)
-		{
-			Class [] ts=c.getParameterTypes();
-			if(ts.length==parameters.length)
-			{
-				for(int i =0;i<ts.length;i++)
-					if(!ts[i].equals(parameters[i]))
-							return null;
-				return c;
-			}
-		}
-		return null;
-	}	
+	
 	
 	
 }

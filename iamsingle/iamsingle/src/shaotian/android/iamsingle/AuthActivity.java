@@ -2,8 +2,9 @@ package shaotian.android.iamsingle;
 
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.async.AsyncUserOp;
-import shaotian.android.iamsingle.netsdk.WSFactory;
-import shaotian.android.iamsingle.netsdk.WSProvider;
+import shaotian.android.iamsingle.wssdk.WSFactory;
+import shaotian.android.iamsingle.wssdk.WSProvider;
+
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;

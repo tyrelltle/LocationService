@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 
+import shaotian.android.iamsingle.netsdk.util.Helpers;
+
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -88,7 +90,7 @@ public class MapMarkerManager<T extends TimedMarker> {
 		if(state!=STATE.ITERATE)
 			throw new SharedUtil.MapMarkerInvalidStateException("invalid mapMarker manager state: addMarker() only allow state of STATE.ITERATE");
 		
-		Constructor ctor=SharedUtil.getClassConstructor(this.T_Class, new Class[]{Marker.class});
+		Constructor ctor=Helpers.getClassConstructor(this.T_Class, new Class[]{Marker.class});
 		keeplist.put(key, (T)ctor.newInstance(m));
 		
 

@@ -10,7 +10,7 @@
  * ......
 
 */
-using SocketServer.Param;
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -30,16 +30,16 @@ namespace SocketServer.ProxyHandlers
 
 
             
-            Parameter param = base.param;
+            SocketServer.Server.Server.Parameter param = (SocketServer.Server.Server.Parameter) base.param;
             byte[] response = null;
             IPEndPoint client = new IPEndPoint(param.clientip, param.clientport);
-            string[] vals = base.param.input.Split('_');
+            string[] vals = param.input.Split('_');
             
 
             if (vals.Length != 4)
             {                
                 //input ill formated
-                Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.altitude.latitude.longtitude'");
+                Console.Out.Write("Wrong input format " + param.input + ". correct is 'loc userid.altitude.latitude.longtitude'");
                 return;
                 
             }
@@ -90,7 +90,7 @@ namespace SocketServer.ProxyHandlers
 
 
 
-            Console.Out.Write("ok");
+           
 
          }
 
@@ -115,6 +115,10 @@ namespace SocketServer.ProxyHandlers
         public override String getHandlerType()
         {
             return Constants.PROXY_LOC;
+        }
+        public override bool autoCloseClient()
+        {
+            throw new NotImplementedException();
         }
     }
 }

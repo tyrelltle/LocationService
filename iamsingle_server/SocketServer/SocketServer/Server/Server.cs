@@ -1,5 +1,9 @@
 ﻿/*
- proxy input formate: 
+ 
+ * 
+ * UDP End Point
+ * 
+ * proxy input formate: 
  * 
  * client:  [proxytype] [inputs]   split with single space
 
@@ -16,13 +20,26 @@ using System.Text;
 using System.Threading;
 using SocketServer.ProxyHandlers;
 using System.Configuration;
-using SocketServer.Param;
+
 namespace SocketServer.Server
 {
    
-    public class Server
+    public class Server:IServer
     {
-
+        public struct Parameter
+        {
+            public string input;
+            public UdpClient server;
+            public IPAddress clientip;
+            public int clientport;
+            public Parameter(string i, ref UdpClient s, IPAddress ci, int cp)
+            {
+                input = i;
+                server = s;
+                clientip = ci;
+                clientport = cp;
+            }
+        }
         // Thread signal.
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
@@ -31,7 +48,7 @@ namespace SocketServer.Server
         }
 
 
-        static  void  handleInput(object input)
+        public  void  handleInput(object input)
         {
 
             Parameter param = (Parameter)input;
@@ -64,12 +81,19 @@ namespace SocketServer.Server
 
             while (true)
             {
-                data = server.Receive(ref sender);
-                string stringData = Encoding.ASCII.GetString(data, 0, data.Length);
-                Thread t=new Thread(handleInput);
-                t.Start(new Parameter(stringData, ref server, sender.Address, sender.Port));
-                Console.WriteLine(stringData);
-                Array.Clear(data,0,data.Length);
+                try
+                {
+                    data = server.Receive(ref sender);
+                    string stringData = Encoding.ASCII.GetString(data, 0, data.Length);
+                    Thread t = new Thread(handleInput);
+                    t.Start(new Parameter(stringData, ref server, sender.Address, sender.Port));
+                    Console.WriteLine(stringData);
+                    Array.Clear(data, 0, data.Length);
+                }
+                catch (Exception e)
+                {
+                    Console.Out.WriteLine(e.Message);
+                }
             }
             server.Close();
 

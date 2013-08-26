@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.Marker;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.UIShared.TimedMarker;
+import shaotian.android.iamsingle.netsdk.util.Helpers;
 
 public class UtilsTest extends TestCase{
 
@@ -25,7 +26,7 @@ public class UtilsTest extends TestCase{
 	
 	public void testReflectCtor2() throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
-		Constructor c=SharedUtil.getClassConstructor(TimedMarker.class, new Class[]{});
+		Constructor c=Helpers.getClassConstructor(TimedMarker.class, new Class[]{});
 		TimedMarker inst=(TimedMarker) c.newInstance();
 		assertTrue(inst!=null);
 	}

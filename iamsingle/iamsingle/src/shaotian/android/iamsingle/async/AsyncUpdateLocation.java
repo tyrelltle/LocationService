@@ -3,7 +3,8 @@ package shaotian.android.iamsingle.async;
 
 
 import shaotian.android.iamsingle.UIShared.SharedUtil;
-import shaotian.android.iamsingle.netsdk.LocationCommunicator;
+import shaotian.android.iamsingle.wssdk.LocationCommunicator;
+
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;

@@ -30,12 +30,15 @@ namespace SocketServer
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
     partial void InsertLocation(Location instance);
     partial void UpdateLocation(Location instance);
     partial void DeleteLocation(Location instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
+    partial void InsertMessage(Message instance);
+    partial void UpdateMessage(Message instance);
+    partial void DeleteMessage(Message instance);
     #endregion
 		
 		public LINQClassesDataContext() : 
@@ -68,14 +71,6 @@ namespace SocketServer
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<User> Users
-		{
-			get
-			{
-				return this.GetTable<User>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Location> Locations
 		{
 			get
@@ -84,289 +79,27 @@ namespace SocketServer
 			}
 		}
 		
+		public System.Data.Linq.Table<User> Users
+		{
+			get
+			{
+				return this.GetTable<User>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Message> Messages
+		{
+			get
+			{
+				return this.GetTable<Message>();
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InBoundBox")]
 		public ISingleResult<InBoundBoxResult> InBoundBox([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> northEastLat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> northEastLng, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> southWestLat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Float")] System.Nullable<double> southWestLng)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), northEastLat, northEastLng, southWestLat, southWestLng);
 			return ((ISingleResult<InBoundBoxResult>)(result.ReturnValue));
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _userid;
-		
-		private string _username;
-		
-		private string _email;
-		
-		private System.Nullable<int> _locationId;
-		
-		private string _ip;
-		
-		private string _password;
-		
-		private System.Data.Linq.Binary _icon;
-		
-		private string _hobby;
-		
-		private string _desc;
-		
-		private string _gender;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnuseridChanging(int value);
-    partial void OnuseridChanged();
-    partial void OnusernameChanging(string value);
-    partial void OnusernameChanged();
-    partial void OnemailChanging(string value);
-    partial void OnemailChanged();
-    partial void OnlocationIdChanging(System.Nullable<int> value);
-    partial void OnlocationIdChanged();
-    partial void OnipChanging(string value);
-    partial void OnipChanged();
-    partial void OnpasswordChanging(string value);
-    partial void OnpasswordChanged();
-    partial void OniconChanging(System.Data.Linq.Binary value);
-    partial void OniconChanged();
-    partial void OnhobbyChanging(string value);
-    partial void OnhobbyChanged();
-    partial void OndescChanging(string value);
-    partial void OndescChanged();
-    partial void OngenderChanging(string value);
-    partial void OngenderChanged();
-    #endregion
-		
-		public User()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int userid
-		{
-			get
-			{
-				return this._userid;
-			}
-			set
-			{
-				if ((this._userid != value))
-				{
-					this.OnuseridChanging(value);
-					this.SendPropertyChanging();
-					this._userid = value;
-					this.SendPropertyChanged("userid");
-					this.OnuseridChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(MAX)")]
-		public string username
-		{
-			get
-			{
-				return this._username;
-			}
-			set
-			{
-				if ((this._username != value))
-				{
-					this.OnusernameChanging(value);
-					this.SendPropertyChanging();
-					this._username = value;
-					this.SendPropertyChanged("username");
-					this.OnusernameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(MAX)")]
-		public string email
-		{
-			get
-			{
-				return this._email;
-			}
-			set
-			{
-				if ((this._email != value))
-				{
-					this.OnemailChanging(value);
-					this.SendPropertyChanging();
-					this._email = value;
-					this.SendPropertyChanged("email");
-					this.OnemailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", DbType="Int")]
-		public System.Nullable<int> locationId
-		{
-			get
-			{
-				return this._locationId;
-			}
-			set
-			{
-				if ((this._locationId != value))
-				{
-					this.OnlocationIdChanging(value);
-					this.SendPropertyChanging();
-					this._locationId = value;
-					this.SendPropertyChanged("locationId");
-					this.OnlocationIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ip", DbType="VarChar(MAX)")]
-		public string ip
-		{
-			get
-			{
-				return this._ip;
-			}
-			set
-			{
-				if ((this._ip != value))
-				{
-					this.OnipChanging(value);
-					this.SendPropertyChanging();
-					this._ip = value;
-					this.SendPropertyChanged("ip");
-					this.OnipChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="NVarChar(MAX)")]
-		public string password
-		{
-			get
-			{
-				return this._password;
-			}
-			set
-			{
-				if ((this._password != value))
-				{
-					this.OnpasswordChanging(value);
-					this.SendPropertyChanging();
-					this._password = value;
-					this.SendPropertyChanged("password");
-					this.OnpasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_icon", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary icon
-		{
-			get
-			{
-				return this._icon;
-			}
-			set
-			{
-				if ((this._icon != value))
-				{
-					this.OniconChanging(value);
-					this.SendPropertyChanging();
-					this._icon = value;
-					this.SendPropertyChanged("icon");
-					this.OniconChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hobby", DbType="VarChar(MAX)")]
-		public string hobby
-		{
-			get
-			{
-				return this._hobby;
-			}
-			set
-			{
-				if ((this._hobby != value))
-				{
-					this.OnhobbyChanging(value);
-					this.SendPropertyChanging();
-					this._hobby = value;
-					this.SendPropertyChanged("hobby");
-					this.OnhobbyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[desc]", Storage="_desc", DbType="VarChar(MAX)")]
-		public string desc
-		{
-			get
-			{
-				return this._desc;
-			}
-			set
-			{
-				if ((this._desc != value))
-				{
-					this.OndescChanging(value);
-					this.SendPropertyChanging();
-					this._desc = value;
-					this.SendPropertyChanged("desc");
-					this.OndescChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gender", DbType="Char(10)")]
-		public string gender
-		{
-			get
-			{
-				return this._gender;
-			}
-			set
-			{
-				if ((this._gender != value))
-				{
-					this.OngenderChanging(value);
-					this.SendPropertyChanging();
-					this._gender = value;
-					this.SendPropertyChanged("gender");
-					this.OngenderChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -527,6 +260,596 @@ namespace SocketServer
 					this._lastupdate = value;
 					this.SendPropertyChanged("lastupdate");
 					this.OnlastupdateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _userid;
+		
+		private string _username;
+		
+		private string _email;
+		
+		private System.Nullable<int> _locationId;
+		
+		private System.Nullable<int> _port;
+		
+		private string _ip;
+		
+		private string _password;
+		
+		private System.Data.Linq.Binary _icon;
+		
+		private string _hobby;
+		
+		private string _desc;
+		
+		private string _gender;
+		
+		private EntitySet<Message> _Messages;
+		
+		private EntitySet<Message> _Messages1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnuseridChanging(int value);
+    partial void OnuseridChanged();
+    partial void OnusernameChanging(string value);
+    partial void OnusernameChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
+    partial void OnlocationIdChanging(System.Nullable<int> value);
+    partial void OnlocationIdChanged();
+    partial void OnportChanging(System.Nullable<int> value);
+    partial void OnportChanged();
+    partial void OnipChanging(string value);
+    partial void OnipChanged();
+    partial void OnpasswordChanging(string value);
+    partial void OnpasswordChanged();
+    partial void OniconChanging(System.Data.Linq.Binary value);
+    partial void OniconChanged();
+    partial void OnhobbyChanging(string value);
+    partial void OnhobbyChanged();
+    partial void OndescChanging(string value);
+    partial void OndescChanged();
+    partial void OngenderChanging(string value);
+    partial void OngenderChanged();
+    #endregion
+		
+		public User()
+		{
+			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
+			this._Messages1 = new EntitySet<Message>(new Action<Message>(this.attach_Messages1), new Action<Message>(this.detach_Messages1));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int userid
+		{
+			get
+			{
+				return this._userid;
+			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					this.OnuseridChanging(value);
+					this.SendPropertyChanging();
+					this._userid = value;
+					this.SendPropertyChanged("userid");
+					this.OnuseridChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(MAX)")]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this.OnusernameChanging(value);
+					this.SendPropertyChanging();
+					this._username = value;
+					this.SendPropertyChanged("username");
+					this.OnusernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(MAX)")]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this.OnemailChanging(value);
+					this.SendPropertyChanging();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_locationId", DbType="Int")]
+		public System.Nullable<int> locationId
+		{
+			get
+			{
+				return this._locationId;
+			}
+			set
+			{
+				if ((this._locationId != value))
+				{
+					this.OnlocationIdChanging(value);
+					this.SendPropertyChanging();
+					this._locationId = value;
+					this.SendPropertyChanged("locationId");
+					this.OnlocationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_port", DbType="Int")]
+		public System.Nullable<int> port
+		{
+			get
+			{
+				return this._port;
+			}
+			set
+			{
+				if ((this._port != value))
+				{
+					this.OnportChanging(value);
+					this.SendPropertyChanging();
+					this._port = value;
+					this.SendPropertyChanged("port");
+					this.OnportChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ip", DbType="VarChar(MAX)")]
+		public string ip
+		{
+			get
+			{
+				return this._ip;
+			}
+			set
+			{
+				if ((this._ip != value))
+				{
+					this.OnipChanging(value);
+					this.SendPropertyChanging();
+					this._ip = value;
+					this.SendPropertyChanged("ip");
+					this.OnipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="NVarChar(MAX)")]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this.OnpasswordChanging(value);
+					this.SendPropertyChanging();
+					this._password = value;
+					this.SendPropertyChanged("password");
+					this.OnpasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_icon", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary icon
+		{
+			get
+			{
+				return this._icon;
+			}
+			set
+			{
+				if ((this._icon != value))
+				{
+					this.OniconChanging(value);
+					this.SendPropertyChanging();
+					this._icon = value;
+					this.SendPropertyChanged("icon");
+					this.OniconChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hobby", DbType="VarChar(MAX)")]
+		public string hobby
+		{
+			get
+			{
+				return this._hobby;
+			}
+			set
+			{
+				if ((this._hobby != value))
+				{
+					this.OnhobbyChanging(value);
+					this.SendPropertyChanging();
+					this._hobby = value;
+					this.SendPropertyChanged("hobby");
+					this.OnhobbyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[desc]", Storage="_desc", DbType="VarChar(MAX)")]
+		public string desc
+		{
+			get
+			{
+				return this._desc;
+			}
+			set
+			{
+				if ((this._desc != value))
+				{
+					this.OndescChanging(value);
+					this.SendPropertyChanging();
+					this._desc = value;
+					this.SendPropertyChanged("desc");
+					this.OndescChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gender", DbType="VarChar(MAX)")]
+		public string gender
+		{
+			get
+			{
+				return this._gender;
+			}
+			set
+			{
+				if ((this._gender != value))
+				{
+					this.OngenderChanging(value);
+					this.SendPropertyChanging();
+					this._gender = value;
+					this.SendPropertyChanged("gender");
+					this.OngenderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_Messages", ThisKey="userid", OtherKey="from")]
+		public EntitySet<Message> Messages
+		{
+			get
+			{
+				return this._Messages;
+			}
+			set
+			{
+				this._Messages.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_Messages1", ThisKey="userid", OtherKey="to")]
+		public EntitySet<Message> Messages1
+		{
+			get
+			{
+				return this._Messages1;
+			}
+			set
+			{
+				this._Messages1.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Messages1(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = this;
+		}
+		
+		private void detach_Messages1(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.User1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Message")]
+	public partial class Message : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _msgid;
+		
+		private int _from;
+		
+		private int _to;
+		
+		private System.DateTime _time;
+		
+		private string _msg;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<User> _User1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnmsgidChanging(int value);
+    partial void OnmsgidChanged();
+    partial void OnfromChanging(int value);
+    partial void OnfromChanged();
+    partial void OntoChanging(int value);
+    partial void OntoChanged();
+    partial void OntimeChanging(System.DateTime value);
+    partial void OntimeChanged();
+    partial void OnmsgChanging(string value);
+    partial void OnmsgChanged();
+    #endregion
+		
+		public Message()
+		{
+			this._User = default(EntityRef<User>);
+			this._User1 = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msgid", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int msgid
+		{
+			get
+			{
+				return this._msgid;
+			}
+			set
+			{
+				if ((this._msgid != value))
+				{
+					this.OnmsgidChanging(value);
+					this.SendPropertyChanging();
+					this._msgid = value;
+					this.SendPropertyChanged("msgid");
+					this.OnmsgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[from]", Storage="_from", DbType="Int NOT NULL")]
+		public int from
+		{
+			get
+			{
+				return this._from;
+			}
+			set
+			{
+				if ((this._from != value))
+				{
+					this.OnfromChanging(value);
+					this.SendPropertyChanging();
+					this._from = value;
+					this.SendPropertyChanged("from");
+					this.OnfromChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[to]", Storage="_to", DbType="Int NOT NULL")]
+		public int to
+		{
+			get
+			{
+				return this._to;
+			}
+			set
+			{
+				if ((this._to != value))
+				{
+					this.OntoChanging(value);
+					this.SendPropertyChanging();
+					this._to = value;
+					this.SendPropertyChanged("to");
+					this.OntoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_time", DbType="DateTime NOT NULL")]
+		public System.DateTime time
+		{
+			get
+			{
+				return this._time;
+			}
+			set
+			{
+				if ((this._time != value))
+				{
+					this.OntimeChanging(value);
+					this.SendPropertyChanging();
+					this._time = value;
+					this.SendPropertyChanged("time");
+					this.OntimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string msg
+		{
+			get
+			{
+				return this._msg;
+			}
+			set
+			{
+				if ((this._msg != value))
+				{
+					this.OnmsgChanging(value);
+					this.SendPropertyChanging();
+					this._msg = value;
+					this.SendPropertyChanged("msg");
+					this.OnmsgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_User", ThisKey="from", OtherKey="userid", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Messages.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Messages.Add(this);
+						this._from = value.userid;
+					}
+					else
+					{
+						this._from = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_User1", ThisKey="to", OtherKey="userid", IsForeignKey=true)]
+		public User User1
+		{
+			get
+			{
+				return this._User1.Entity;
+			}
+			set
+			{
+				User previousValue = this._User1.Entity;
+				if (((previousValue != value) 
+							|| (this._User1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User1.Entity = null;
+						previousValue.Messages1.Remove(this);
+					}
+					this._User1.Entity = value;
+					if ((value != null))
+					{
+						value.Messages1.Add(this);
+						this._to = value.userid;
+					}
+					else
+					{
+						this._to = default(int);
+					}
+					this.SendPropertyChanged("User1");
 				}
 			}
 		}

@@ -3,10 +3,11 @@ package shaotian.android.iamsingle;
 import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import shaotian.android.iamsingle.async.AsyncInfoCtrUpdate;
 import shaotian.android.iamsingle.async.AsyncUserOp;
-import shaotian.android.iamsingle.netsdk.WSFactory;
-import shaotian.android.iamsingle.netsdk.WSFactory.Methods;
+
 import shaotian.android.iamsingle.netsdk.model.IModel;
 import shaotian.android.iamsingle.netsdk.model.UserInfo;
+import shaotian.android.iamsingle.wssdk.WSFactory;
+import shaotian.android.iamsingle.wssdk.WSFactory.Methods;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;

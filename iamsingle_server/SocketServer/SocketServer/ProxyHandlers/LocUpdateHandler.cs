@@ -4,7 +4,7 @@
  * 
 
 */
-using SocketServer.Param;
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,15 +25,15 @@ namespace SocketServer.ProxyHandlers
 
 
             byte[] response = null;
-            Parameter param = base.param;
+            SocketServer.Server.Server.Parameter param = (SocketServer.Server.Server.Parameter)base.param;
 
-            string[] vals = base.param.input.Split('_');
+            string[] vals = param.input.Split('_');
             //now vals' value is like  {userid,altitude,latitude,longtitude }
 
             if (vals.Length != 3)
             {                
                 //input ill formated
-                Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.latitude.longtitude'");
+                Console.Out.Write("Wrong input format " + param.input + ". correct is 'loc userid.latitude.longtitude'");
                 return;
                 
             }
@@ -80,7 +80,7 @@ namespace SocketServer.ProxyHandlers
                                 select l).Single();
                 if (null == loc)
                 {
-                    Console.Out.Write("Wrong input format " + base.param.input + ". correct is 'loc userid.latitude.longtitude'");
+                    Console.Out.Write("Wrong input format " + param.input + ". correct is 'loc userid.latitude.longtitude'");
                     return;
                 }
 
@@ -114,6 +114,11 @@ namespace SocketServer.ProxyHandlers
         public override String getHandlerType()
         {
             return Constants.PROXY_LOC;
+        }
+
+        public override bool autoCloseClient()
+        {
+            throw new NotImplementedException();
         }
     }
 }

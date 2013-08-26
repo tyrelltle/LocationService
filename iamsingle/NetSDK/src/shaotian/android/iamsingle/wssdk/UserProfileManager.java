@@ -1,4 +1,4 @@
-package shaotian.android.iamsingle.netsdk;
+package shaotian.android.iamsingle.wssdk;
 import java.io.IOException;
 
 import org.apache.http.HttpEntity;
@@ -13,6 +13,9 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import shaotian.android.iamsingle.wssdk.IWSProvider;
+import shaotian.android.iamsingle.wssdk.WSManager;
+import shaotian.android.iamsingle.wssdk.WSProvider;
 import shaotian.android.iamsingle.netsdk.model.UserInfo;
 import shaotian.android.iamsingle.netsdk.util.WSUtil;
 public class UserProfileManager extends WSManager{

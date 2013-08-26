@@ -1,4 +1,4 @@
-package shaotian.android.iamsingle.netsdk;
+package shaotian.android.iamsingle.wssdk;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -7,8 +7,12 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import shaotian.android.iamsingle.netsdk.WSFactory.Methods;
+import shaotian.android.iamsingle.wssdk.AuthManager;
+import shaotian.android.iamsingle.wssdk.IWSProvider;
+import shaotian.android.iamsingle.wssdk.UserProfileManager;
+import shaotian.android.iamsingle.wssdk.WSFactory;
 import shaotian.android.iamsingle.netsdk.model.UserInfo;
+import shaotian.android.iamsingle.wssdk.WSFactory.Methods;
 
 
 public class WSFactory {

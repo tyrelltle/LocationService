@@ -31,6 +31,11 @@ namespace SocketServer.ProxyHandlers
                 return new LocUpdateHandler();
             if (type.Equals(Constants.PROXY_MAP))
                 return new GetLocMapHandler();
+            if (type.Equals(Constants.PROXY_REG))
+                return new TcpMessageSenderHandler();
+            if (type.Equals(Constants.PROXY_REGIP))
+                return new TcpMessageRecieverHandler();
+
             return null;
         }
         

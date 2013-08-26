@@ -1,4 +1,4 @@
-﻿using SocketServer.Param;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,7 +18,7 @@ namespace SocketServer.ProxyHandlers
 
 
            
-            Parameter param = base.param;
+            SocketServer.Server.Server.Parameter param = (SocketServer.Server.Server.Parameter)base.param;
             byte[] response = System.Text.Encoding.UTF8.GetBytes("welcome to server");
             IPEndPoint client = new IPEndPoint( param.clientip, param.clientport);
             
@@ -41,6 +41,10 @@ namespace SocketServer.ProxyHandlers
         public override String getHandlerType()
         {
             return Constants.PROXY_TEST;
+        }
+        public override bool autoCloseClient()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,9 +11,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import shaotian.android.iamsingle.LocChangeListener;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager;
-import shaotian.android.iamsingle.netsdk.LocationCommunicator;
 import shaotian.android.iamsingle.netsdk.model.LocBoundBox;
 import shaotian.android.iamsingle.netsdk.util.LocationList;
+import shaotian.android.iamsingle.wssdk.LocationCommunicator;
 
 public class GetMapLocTask implements Runnable{
 	private LatLngBounds bound=null;

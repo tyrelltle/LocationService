@@ -1,4 +1,6 @@
-package shaotian.android.iamsingle.netsdk;
+package shaotian.android.iamsingle.wssdk;
+
+import shaotian.android.iamsingle.wssdk.IWSProvider;
 
 public class WSManager {
 

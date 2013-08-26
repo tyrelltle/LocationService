@@ -1,4 +1,4 @@
-package shaotian.android.iamsingle.netsdk;
+package shaotian.android.iamsingle.wssdk;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -18,8 +18,9 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONObject;
 
-import shaotian.android.iamsingle.netsdk.WSProvider.METHOD;
+import shaotian.android.iamsingle.wssdk.IWSProvider;
 import shaotian.android.iamsingle.netsdk.util.WSUtil;
+import shaotian.android.iamsingle.wssdk.WSProvider.METHOD;
 
 //web service provider
 public class WSProvider implements IWSProvider{
