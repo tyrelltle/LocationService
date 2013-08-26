@@ -1,0 +1,79 @@
+import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import org.junit.Test;
+
+
+public class ChatTest {
+
+	
+	@Test
+	public void protocolTest() throws IOException {
+		//first need to register user 29 and 30 for listening
+		boolean fail=false;
+		try{
+		registerListening(29,6666);
+		registerListening(30,8888);
+
+		}catch(Exception e)
+		{fail=true;}
+		assertFalse(fail);
+		
+		//now send a message from user 29 to user 30
+		
+		
+		sendMsg(29,30,"hello world!");
+		recieveMsg(30,8888);
+		
+	}
+
+	
+	private void recieveMsg(int uid,int port)throws IOException
+	{
+		DatagramSocket s;
+		
+		s = new DatagramSocket(port);
+		byte[] data=new byte[1024];
+
+		InetAddress local;
+		local = InetAddress.getLocalHost();
+		DatagramPacket p=new DatagramPacket(data,data.length,local,11000);
+		s.receive(p);
+		s.close();
+		String ret=new String(data,0,p.getLength());
+		System.out.print(ret);
+	}
+	
+	
+	private void registerListening(int uid,int port)throws IOException
+	{
+		DatagramSocket s;
+		
+		s = new DatagramSocket(port);
+	
+		InetAddress local;
+		local = InetAddress.getLocalHost();
+		String data=String.format("listen %d_%s_%d",uid,local.getHostAddress(),port);
+		DatagramPacket p=new DatagramPacket(data.getBytes(),data.length(),local,11000);
+		s.send(p);
+		s.close();
+	}
+	
+	private void sendMsg(int from,int to,String msg)throws IOException
+	{
+		DatagramSocket s;
+		
+		s = new DatagramSocket(2371);
+	
+		InetAddress local;
+		local = InetAddress.getLocalHost();
+		//msg fromUid_toUid_msg
+		String data=String.format("msg %d_%d_%s",from,to,msg);
+		DatagramPacket p=new DatagramPacket(data.getBytes(),data.length(),local,11000);
+		s.send(p);
+		s.close();
+	}
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="iamsingleTest" project="iamsingleTest" tests="4" started="4" failures="1" errors="0" ignored="0">
+  <testsuite name="asd [emulator-5554]" time="0.893">
+    <testsuite name="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="0.343">
+      <testcase name="testExpiredMarkerDeletion " classname="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="0.193">
+        <failure>junit.framework.AssertionFailedError&#13;
+at shaotian.android.iamsingle.test.TimedMarkerManagerTest.testExpiredMarkerDeletion(TimedMarkerManagerTest.java:153)&#13;
+at java.lang.reflect.Method.invokeNative(Native Method)&#13;
+at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)&#13;
+at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)&#13;
+at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)&#13;
+at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)&#13;
+&#13;
+</failure>
+      </testcase>
+      <testcase name="testMarkerMgrStatesFail_Test " classname="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="0.075"/>
+    </testsuite>
+    <testsuite name="shaotian.android.iamsingle.test.UserInfoPageTest" time="0.125">
+      <testcase name="testInfoContainer_Test " classname="shaotian.android.iamsingle.test.UserInfoPageTest" time="0.125"/>
+    </testsuite>
+    <testsuite name="shaotian.android.iamsingle.test.UtilsTest" time="0.425">
+      <testcase name="testReflectCtor2 " classname="shaotian.android.iamsingle.test.UtilsTest" time="0.425"/>
+    </testsuite>
+  </testsuite>
+</testrun>

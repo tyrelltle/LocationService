@@ -1,0 +1,12 @@
+package shaotian.android.iamsingle.netsdk;
+
+import shaotian.android.iamsingle.netsdk.IWSProvider;
+
+public class WSManager {
+
+	protected IWSProvider mWsProvider;
+	public  WSManager(IWSProvider wsProvider) {
+		this.mWsProvider=wsProvider;
+	}
+
+}

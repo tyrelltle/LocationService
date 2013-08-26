@@ -1,0 +1,63 @@
+package ChatTest;
+import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+/*
+ * two threads: sender and reciever
+ * sender sends 100 messages to reciever
+ * reciever recieve messages and fill into recievedMsgList array
+ * sender wait until recievedMsgList array.size=100
+ * 
+ * */
+public class SenderTest extends AbstructChatTest{
+
+	private static ArrayList<String> recievedMsgList=new ArrayList<String>();
+	
+	private static class ReceiverRun implements Runnable{
+
+		@Override
+		public void run() {
+			for(int i=0;i<100;i++){
+				recievedMsgList.add(String.valueOf(i));
+			}
+		}
+		
+		
+	}
+
+	private static class SenderRun implements Runnable{
+
+		@Override
+		public void run() {
+			while(true)
+			{
+				synchronized (recievedMsgList){
+					if(recievedMsgList.size()==100)
+						break;
+				}
+			}
+		}
+		
+		
+	}
+	@Test
+	public void test() throws IOException {
+		
+		
+		
+	}
+
+}

@@ -1,0 +1,10 @@
+package shaotian.android.iamsingle.socketsdk;
+
+public abstract class NetManager {
+	INetProvider mProvider = null;
+
+	public NetManager(INetProvider prov) {
+		mProvider = prov;
+	}
+
+}

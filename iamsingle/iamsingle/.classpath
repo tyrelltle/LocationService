@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="C:/eclipses/adt-bundle-windows-x86_64-20130514/sdk/extras/android/support/v4/android-support-v4.jar"/>
 	<classpathentry kind="src" path="/NetSDK"/>
 	<classpathentry kind="lib" path="C:/eclipses/adt-bundle-windows-x86_64-20130514/sdk/extras/google/google_play_services/libproject/google-play-services_lib/bin/google-play-services_lib.jar"/>
+	<classpathentry kind="src" path="/NetSDK Test"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/tyler/Dropbox/Projects/LocationService/iamsingle/NetSDK/bin/netsdk.jar" sourcepath="/NetSDK/src"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

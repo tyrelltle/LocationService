@@ -1,0 +1,7 @@
+package shaotian.android.iamsingle.socketsdk;
+
+public interface INetProvider {
+
+	void send(String msg);
+	String receive();
+}

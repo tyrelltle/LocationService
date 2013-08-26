@@ -1,0 +1,53 @@
+package shaotian.android.iamsingle.socketsdk;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.Observable;
+
+import shaotian.android.iamsingle.netsdk.model.Message;
+import shaotian.android.iamsingle.netsdk.util.Helpers;
+
+public class MessageListener extends Observable implements Runnable
+{
+	INetProvider mProvider = null;
+	int myUserId=-1;
+	
+	
+	public MessageListener(int id, INetProvider prov) {
+		mProvider = prov;
+		myUserId=id;
+	}
+
+	public void registerToServer(int sender) throws IOException {
+		mProvider.send("regip "+this.myUserId);
+		if(!("ack".equals(mProvider.receive())))
+			throw new IllegalStateException("server not acked after registering for msg listener");
+	
+	}
+	
+
+
+	public void startListen() throws IOException {
+	    String msgRecieved;
+		while(true)
+		{
+			msgRecieved=mProvider.receive();
+			if(msgRecieved.equals("close"))
+				break;
+			mProvider.send("ack");
+			
+			//add to history
+			String[] arr=msgRecieved.split(" ");
+			int fromuid=Integer.valueOf(arr[0]);
+			Message msg=new Message(fromuid,this.myUserId,arr[1]);
+			MessageManager.instance().addToMessageHistory(fromuid, msg);
+			
+			//tell its observers
+			this.setChanged();
+			this.notifyObservers(msg);
+		}
+		
+	}
+	
+	
+}

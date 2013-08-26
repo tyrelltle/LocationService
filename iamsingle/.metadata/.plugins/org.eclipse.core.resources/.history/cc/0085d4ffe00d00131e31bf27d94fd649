@@ -1,0 +1,64 @@
+package shaotian.android.iamsingle.socketsdk;
+
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+
+import shaotian.android.iamsingle.netsdk.util.Helpers;
+
+public class MessageListener extends NetManager
+{
+	public String msgRecieved;
+	public MessageListener(int id, INetProvider prov) {
+		super(id, prov);
+	}
+
+	public void registerToServer(int sender) throws IOException {
+		mProvider.send("regip "+this.myUserId);
+		if(!("ack".equals(mProvider.receive())))
+			throw new IllegalStateException("server not acked after registering for msg listener");
+	
+	}
+	
+	public MessageListenerCallback createCallback(Runnable customRun)
+	{
+		
+		MessageListenerCallback callback=new MessageListenerCallback(this);
+		callback.setCustomRunnable();
+		return null;
+		
+		
+	}
+
+	public void startListen(Class callback, Class[] argtypes, Object[] args) throws IOException {
+		
+		while(true)
+		{
+			msgRecieved=mProvider.receive();
+			if(msgRecieved.equals("close"))
+				break;
+			mProvider.send("ack");
+			Constructor c=Helpers.getClassConstructor(callback, argtypes);
+			(c.newInstance(args);
+			
+			callback.run();
+		}
+		callback.run();
+	}
+	
+	public static  class MessageListenerCallback {
+		MessageListener mListener;
+		Class runnableClass;
+		
+		public MessageListenerCallback(MessageListener listener)
+		{mListener=listener;}
+		
+		public void setCustomRunnable(Runnable run)
+		{
+			mRun=run;
+		}
+		protected String getMessage()
+		{
+			return mListener.msgRecieved;	
+		}
+	}
+}

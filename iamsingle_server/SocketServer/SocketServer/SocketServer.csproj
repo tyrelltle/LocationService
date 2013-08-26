@@ -50,7 +50,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LINQClasses.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Param\Param.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -58,14 +57,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ProxyHandlers\Exceptions.cs" />
+    <Compile Include="ProxyHandlers\TcpMessageRecieverHandler.cs" />
+    <Compile Include="ProxyHandlers\TcpMessageSenderHandler.cs" />
     <Compile Include="ProxyHandlers\GetLocMapHandler.cs" />
     <Compile Include="ProxyHandlers\LocUpdateHandler.cs" />
     <Compile Include="ProxyHandlers\IProxyHandler.cs" />
     <Compile Include="ProxyHandlers\ProxyHandlerFactory.cs" />
     <Compile Include="ProxyHandlers\TestProxyHandler.cs" />
+    <Compile Include="Server\TcpServer.cs" />
+    <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\Server.cs" />
-    <Compile Include="ProxyHandlers\Constants.cs" />
+    <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\Helper.cs" />
+    <Compile Include="Utils\TCPRecieverCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -87,7 +92,9 @@
       <DependentUpon>LINQClasses.dbml</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Param\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

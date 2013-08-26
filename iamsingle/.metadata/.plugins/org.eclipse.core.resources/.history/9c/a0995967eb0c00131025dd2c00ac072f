@@ -1,0 +1,116 @@
+package ChatTest;
+import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.junit.Test;
+
+/*
+ * two threads: sender and reciever
+ * sender sends 100 messages to reciever
+ * reciever recieve messages and fill into recievedMsgList array
+ * sender wait until recievedMsgList array.size=100
+ * 
+ * */
+public class SenderReceveTest extends AbstructChatTest{
+
+	private static ArrayList<String> recievedMsgList=new ArrayList<String>();
+	
+	private static class ReceiverRun extends AbstructChatTest implements Runnable{
+
+		@Override
+		public void run() {
+			try {
+				InetAddress serverAddr = InetAddress.getByName("192.168.0.11");
+				Socket socket = new Socket(InetAddress.getLocalHost()
+						.getHostName(), 12000);
+
+				PrintWriter out = out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				BufferedReader input = new BufferedReader(
+						new InputStreamReader(socket.getInputStream()));
+				this.send("regip 67", out);
+				assertEquals("ack",this.recieve(input));
+				int i=0;
+				while(i<100)
+				{
+					String recv=this.recieve(input);
+					
+					recievedMsgList.add(recv.split(" ")[1]);
+					
+					i++;
+				}
+				
+				
+				
+			} catch (Exception e) {
+
+			}
+		}
+		
+		
+	}
+
+	private static class SenderRun extends AbstructChatTest implements Runnable {
+
+		@Override
+		public void run() {
+			
+			try{
+				InetAddress serverAddr = InetAddress.getByName("192.168.0.11");
+				Socket socket = new Socket(InetAddress.getLocalHost().getHostName(), 12000);
+			
+				PrintWriter out=out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+				BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				
+				this.send("reg 29", out);
+				assertEquals("ack",this.recieve(input));
+				for(int i=0;i<100;i++)
+				{
+								this.send("msg 67 "+i, out);
+								assertEquals("ack",this.recieve(input));
+
+				}
+			}
+			catch(Exception e){}
+			
+		}
+		
+		
+	}
+	@Test
+	public void test() throws IOException {
+		
+		ExecutorService  executor=Executors.newFixedThreadPool(2);
+		executor.execute(new ReceiverRun());
+		executor.execute(new SenderRun());
+		executor.shutdown();
+		java.util.Date date= new java.util.Date();
+		long starttime=date.getTime();
+		while(!executor.isTerminated()){
+			
+			if(new java.util.Date().getTime()-starttime>2000)
+				executor.shutdownNow();
+			
+		}
+		final ArrayList<String> expectedlis=new ArrayList<String>();
+		for(int i=0;i<100;i++){
+			expectedlis.add(String.valueOf(i));
+		}
+		assertEquals(expectedlis,recievedMsgList);
+	}
+
+}

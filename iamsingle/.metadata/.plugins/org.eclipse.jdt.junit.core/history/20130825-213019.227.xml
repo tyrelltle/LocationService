@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="NetSDK Test" project="NetSDK Test" tests="14" started="14" failures="0" errors="0" ignored="0">
+  <testsuite name="ChatTest.MessageManagerTest" time="0.0">
+    <testcase name="MessageManager_addToMessageHistory" classname="ChatTest.MessageManagerTest" time="0.0"/>
+    <testcase name="MessageManager_Reciever" classname="ChatTest.MessageManagerTest" time="0.0"/>
+  </testsuite>
+  <testsuite name="ProviderTest" time="10.901">
+    <testcase name="test_WSProvider_logon_sucess" classname="ProviderTest" time="10.331"/>
+    <testcase name="test_WSProvider_logon_fail" classname="ProviderTest" time="0.115"/>
+    <testcase name="test_WSProvider_get" classname="ProviderTest" time="0.454"/>
+  </testsuite>
+  <testsuite name="UtilTest" time="0.002">
+    <testcase name="testNewInstanceFromClass" classname="UtilTest" time="0.002"/>
+  </testsuite>
+  <testsuite name="ChatTest.MessageHistoryTest" time="0.002">
+    <testcase name="MessageTest" classname="ChatTest.MessageHistoryTest" time="0.001"/>
+    <testcase name="MessageHistoryTest" classname="ChatTest.MessageHistoryTest" time="0.0"/>
+    <testcase name="MessageHistoryIteratorTest" classname="ChatTest.MessageHistoryTest" time="0.001"/>
+  </testsuite>
+  <testsuite name="ChatTest.SenderReceveTest" time="0.27">
+    <testcase name="test" classname="ChatTest.SenderReceveTest" time="0.27"/>
+  </testsuite>
+  <testsuite name="WSManagerTest" time="0.008">
+    <testcase name="WSUserInfoManager_GetInserInfo_Test" classname="WSManagerTest" time="0.006"/>
+    <testcase name="Factory_Invoke_Test" classname="WSManagerTest" time="0.001"/>
+    <testcase name="WSAuthManager_Register_Test" classname="WSManagerTest" time="0.0"/>
+    <testcase name="WSAuthManager_logon_Test" classname="WSManagerTest" time="0.001"/>
+  </testsuite>
+</testrun>

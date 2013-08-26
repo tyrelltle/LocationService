@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="iamsingleTest" project="iamsingleTest" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="asd [emulator-5554]" time="0.854">
+    <testsuite name="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="0.204">
+      <testcase name="testExpiredMarkerDeletion " classname="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="0.104"/>
+      <testcase name="testMarkerMgrStatesFail_Test " classname="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="0.1"/>
+    </testsuite>
+    <testsuite name="shaotian.android.iamsingle.test.UserInfoPageTest" time="0.175">
+      <testcase name="testInfoContainer_Test " classname="shaotian.android.iamsingle.test.UserInfoPageTest" time="0.175"/>
+    </testsuite>
+    <testsuite name="shaotian.android.iamsingle.test.UtilsTest" time="0.475">
+      <testcase name="testReflectCtor2 " classname="shaotian.android.iamsingle.test.UtilsTest" time="0.475"/>
+    </testsuite>
+  </testsuite>
+</testrun>

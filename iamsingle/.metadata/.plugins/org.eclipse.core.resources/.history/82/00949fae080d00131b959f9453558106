@@ -1,0 +1,10 @@
+package shaotian.android.iamsingle.socketsdk;
+
+public class MessageManager extends NetManager{
+
+	
+	public MessageManager(INetProvider provider) {
+		super(provider);
+	}
+
+}

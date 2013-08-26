@@ -1,0 +1,35 @@
+import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+
+import org.junit.Test;
+
+
+public class ChatTest {
+
+	
+	@Test
+	public void protocolTest() throws IOException {
+		InetAddress serverAddr = InetAddress.getByName("192.168.0.11");
+		Socket socket = new Socket(serverAddr, 12000);
+	
+		PrintWriter out=out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+		BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+		out.write("reg 29", 0, 6);
+		String ret=input.readLine();
+		socket.close();
+		assertEquals("29",ret);
+		
+	}
+	
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TimedMarkerManagerTest" project="iamsingleTest" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="asd [emulator-5554]" time="14.408">
+    <testsuite name="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="14.408">
+      <testcase name="testExpiredMarkerDeletion " classname="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="13.982"/>
+      <testcase name="testMarkerMgrStatesFail_Test " classname="shaotian.android.iamsingle.test.TimedMarkerManagerTest" time="0.426"/>
+    </testsuite>
+  </testsuite>
+</testrun>

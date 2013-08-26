@@ -1,0 +1,24 @@
+package shaotian.android.iamsingle.socketsdk;
+
+import java.io.IOException;
+
+public class MessageListener extends NetManager
+{
+	public String msgRecieved;
+	public MessageListener(int id, INetProvider prov) {
+		super(id, prov);
+	}
+
+	public void registerToServer(int sender) throws IOException {
+		mProvider.send("regip "+this.myUserId);
+		if(!("ack".equals(mProvider.receive())))
+			throw new IllegalStateException("server not acked after registering for msg listener");
+	
+	}
+
+	public void startListen(Runnable callback) {
+		callback.run();
+	}
+	
+	
+}

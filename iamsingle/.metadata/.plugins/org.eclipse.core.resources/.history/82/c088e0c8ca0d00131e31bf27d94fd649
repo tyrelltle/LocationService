@@ -1,0 +1,67 @@
+package shaotian.android.iamsingle.socketsdk;
+
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.util.Hashtable;
+
+import shaotian.android.iamsingle.netsdk.model.Message;
+import shaotian.android.iamsingle.netsdk.model.MessageHistory;
+
+public class MessageManager extends NetManager{
+
+	private static MessageManager instance=null;
+	private Hashtable<Integer, MessageHistory> mHistories=new Hashtable<Integer, MessageHistory>();
+
+
+
+	public MessageHistory getMessageHistory(int i) {
+		
+		return mHistories.get(i);
+	}
+	
+	
+	
+	
+	
+	
+	private MessageManager(int id,INetProvider provider) {
+		super(id,provider);
+	}
+
+	public static synchronized  MessageManager initialize(int uid,INetProvider provider)
+	{
+		if(instance!=null)
+			throw new IllegalStateException("MessageManager already initialized");
+		instance=new MessageManager(uid,provider);
+		return instance;
+		
+	}
+	
+	public static synchronized  MessageManager instance()
+	{
+		if(instance==null)
+			throw new IllegalStateException("MessageManager not been initialized yet");
+		return instance;
+	}
+
+	public void registerToServer(int sender) throws IOException {
+		mProvider.send("reg "+senderid);
+	    if(!("ack".equals(mProvider.receive())))
+			throw new IllegalStateException("server not acked after sender 'reg' ");
+	}
+	
+	public void unRegister() throws IOException {
+		mProvider.disconnect();
+	    
+	}
+
+
+	public void sendMessage(int toid, String string) throws IOException {
+		mProvider.send("msg "+toid+" "+string);
+		if(!("ack".equals(mProvider.receive())))
+			throw new IllegalStateException("server not acked after sending message to uid ="+toid);
+		Message msg=new Message(senderid, toid, string);
+	}
+	
+}

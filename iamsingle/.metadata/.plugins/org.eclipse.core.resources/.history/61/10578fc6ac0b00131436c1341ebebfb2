@@ -1,0 +1,72 @@
+import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+
+import org.junit.Test;
+
+
+public class ChatTest {
+
+	private void send(String msg,PrintWriter out)
+	{
+		
+		  out.write(msg, 0, msg.length());
+		  out.flush();
+	}
+	
+	private String recieve(BufferedReader input) throws IOException
+	{
+		return input.readLine();
+	}
+	
+	@Test
+	public void senderAckTest() throws IOException {
+		InetAddress serverAddr = InetAddress.getByName("192.168.0.11");
+		Socket socket = new Socket(InetAddress.getLocalHost().getHostName(), 12000);
+	
+		PrintWriter out=out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+		BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		String ret=null;
+		
+		//register
+		send("reg 29", out);
+		assertEquals("ack",this.recieve(input));
+		
+	
+		for(int i=0;i<100;i++)
+		{ 
+			send("msg "+i, out);
+		    assertEquals("ack",recieve(input));
+		}  
+
+		socket.close();
+		
+		
+	}
+	
+	@Test
+	public void senderRecieverTest()
+	{
+		new Thread(){
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				assertTrue(true);
+			}};
+	}
+}

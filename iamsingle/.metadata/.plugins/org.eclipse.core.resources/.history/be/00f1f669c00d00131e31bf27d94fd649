@@ -1,0 +1,22 @@
+package shaotian.android.iamsingle.netsdk.model;
+
+import android.annotation.SuppressLint;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class MessageHistory implements IModel{
+
+	@SuppressLint("NewApi")
+	private Deque<Message> stack = new ArrayDeque<Message>();
+	
+	public MessageHistory(){}
+	
+	public int getSize(){return stack.size();}
+
+	public void addMessage(Message msg) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+}

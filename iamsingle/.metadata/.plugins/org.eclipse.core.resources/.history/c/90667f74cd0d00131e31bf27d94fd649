@@ -1,0 +1,11 @@
+package shaotian.android.iamsingle.socketsdk;
+
+import java.io.IOException;
+
+public interface INetProvider {
+
+	void send(String msg);
+	String receive() throws IOException;
+	void registerToServer();
+	void disconnect() throws IOException;
+}

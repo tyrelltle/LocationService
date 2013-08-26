@@ -1,0 +1,47 @@
+package ChatTest;
+import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+
+import org.junit.Test;
+
+import shaotian.android.iamsingle.socketsdk.NetManager;
+import shaotian.android.iamsingle.socketsdk.INetProvider;
+import shaotian.android.iamsingle.socketsdk.MessageManager;
+import shaotian.android.iamsingle.socketsdk.TcpProvider;
+
+
+public class MessageManagerTest {
+				   private class ProviderMock implements INetProvider{
+					public String sentmsg=null;
+					@Override
+					public void send(String msg) {
+						sentmsg=msg;
+						
+					}
+				
+					@Override
+					public String receive() throws IOException {
+						
+						return "hello world msg";
+					}}
+
+	
+	@Test
+	public void MessageManager_Sender() throws IOException {
+		assert(true);
+		MessageManager mgr=new MessageManager(new ProviderMock());
+	
+	}
+	
+
+}

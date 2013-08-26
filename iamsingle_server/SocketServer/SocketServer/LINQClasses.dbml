@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LocationService" Class="LINQClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=TYLER-PC;Initial Catalog=LocationService;Integrated Security=True" SettingsObjectName="SocketServer.Properties.Settings" SettingsPropertyName="LocationServiceConnectionString1" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="userid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="username" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="locationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ip" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="password" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="icon" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="hobby" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="[desc]" Member="desc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="gender" Type="System.String" DbType="Char(10)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Location" Member="Locations">
     <Type Name="Location">
       <Column Name="locationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -22,6 +8,34 @@
       <Column Name="latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="longtitude" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="lastupdate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="userid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="locationId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="port" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ip" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="icon" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="hobby" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="[desc]" Member="desc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="gender" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_Message" Member="Messages" ThisKey="userid" OtherKey="from" Type="Message" />
+      <Association Name="User_Message1" Member="Messages1" ThisKey="userid" OtherKey="to" Type="Message" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Message" Member="Messages">
+    <Type Name="Message">
+      <Column Name="msgid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[from]" Member="from" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[to]" Member="to" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="time" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="msg" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Message" Member="User" ThisKey="from" OtherKey="userid" Type="User" IsForeignKey="true" />
+      <Association Name="User_Message1" Member="User1" ThisKey="to" OtherKey="userid" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Function Name="dbo.InBoundBox" Method="InBoundBox">

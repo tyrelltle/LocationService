@@ -1,0 +1,19 @@
+package ChatTest;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class AbstructChatTest {
+	protected void send(String msg,PrintWriter out)
+	{
+		
+		  out.write(msg, 0, msg.length());
+		  out.flush();
+	}
+	
+	protected String recieve(BufferedReader input) throws IOException
+	{
+		return input.readLine();
+	}
+}

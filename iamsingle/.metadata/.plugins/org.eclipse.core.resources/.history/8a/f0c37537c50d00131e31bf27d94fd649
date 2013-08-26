@@ -1,0 +1,35 @@
+package shaotian.android.iamsingle.socketsdk;
+
+public class MessageManager extends NetManager{
+
+	private static MessageManager instance=null;
+	
+	private MessageManager(INetProvider provider) {
+		super(provider);
+	}
+
+	public static MessageManager synchronized initialize(INetProvider provider)
+	{
+		instance=new MessageManager(provider);
+		return instance;
+		
+	}
+	
+	public static MessageManager instance()
+	{
+		return instance;
+	}
+	
+	
+	public void sendMessage(String msg)
+	{
+		
+		
+		
+	}
+
+	public void getMessageHistory(int i) {
+		
+		
+	}
+}
