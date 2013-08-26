@@ -1,6 +1,0 @@
-package shaotian.android.iamsingle.netsdk;
-
-//web service provider
-public class WSProvider {
-
-}

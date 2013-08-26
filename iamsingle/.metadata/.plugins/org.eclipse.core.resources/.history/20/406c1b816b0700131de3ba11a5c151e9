@@ -1,7 +1,0 @@
-package shaotian.android.iamsingle.test;
-
-import junit.framework.TestCase;
-
-public class UserInfoPageTest extends TestCase {
-
-}
