@@ -41,7 +41,7 @@ public class MessageListener extends Observable implements Runnable
 			if(arr[1].equals("close"))
 				return;
 			int fromuid=Integer.valueOf(arr[0]);
-			Message msg=new Message(fromuid,this.myUserId,arr[1]);
+			Message msg=new Message(fromuid,arr[1],this.myUserId,arr[2]);
 			MessageManager.instance().addToMessageHistory(fromuid, msg);
 			
 			//tell its observers

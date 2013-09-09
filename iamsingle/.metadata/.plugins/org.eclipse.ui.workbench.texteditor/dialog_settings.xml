@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="initialize" key="selection"/>
+		<item value="122" key="selection"/>
 		<list key="findhistory">
+			<item value="122"/>
+			<item value="ServiceUpdateLocation"/>
 			<item value="initialize"/>
 			<item value="startTime"/>
 			<item value="tmp.getMarker()"/>
 			<item value="timedmarker"/>
 			<item value="TimedMarker"/>
 			<item value="marker_f"/>
-			<item value="getMapTimer"/>
-			<item value="startGetLocTimer"/>
 		</list>
 		<list key="replacehistory">
 		</list>

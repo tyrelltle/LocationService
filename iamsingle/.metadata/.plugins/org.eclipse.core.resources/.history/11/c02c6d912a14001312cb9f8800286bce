@@ -1,0 +1,14 @@
+package shaotian.android.iamsingle.netsdk.model;
+
+import java.util.ArrayList;
+
+import shaotian.android.iamsingle.netsdk.util.Pair;
+
+public class MessageHistoryList implements IModel{
+	private ArrayList<Pair<Integer, Boolean>> mLis=new ArrayList<Pair<Integer, Boolean>>();
+	public void add(int i, boolean hasNewMsg) {
+		
+		
+	}
+
+}

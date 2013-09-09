@@ -1,37 +1,27 @@
 package ChatTest;
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.Iterator;
+import java.lang.reflect.Field;
+import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
 
 import shaotian.android.iamsingle.netsdk.model.Message;
 import shaotian.android.iamsingle.netsdk.model.MessageHistory;
+import shaotian.android.iamsingle.netsdk.model.MessageHistoryList;
 import shaotian.android.iamsingle.netsdk.model.MessageHistory.MessageIterator;
 import shaotian.android.iamsingle.socketsdk.MessageListener;
-import shaotian.android.iamsingle.socketsdk.NetManager;
 import shaotian.android.iamsingle.socketsdk.INetProvider;
 import shaotian.android.iamsingle.socketsdk.MessageManager;
-import shaotian.android.iamsingle.socketsdk.TcpProvider;
 
 
 public class MessageManagerTest {
+		
 				   private class ProviderMock implements INetProvider{
 						public String sentmsg=null;
 						public boolean nextRecieveReturnAck=false;
@@ -51,7 +41,12 @@ public class MessageManagerTest {
 				   
 				   private class ListenerProviderMock implements INetProvider{
 					   	 int index=0;
+					   	 int senderid;
 					   	 final String[]arr={"helloworld","close"};
+						public ListenerProviderMock(int i) {
+							senderid=i;
+						}
+
 						@Override
 						public void send(String msg) {}
 					
@@ -59,7 +54,7 @@ public class MessageManagerTest {
 						public String receive() throws IOException {
 							if(index==2)
 								return "";
-							return "26 "+arr[index++];
+							return senderid+" alohaUser "+arr[index++];
 						}
 	
 						@Override
@@ -128,7 +123,7 @@ public class MessageManagerTest {
 	public void MessageManager_Reciever() throws IOException, InstantiationException, IllegalAccessException  {
 		
 		ListenerObserver observer=new ListenerObserver();
-		MessageListener listener= mgr.CreateMessageListener(new ListenerProviderMock());
+		MessageListener listener= mgr.CreateMessageListener(new ListenerProviderMock(26));
 		listener.addObserver(observer);
 		new Thread(listener).start();
 		while(true)
@@ -140,9 +135,70 @@ public class MessageManagerTest {
 			
 		}
 		assertTrue(observer.msg.sender==26);
+		assertEquals(observer.msg.senderName,"alohaUser");
 		assertTrue(observer.msg.reciever==66);
-		assertTrue(observer.msg.message.equals("helloworld"));
+		assertEquals(observer.msg.message,"helloworld");
+		
+		
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void MessageManager_GetHistoryList() throws Exception
+	{	
+		Hashtable<Integer, MessageHistory> mHistories;
+		Field fields = mgr.getClass().getDeclaredField("mHistories");
+		fields.setAccessible(true);
+		mHistories=(Hashtable<Integer, MessageHistory>) fields.get(mgr);
+		MessageHistoryList lis=mgr.getHistoryList();
+		int i=0;
+		for(int mgr_hist : mHistories.keySet())
+		{
+			
+			boolean boo=mHistories.get(mgr_hist).hasNewMsg();
+			MessageHistoryList.Node node=lis.get(i);
+			assertEquals(mgr_hist,node.senderId);
+			assertEquals(boo,node.hasNewMsg);
+			assertEquals(mHistories.get(mgr_hist).getSenderName(),node.senderName);
+			i++;
+		}
+	}
+	
+	@Test
+	public void MessageManager_Listener_HistoryCount() throws IOException, InstantiationException, IllegalAccessException, InterruptedException  {
+		
+		ListenerObserver observer=new ListenerObserver();
+		MessageListener listener= mgr.CreateMessageListener(new ListenerProviderMock(26));
+		listener.addObserver(observer);
+		new Thread(listener).start();
+		while(true)
+		{
+			synchronized(observer){
+				if(observer.msg!=null)
+					break;
+			}
+			
+		}
+		assertEquals(true,mgr.getMessageHistory(26)!=null);
 
+		
+		listener= mgr.CreateMessageListener(new ListenerProviderMock(55));
+		listener.addObserver(observer);
+		new Thread(listener).start();
+		while(true)
+		{
+			synchronized(observer){
+				if(observer.msg!=null)
+					break;
+			}
+			
+		}
+		Thread.sleep(500);
+		assertEquals(true,mgr.getMessageHistory(55)!=null);
+		assertEquals(3,mgr.getHistoryCount());
+		
+		
+	}
+	
+	
 }

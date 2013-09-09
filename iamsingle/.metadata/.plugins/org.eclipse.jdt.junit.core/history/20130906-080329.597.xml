@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestSender_StandAlong" project="NetSDK Test" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="ChatTest.TestSender_StandAlong" time="0.02">
+    <testcase name="test" classname="ChatTest.TestSender_StandAlong" time="0.02"/>
+  </testsuite>
+</testrun>

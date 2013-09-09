@@ -10,12 +10,15 @@ public class MessageHistory implements IModel{
 
 	private ArrayList<Message> stack = new ArrayList<Message>();
 	
+	private boolean mHasNewMsg=false;
 	public MessageHistory(){}
 	
 	public int getSize(){return stack.size();}
-
+	
+	
 	public void addMessage(Message msg) {
 		stack.add(msg);
+		this.mHasNewMsg=true;
 	}
 
 	public Message getMessage(int i) {
@@ -59,5 +62,29 @@ public class MessageHistory implements IModel{
 		
 		
 		
+	}
+
+	public boolean hasNewMsg() {
+		
+		return this.mHasNewMsg;
+	}
+
+	public void setHasNewMsgFalse() {
+		this.mHasNewMsg=false;
+	}
+
+	
+	/*
+	 * get the target user's name of this chat history
+	 * */
+	public String getSenderName() {
+		for(Message m : stack)
+		{
+			if(m.senderName!=null)
+			{
+				return m.senderName;
+			}
+		}
+		return null;
 	}
 }

@@ -1,0 +1,50 @@
+package shaotian.android.iamsingle.netsdk.model;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import shaotian.android.iamsingle.netsdk.util.Pair;
+
+public class MessageHistoryList implements IModel{
+	public ArrayList<Pair<Integer, Boolean>> lis=new ArrayList<Pair<Integer, Boolean>>();
+	public void add(int i, boolean hasNewMsg) {
+		
+		lis.add(new Pair<Integer,Boolean>(i,hasNewMsg));
+	}
+
+	public Pair<Integer, Boolean> get(int i )
+	{
+		return lis.get(i);
+	}
+
+	public MessageHistoryListIterator getIterator() {
+		// TODO Auto-generated method stub
+		return new MessageHistoryListIterator(lis);
+	}
+	
+	public static class MessageHistoryListIterator implements Iterator
+	{
+		ArrayList<Pair<Integer, Boolean>> lis;
+		private int index=0;
+		public MessageHistoryListIterator(ArrayList<Pair<Integer, Boolean>> list) {
+			lis=list;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return index<lis.size();
+		}
+
+		@Override
+		public Object next() {
+			return lis.get(index++);
+		}
+
+		@Override
+		public void remove() {
+			
+		}
+		
+		
+	}
+}

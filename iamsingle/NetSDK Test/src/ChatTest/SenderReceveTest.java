@@ -32,22 +32,29 @@ import shaotian.android.iamsingle.socketsdk.TcpProvider;
 public class SenderReceveTest  {
 
 	private static ArrayList<String> recievedMsgList=new ArrayList<String>();
-	private static final String serverip = "192.168.0.10";
+	private static ArrayList<String> recievedUsernameList=new ArrayList<String>();
+	private static ArrayList<String> recievedSenderIdList=new ArrayList<String>();
+
+	private static final String serverip = "localhost";
 	private static class ReceiverRun  implements Runnable{
 
 		@Override
 		public void run() {
 			try {
 				INetProvider provider=new TcpProvider(serverip,12000);
-				provider.send("regip 29");
+				provider.send("regip 56");
 				assertEquals("ack",provider.receive());
 				int i=0;
-				while(true)
+				while(recievedMsgList.size()<100)
 				{
 					String recv=provider.receive();
 					if(recv.equals("close"))
 						break;
-					recievedMsgList.add(recv.split(" ")[1]);
+					
+					String[] arr=recv.split(" ");
+					recievedMsgList.add(arr[2]);
+					recievedUsernameList.add(arr[1]);
+					recievedSenderIdList.add(arr[0]);
 					provider.send("ack");
 					i++;
 				}
@@ -76,7 +83,7 @@ public class SenderReceveTest  {
 				assertEquals("ack",provider.receive());
 				for(int i=0;i<100;i++)
 				{
-								provider.send("msg 29 "+i);
+								provider.send("msg 56 "+i);
 								assertEquals("ack",provider.receive());
 
 				}
@@ -110,10 +117,19 @@ public class SenderReceveTest  {
 			
 		}
 		final ArrayList<String> expectedlis=new ArrayList<String>();
+		final ArrayList<String> expectedunlis=new ArrayList<String>();
+		final ArrayList<String> expectedidlis=new ArrayList<String>();
+
 		for(int i=0;i<100;i++){
 			expectedlis.add(String.valueOf(i));
+			expectedunlis.add("alohaUser");
+			expectedidlis.add("29");
 		}
+
 		assertEquals(expectedlis,recievedMsgList);
+		assertEquals(expectedunlis,recievedUsernameList);
+		assertEquals(expectedidlis,recievedSenderIdList);
+		
 	}
 
 }

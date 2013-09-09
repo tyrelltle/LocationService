@@ -1,0 +1,7 @@
+package shaotian.android.iamsingle;
+
+import shaotian.android.iamsingle.netsdk.util.LocationList;
+
+public interface IListener {
+	public void handleLocMapChange(LocationList lis);
+}

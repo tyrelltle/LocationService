@@ -1,0 +1,21 @@
+package shaotian.android.iamsingle.UIShared;
+
+import java.util.ArrayList;
+
+import shaotian.android.iamsingle.ChatListActivity;
+import shaotian.android.iamsingle.IListener;
+
+public class ListenerManager {
+	ArrayList<IListener> listeners=new ArrayList<IListener>();
+	public void addListener(IListener listener) {
+		listeners.add(listener);
+	}
+	public void notifyListeners() {
+		for(IListener i : listeners)
+		{
+			i.handleChange(null);
+			
+		}
+	}
+
+}

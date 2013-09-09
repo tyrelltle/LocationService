@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="shaotian.android.iamsingle"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <permission
+        android:name="shaotian.android.iamsingle.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="shaotian.android.iamsingle.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+         The following two permissions are not required to use
+	     Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAgOH6HfvrLm1UZX9EFjQLpTINNtvqhJpg" />
+        <meta-data
+            android:name="serverip"
+            android:value="192.168.0.10" />
+        <meta-data
+            android:name="serverport"
+            android:value="11000" />
+
+        <meta-data
+            android:name="wsserverip"
+            android:value="192.168.0.10" />
+        
+        <meta-data
+            android:name="getLocFrequency"
+            android:value="50000" />
+        
+        <activity
+            android:name="shaotian.android.iamsingle.MapActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.view" />
+
+                <data android:path="iamsingle/mapview"/>
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name="shaotian.android.iamsingle.AuthActivity"
+            android:label="@string/title_activity_auth" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="shaotian.android.iamsingle.UserInfoActivity"
+            android:label="@string/title_activity_auth" >
+
+        </activity>
+        
+        
+        <service android:name="shaotian.android.iamsingle.async.ServiceUpdateLocation" android:enabled="true">
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+	        <intent-filter>
+	            <action android:name="android.accessibilityservice.AccessibilityService" />
+	        </intent-filter>
+        </service>
+
+    </application>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+</manifest>

@@ -51,7 +51,6 @@ public class ServiceUpdateLocation extends Service
 		
 		mLocationClient.connect();
 		
-		Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
 	}
 	
 	
@@ -76,7 +75,6 @@ public class ServiceUpdateLocation extends Service
  
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "Stopped updating GeoLocation info", Toast.LENGTH_LONG).show();
         if (mLocationClient.isConnected()) {
             stopPeriodicUpdates();
         }
@@ -86,7 +84,6 @@ public class ServiceUpdateLocation extends Service
      
     @Override
     public void onStart(Intent intent, int startid) {
-        Toast.makeText(this, "Started periodically updating GeoLocation info", Toast.LENGTH_LONG).show();
          
        
     }
@@ -95,7 +92,6 @@ public class ServiceUpdateLocation extends Service
 		String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         
         //put location to shared preference
         SharedPreferences settings = getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0);
@@ -135,7 +131,6 @@ public class ServiceUpdateLocation extends Service
 	             * If no resolution is available, display a dialog to the
 	             * user with the error.
 	             */
-	        	Toast.makeText(this, "connection error", Toast.LENGTH_SHORT).show();
 	        }
 		
 	}

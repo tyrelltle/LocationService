@@ -29,6 +29,14 @@ public class TcpProvider implements INetProvider {
 	public void send(String msg) {
 		outStream.write(msg, 0, msg.length());
 		outStream.flush();
+		
+	}
+	
+	public String sendEx(String msg) throws IOException
+	{
+		this.send(msg);
+		return this.receive();
+		
 	}
 
 	@Override

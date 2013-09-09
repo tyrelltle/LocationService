@@ -52,7 +52,7 @@ namespace WebService.WebServices
                 return new UserIdsingle { userid = -1 };
 
             var usr = (from u in context.Users
-                            where u.email == user.email
+                            where u.email == user.email && u.password==user.password
                             select u);
             if (usr==null||usr.Count()==0)
                 //user not exist

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;shaotian.android.iamsingle.test.ListenerManager&apos; to &apos;ListenerManagerTest&apos;&#x0D;&#x0A;- Original project: &apos;iamsingleTest&apos;&#x0D;&#x0A;- Original element: &apos;shaotian.android.iamsingle.test.ListenerManager&apos;&#x0D;&#x0A;- Renamed element: &apos;shaotian.android.iamsingle.test.ListenerManagerTest&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;ListenerManager&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;shaotian.android.iamsingle.test{ListenerManager.java[ListenerManager" matchStrategy="1" name="ListenerManagerTest" qualified="false" references="true" similarDeclarations="false" stamp="1378412362634" textual="true" version="1.0"/>
+</session>

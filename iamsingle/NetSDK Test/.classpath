@@ -12,6 +12,5 @@
 	<classpathentry kind="lib" path="libs/httpclient-cache-4.2.5.jar"/>
 	<classpathentry kind="lib" path="libs/httpcore-4.2.4.jar"/>
 	<classpathentry kind="lib" path="libs/httpmime-4.2.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/tyler/Dropbox/Projects/LocationService/iamsingle/NetSDK/bin/netsdk.jar" sourcepath="/NetSDK/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

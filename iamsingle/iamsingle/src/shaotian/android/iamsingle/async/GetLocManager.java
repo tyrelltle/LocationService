@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import shaotian.android.iamsingle.LocChangeListener;
+import shaotian.android.iamsingle.IListener;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.netsdk.model.LocBoundBox;
@@ -32,7 +32,7 @@ import android.widget.Toast;
 public class GetLocManager extends Thread {
 	// Async classes
 
-	LocChangeListener mapActivity = null;
+	IListener mapActivity = null;
 	Handler handler = null;
 	LocationCommunicator wc = null;
 	private static GetLocManager instance = null;
@@ -63,7 +63,7 @@ public class GetLocManager extends Thread {
 
 	}
 	
-	public void setListener(LocChangeListener act)
+	public void setListener(IListener act)
 	{
 		mapActivity=act;
 		

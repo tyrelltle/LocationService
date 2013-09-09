@@ -1,0 +1,8 @@
+1378162731159	Rename resource 'activity_chat.xml'
+1378162796425	Rename type 'ChatActivity'
+1378164811599	Delete element
+1378269346366	Rename type 'LocChangeListener'
+1378269529649	Rename method 'handleLocMapChange'
+1378269562082	Change method 'handleChange'
+1378422061067	Move compilation unit
+1378422080330	Move compilation unit

@@ -45,11 +45,11 @@ public class WSFactory {
 	//-----------factory methods--------------
 	public JSONObject RegisterUser(String username, String password) throws UnsupportedEncodingException, JSONException {
 		AuthManager mgr=new AuthManager(this.provider);
-	    return mgr.register("username", "password");
+	    return mgr.register(username, password);
 	}
 	public JSONObject LogonUser(String string, String string2) throws UnsupportedEncodingException, JSONException {
 		AuthManager mgr=new AuthManager(this.provider);
-	    return mgr.logon("username", "password");
+	    return mgr.logon(string, string2);
 	}
 	public UserInfo GetUserInfo(int i) throws Exception {
 		UserProfileManager mgr=new UserProfileManager(this.provider);

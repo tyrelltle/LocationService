@@ -1,0 +1,46 @@
+package shaotian.android.iamsingle;
+
+import java.util.List;
+import java.util.Map;
+
+import shaotian.android.iamsingle.netsdk.model.MessageHistoryList;
+import shaotian.android.iamsingle.socketsdk.MessageManager;
+import android.os.Bundle;
+import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+
+public class ChatListActivity extends ListActivity{
+
+	Context context;
+	MessageManager mgr;
+	ListView lisView;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		//setContentView(R.layout.activity_chat_list);
+		context=this;		
+		Bundle extras=this.getIntent().getExtras();
+		mgr=MessageManager.instance();
+		MessageHistoryList msgLis=mgr.getHistoryList();
+		SimpleAdapter adapter = new SimpleAdapter(this,getData(),R.layout.activity_chat_list,
+                new String[]{"title"},
+                new int[]{R.id.txt_sendername_histlis});
+        setListAdapter(adapter);
+		
+	}
+	private List<Map<String, Object>> getData() {
+		MessageHistoryList lis=mgr.getHistoryList();
+		//Iterator it=lis.
+		return null;
+	}
+
+
+
+}

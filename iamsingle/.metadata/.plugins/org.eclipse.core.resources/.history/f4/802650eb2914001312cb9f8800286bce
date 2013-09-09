@@ -1,0 +1,13 @@
+package shaotian.android.iamsingle.netsdk.model;
+
+public class Pair <T,TT> {
+	public T first;
+	public TT second;
+	
+	public Pair(T f, TT s)
+	{
+		first=f;
+		second=s;
+		
+	}
+}

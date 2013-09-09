@@ -36,14 +36,17 @@
             android:value="AIzaSyAgOH6HfvrLm1UZX9EFjQLpTINNtvqhJpg" />
         <meta-data
             android:name="serverip"
-            android:value="192.168.0.10" />
+            android:value="192.168.0.114" />
         <meta-data
             android:name="serverport"
             android:value="11000" />
 
         <meta-data
+            android:name="tcpserverport"
+            android:value="12000" />
+        <meta-data
             android:name="wsserverip"
-            android:value="192.168.0.10" />
+            android:value="192.168.0.114" />
         
         <meta-data
             android:name="getLocFrequency"
@@ -69,13 +72,23 @@
             </intent-filter>
         </activity>
 
+       <activity
+            android:name="shaotian.android.iamsingle.ChatListActivity"
+            android:label="Send Message" >
+
+        </activity>
         <activity
             android:name="shaotian.android.iamsingle.UserInfoActivity"
             android:label="@string/title_activity_auth" >
 
         </activity>
         
-        
+        <service android:name="shaotian.android.iamsingle.async.ServiceMessageSystem" android:enabled="true">
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+	        <intent-filter>
+	            <action android:name="android.accessibilityservice.AccessibilityService" />
+	        </intent-filter>
+        </service>
         <service android:name="shaotian.android.iamsingle.async.ServiceUpdateLocation" android:enabled="true">
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
 	        <intent-filter>

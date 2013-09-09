@@ -1,0 +1,6 @@
+package shaotian.android.iamsingle.socketsdk;
+
+
+public interface IListener {
+	public void handleChange(Object data);
+}

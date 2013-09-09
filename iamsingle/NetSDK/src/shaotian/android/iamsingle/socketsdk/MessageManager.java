@@ -8,6 +8,7 @@ import java.util.Hashtable;
 
 import shaotian.android.iamsingle.netsdk.model.Message;
 import shaotian.android.iamsingle.netsdk.model.MessageHistory;
+import shaotian.android.iamsingle.netsdk.model.MessageHistoryList;
 import shaotian.android.iamsingle.netsdk.util.Helpers;
 
 public class MessageManager extends NetManager{
@@ -20,6 +21,12 @@ public class MessageManager extends NetManager{
 	public MessageHistory getMessageHistory(int i) {
 		
 		return mHistories.get(i);
+	}
+	
+	public int getHistoryCount()
+	{
+			return mHistories.size();
+		
 	}
 	
 	public void addToMessageHistory(int uid,Message msg) {
@@ -79,6 +86,24 @@ public class MessageManager extends NetManager{
 		
 		return new MessageListener(this.myUserId, provider ) ;
 	}
+
+	public MessageHistoryList getHistoryList() {
+		MessageHistoryList ret=new MessageHistoryList();
+		for(int i : this.mHistories.keySet())
+		{
+			MessageHistory cur= this.mHistories.get(i);
+			MessageHistoryList.Node node=new MessageHistoryList.Node();
+			node.hasNewMsg=cur.hasNewMsg();
+			node.senderId=i;
+			node.senderName=cur.getSenderName();
+			ret.add(node);
+			
+		}
+		
+		return ret;
+	}
+
+
 	
 
 	

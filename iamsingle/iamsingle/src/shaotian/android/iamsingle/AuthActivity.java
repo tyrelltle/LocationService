@@ -1,7 +1,7 @@
 package shaotian.android.iamsingle;
 
 import shaotian.android.iamsingle.UIShared.SharedUtil;
-import shaotian.android.iamsingle.async.AsyncUserOp;
+import shaotian.android.iamsingle.async.AsyncUserAuth;
 import shaotian.android.iamsingle.wssdk.WSFactory;
 import shaotian.android.iamsingle.wssdk.WSProvider;
 
@@ -33,7 +33,7 @@ public class AuthActivity extends Activity {
 		register=(Button)this.findViewById(R.id.btnregister);
 		register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AsyncUserOp reg=new AsyncUserOp(AsyncUserOp.ACTION.REGISTER, context, txt_email.getText().toString(), txt_pwd.getText().toString());
+                AsyncUserAuth reg=new AsyncUserAuth(AsyncUserAuth.ACTION.REGISTER, context, txt_email.getText().toString(), txt_pwd.getText().toString());
         		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
         			reg.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         		else
@@ -44,7 +44,7 @@ public class AuthActivity extends Activity {
 		logon=(Button)this.findViewById(R.id.btnlogon);
 		logon.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AsyncUserOp reg=new AsyncUserOp(AsyncUserOp.ACTION.LOGON, context, txt_email.getText().toString(), txt_pwd.getText().toString());
+                AsyncUserAuth reg=new AsyncUserAuth(AsyncUserAuth.ACTION.LOGON, context, txt_email.getText().toString(), txt_pwd.getText().toString());
         		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
         			reg.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         		else
