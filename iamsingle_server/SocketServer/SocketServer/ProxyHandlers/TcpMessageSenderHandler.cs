@@ -1,4 +1,5 @@
 ﻿using SocketServer.Geo;
+using SocketServer.Model;
 using SocketServer.Utils;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,8 @@ namespace SocketServer.ProxyHandlers
 
     public class TcpMessageSenderHandler : ProxyHandler
     {
-        private struct MSG
-        {
-            public int uid;
-            public string msg;
-        }
+        private string username;
+        private int uid;
         public override void process()
         {
 
@@ -34,7 +32,10 @@ namespace SocketServer.ProxyHandlers
                 return;               
             }
             
-            int uid = Convert.ToInt32(vals[0]);
+             uid = Convert.ToInt32(vals[0]);
+            this.username = this.getUsername(uid);
+            if (this.username == null)
+                return;
             //ack sender reg
             response=System.Text.Encoding.UTF8.GetBytes(Helper.makeTCPMsg(Constants.PROXY_ACK));
             netstm.Write(response, 0, response.Length);
@@ -49,11 +50,11 @@ namespace SocketServer.ProxyHandlers
                     if (recv == 0)
                         break;
                     //parse msg
-                    MSG msg;
+                    UserMessage msg = null;
                     try
                     { 
                         msg = getMsgFromRequest(data, 0, recv);
-                        if (Constants.PROXY_CLOSE.Equals(msg.msg) && msg.uid == -1)
+                        if (null==msg)
                         {   /*client leaving, kill connection as well as delete 
                              *this client's listening tcpclient from TCPRecieverCollection*/
                             TCPRecieverCollection coll=TCPRecieverCollection.instance();
@@ -76,6 +77,7 @@ namespace SocketServer.ProxyHandlers
                     }
 
                     //send msg to user in reciever collection
+                    msg.username = this.username;
                     sendToTarget(msg);
 
 
@@ -92,16 +94,27 @@ namespace SocketServer.ProxyHandlers
 
         }
 
-        private MSG getMsgFromRequest(byte[] data,int start, int len)
+        private string getUsername(int id)
         {
-            MSG msg;
-            msg.uid = -1;
+            LINQClassesDataContext context = new LINQClassesDataContext();
+            var user = from u in context.Users
+                       where u.userid == id
+                       select u;
+            if (user.Count() <= 0)
+                return null;
+
+            return user.First().username;
+        }
+
+        private UserMessage getMsgFromRequest(byte[] data, int start, int len)
+        {
+            
+            
             string str=Encoding.ASCII.GetString(data, start, len);
             if(str.Equals(Constants.PROXY_CLOSE))
             {   //client telling server 'i dont want to listen any msg, and i dont want to send any msg neither'
-                msg.uid=-1;
-                msg.msg = Constants.PROXY_CLOSE;
-                return msg;
+                
+                return null;
             }
             string []strlis=str.Split(' ');
             if (strlis.Length != 3 || !strlis[0].Equals(Constants.PROXY_MSG))
@@ -109,38 +122,38 @@ namespace SocketServer.ProxyHandlers
                 throw new TcpInvalidMsgException("invalid msg formate: "+str);
             }
             int uid=Convert.ToInt32( strlis[1]);
-            
-            msg.uid = uid;
-            msg.msg = strlis[2];
-            return msg;
+            return new UserMessage(uid, this.username,strlis[2]);
+         
             
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private  void sendToTarget(MSG msg)
+        private  void sendToTarget(UserMessage msg)
         {
             TCPRecieverCollection coll= TCPRecieverCollection.instance();
-            NetworkStream netstm = coll.getByUid(msg.uid);
+            NetworkStream netstm = coll.getByUid(msg.userid);
             if(netstm==null)
                 return;
             if (!netstm.CanRead || !netstm.CanWrite)
             {
-                coll.removeByUid(msg.uid);
+                coll.removeByUid(msg.userid);
                 return;
             }
-            byte[] bytes=Encoding.ASCII.GetBytes(Helper.makeTCPMsg(msg.uid+" "+ msg.msg));
+
+
+            msg.userid = uid;
+            byte[] bytes = Encoding.ASCII.GetBytes(Helper.makeTCPMsg(msg.toString()));
             netstm.Write(bytes,0,bytes.Count());
             netstm.Flush();
             byte[] data = new byte[1024];
             int recv=0;
             int max_try=6;
-            Console.Out.WriteLine("msg redirected to client. msg is  '" + msg.uid + " " + msg.msg+"'");
+            Console.Out.WriteLine("msg redirected to client. msg is  '" + msg.userid + " " +msg.username+" "+ msg.msg+"'");
              recv = netstm.Read(data, 0, data.Length);
            
              string str=Encoding.ASCII.GetString(data, 0, recv);
              if (str.Equals(Constants.PROXY_ACK))
              {
-                 Console.Out.WriteLine("ACK recieved after msg redirected to client ");
                  return;
              }
         }

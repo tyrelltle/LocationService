@@ -8,8 +8,8 @@
 		<item value="true" key="CREATE_TOPLEVEL"/>
 		<item value="false" key="deleteSubPackages"/>
 		<item value="*" key="patterns"/>
-		<item value="false" key="CREATE_GETTER_SETTER"/>
 		<item value="false" key="qualifyReferences"/>
+		<item value="false" key="CREATE_GETTER_SETTER"/>
 		<item value="false" key="moveWizard.updateQualifiedNames"/>
 	</section>
 	<section name="InferTypeArguments">

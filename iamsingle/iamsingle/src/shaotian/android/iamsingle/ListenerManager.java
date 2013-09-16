@@ -9,9 +9,14 @@ public class ListenerManager {
 		listeners.add(listener);
 	}
 	public void notifyListeners() {
+		this.notifyListeners(null);
+	}
+	
+	public void notifyListeners(Object obj)
+	{
 		for(IListener i : listeners)
 		{
-			i.handleChange(null);
+			i.handleChange(obj);
 			
 		}
 	}

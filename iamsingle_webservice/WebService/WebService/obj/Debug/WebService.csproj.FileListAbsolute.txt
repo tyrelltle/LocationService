@@ -3,8 +3,3 @@ C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_webservice\WebServ
 C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\obj\Debug\WebService.csprojResolveAssemblyReference.cache
 C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\obj\Debug\WebService.dll
 C:\Users\tylershao\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\obj\Debug\WebService.pdb
-C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\bin\WebService.dll
-C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\bin\WebService.pdb
-C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\obj\Debug\WebService.dll
-C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\obj\Debug\WebService.pdb
-C:\Users\tyler\Dropbox\Projects\LocationService\iamsingle_webservice\WebService\WebService\obj\Debug\WebService.csprojResolveAssemblyReference.cache

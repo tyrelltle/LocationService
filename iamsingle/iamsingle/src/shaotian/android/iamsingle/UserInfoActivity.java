@@ -41,7 +41,7 @@ public class UserInfoActivity extends Activity implements IInfoContainer{
 
 			@Override
 			public void onClick(View v) {
-				Intent i=new Intent(context, ChatListActivity.class);
+				Intent i=new Intent(context, ChatActivity.class);
 				
 				i.putExtra("uid", uid);
 			    context.startActivity(i);				

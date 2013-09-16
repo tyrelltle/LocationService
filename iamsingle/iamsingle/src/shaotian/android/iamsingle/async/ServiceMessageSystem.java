@@ -130,7 +130,7 @@ public class ServiceMessageSystem extends Service   implements Observer{
 		mNotificationManager.notify(0, mBuilder.build());
 		
 		//notify its own listeners, like chatListActivities
-		ServiceMessageSystem.listenerManager.notifyListeners();
+		ServiceMessageSystem.listenerManager.notifyListeners(msg);
 	}
 	
 	

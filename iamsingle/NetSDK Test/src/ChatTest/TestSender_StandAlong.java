@@ -13,7 +13,7 @@ public class TestSender_StandAlong {
 
 	@Test
 	public void test() throws Exception {
-		INetProvider provider=new TcpProvider("192.168.0.114",12000);
+		INetProvider provider=new TcpProvider("192.168.0.10",12000);
 
 		provider.send("reg 57");
 		assertEquals("ack",provider.receive());

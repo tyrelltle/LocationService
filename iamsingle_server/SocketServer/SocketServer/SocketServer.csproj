@@ -42,9 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Geo\GeoLocation.cs" />
-    <Compile Include="Geo\LatLng.cs" />
-    <Compile Include="Geo\Region.cs" />
+    <Compile Include="Model\GeoLocation.cs" />
+    <Compile Include="Model\LatLng.cs" />
+    <Compile Include="Model\Message.cs" />
+    <Compile Include="Model\Region.cs" />
     <Compile Include="LINQClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
