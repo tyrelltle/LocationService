@@ -117,7 +117,7 @@ namespace SocketServer.ProxyHandlers
                 return null;
             }
             string []strlis=str.Split(' ');
-            if (strlis.Length != 3 || !strlis[0].Equals(Constants.PROXY_MSG))
+            if ( !strlis[0].Equals(Constants.PROXY_MSG))
             {
                 throw new TcpInvalidMsgException("invalid msg formate: "+str);
             }

@@ -28,10 +28,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MapActivity extends Activity implements IListener{
 	
+
 	private GoogleMap mMap;
 	private ServiceUpdateLocation mService=null;
 	private Handler handler=null;
@@ -71,8 +74,21 @@ public class MapActivity extends Activity implements IListener{
     };
     
     
-
-    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Messages");
+		return super.onCreateOptionsMenu(menu);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    //respond to menu item selection
+		switch (item.getItemId()) {
+	    case 0: startActivity(new Intent(this, ChatListActivity.class));
+	    		return true;
+	    default:
+	    return super.onOptionsItemSelected(item);
+	}
+	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

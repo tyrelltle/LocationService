@@ -16,5 +16,11 @@
             android:layout_height="wrap_content"
             android:textSize="22px" 
             android:text="aloha"/>
+	<TextView android:id="@+id/hidden_uid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22px" 
+            android:text="aloha"
+            android:visibility="gone"/>
 
 </LinearLayout>

@@ -86,7 +86,7 @@ public class MessageManagerTest {
     		
     	{	mgr=MessageManager.initialize(sender,provider);}
     	((ProviderMock)provider).nextRecieveReturnAck=true;
-    	mgr.registerToServer(sender);
+    	mgr.registerToServer();
     	//get message history with uid 29
     	assertTrue(mgr.getMessageHistory(29)==null);
     	((ProviderMock)provider).nextRecieveReturnAck=true;			   
@@ -200,5 +200,5 @@ public class MessageManagerTest {
 		
 	}
 	
-	
+
 }

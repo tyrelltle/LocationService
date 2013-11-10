@@ -36,7 +36,7 @@
             android:value="AIzaSyAgOH6HfvrLm1UZX9EFjQLpTINNtvqhJpg" />
         <meta-data
             android:name="serverip"
-            android:value="192.168.0.10" />
+            android:value="192.168.0.11" />
         <meta-data
             android:name="serverport"
             android:value="11000" />
@@ -45,7 +45,7 @@
             android:value="12000" />
         <meta-data
             android:name="wsserverip"
-            android:value="192.168.0.10" />
+            android:value="192.168.0.11" />
         <meta-data
             android:name="getLocFrequency"
             android:value="50000" />

@@ -58,23 +58,27 @@ public class MessageManager extends NetManager{
 		return instance;
 	}
 
-	public void registerToServer(int sender) throws IOException {
+	public void registerToServer() throws IOException {
 		mProvider.send("reg "+myUserId);
 	    if(!("ack".equals(mProvider.receive())))
 			throw new IllegalStateException("server not acked after sender 'reg' ");
 	}
 	
 	public void unRegister() throws IOException {
-		mProvider.disconnect();
+		mProvider.send("close");
+	/*    if(!("ack".equals(mProvider.receive())))
+			throw new IllegalStateException("server not acked after sender 'close' ");*/
+		//mProvider.disconnect();
 	    
 	}
 
 
 	public void sendMessage(int toid, String string) throws IOException {
 		mProvider.send("msg "+toid+" "+string);
-		if(!("ack".equals(mProvider.receive())))
+		String res=mProvider.receive();
+		/*if(!("ack".equals(res)))
 			throw new IllegalStateException("server not acked after sending message to uid ="+toid);
-		
+		*/
 		//create a new message in message history with this user
 		Message msg=new Message(myUserId, toid, string);
 		addToMessageHistory(toid,msg);

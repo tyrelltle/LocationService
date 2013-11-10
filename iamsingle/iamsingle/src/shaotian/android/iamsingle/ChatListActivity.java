@@ -8,6 +8,7 @@ import java.util.Map;
 
 import shaotian.android.iamsingle.async.ServiceMessageSystem;
 import shaotian.android.iamsingle.netsdk.model.MessageHistoryList;
+import shaotian.android.iamsingle.netsdk.model.MessageHistoryList.Node;
 import shaotian.android.iamsingle.netsdk.util.Pair;
 import shaotian.android.iamsingle.socketsdk.MessageManager;
 import android.os.Bundle;
@@ -24,10 +25,13 @@ import android.widget.SimpleAdapter;
 
 public class ChatListActivity extends ListActivity implements IListener{
 
+
 	Context context;
 	MessageManager mgr;
 	ListView lisView;
 	private Handler handler=null;
+	Map<String, Object> listmap=null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,9 +43,10 @@ public class ChatListActivity extends ListActivity implements IListener{
 		mgr=MessageManager.instance();
 		MessageHistoryList msgLis=mgr.getHistoryList();
 		SimpleAdapter adapter = new SimpleAdapter(this,getData(),R.layout.activity_chat_list,
-                new String[]{"senderid"},
-                new int[]{R.id.txt_sendername_histlis});
+                new String[]{"senderid","hiddenuid"},
+                new int[]{R.id.txt_sendername_histlis,R.id.hidden_uid});
         setListAdapter(adapter);
+        
 		
 	}
 	private List<Map<String, Object>> getData() {
@@ -50,10 +55,13 @@ public class ChatListActivity extends ListActivity implements IListener{
 		Iterator it=lis.getIterator();
 		while(it.hasNext())
 		{
-			Map<String, Object> map = new HashMap<String, Object>();
-			String uname=((MessageHistoryList.Node)it.next()).senderName;
-			map.put("senderid", uname);
-			ret.add(map);
+			listmap = new HashMap<String, Object>();
+			Node node=(Node) it.next();
+			String uname=node.senderName;
+			int uid=node.senderId;
+			listmap.put("senderid", uname);
+			listmap.put("hiddenuid", String.valueOf(uid));
+			ret.add(listmap);
 			
 		}
 		return ret;
@@ -72,7 +80,14 @@ public class ChatListActivity extends ListActivity implements IListener{
 			}});
 	
 	}
-
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Map<String, String> map=(Map<String, String>) l.getItemAtPosition(position);
+		
+		Intent i=new Intent(context, ChatActivity.class);
+		i.putExtra("uid", Integer.valueOf(map.get("hiddenuid")));
+	    startActivity(i);	
+	}
 
 
 }

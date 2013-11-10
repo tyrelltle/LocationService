@@ -38,7 +38,8 @@ public class MessageListener extends Observable implements Runnable
 			
 			//add to history
 			String[] arr=msgRecieved.split(" ");
-			if(arr[1].equals("close"))
+
+			if(arr[0].equals("close"))
 				return;
 			int fromuid=Integer.valueOf(arr[0]);
 			Message msg=new Message(fromuid,arr[1],this.myUserId,arr[2]);
