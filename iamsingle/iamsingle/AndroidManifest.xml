@@ -98,6 +98,7 @@
             android:name="shaotian.android.iamsingle.ChatActivity"
             android:label="@string/title_activity_chat" >
         </activity>
+        <activity android:name="FriendListActivity"></activity>
     </application>
 
     <uses-feature

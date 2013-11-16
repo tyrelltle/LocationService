@@ -43,6 +43,11 @@ public class WSFactory {
 	
 	
 	//-----------factory methods--------------
+	public FriendManager getFriendManager(){
+		
+		return FriendManager.Instance(this.provider);
+		
+	}
 	public JSONObject RegisterUser(String username, String password) throws UnsupportedEncodingException, JSONException {
 		AuthManager mgr=new AuthManager(this.provider);
 	    return mgr.register(username, password);

@@ -77,17 +77,22 @@ public class MapActivity extends Activity implements IListener{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add("Messages");
+		menu.add("Friends");
 		return super.onCreateOptionsMenu(menu);
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    //respond to menu item selection
-		switch (item.getItemId()) {
-	    case 0: startActivity(new Intent(this, ChatListActivity.class));
+		if(item.getTitle().equals("Messages"))
+		{
+			startActivity(new Intent(this, ChatListActivity.class));
 	    		return true;
-	    default:
-	    return super.onOptionsItemSelected(item);
-	}
+		}else if(item.getTitle().equals("Friends"))
+		{	 startActivity(new Intent(this, FriendListActivity.class));
+				return true;
+		}
+
+		return false;
 	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {

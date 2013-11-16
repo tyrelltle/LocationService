@@ -19,20 +19,21 @@ namespace WebService
         {
         }
 
-        public LinkedList<FriendData> getfriends(int uid)
+        public FriendList getfriends(int uid)
         {
-            LinkedList<FriendData> ret=new LinkedList<FriendData>();
+            FriendList ret = new FriendList();
             DataClassesDataContext context=new DataClassesDataContext();
-            var baselist = (from f in context.Friends select new {a=f.uid,b=f.fuid } ).Union(
+            var baselist = (from f in context.Friends select new {a=f.uid,b=f.fuid } ).Intersect(
                             from f in context.Friends select new {a=f.fuid,b=f.uid });
 
             var finalist = from i in baselist
                            join u in context.Users
-                           on i.a equals u.userid
-                           where i.b == uid
+                           on i.b equals u.userid
+                           where i.a == uid
                            select u;
+
             foreach (var a in finalist)
-                ret.AddFirst(new FriendData { Name=a.username,Uid=a.userid });
+                ret.add(new FriendData { Name=a.username,Uid=a.userid });
           return ret;
           
         }

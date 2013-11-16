@@ -17,7 +17,7 @@ namespace WebService
 
         [OperationContract]
         [WebInvoke(UriTemplate = "getfriends?uid={uid}", ResponseFormat = WebMessageFormat.Json, Method = "GET")]
-        LinkedList<FriendData> getfriends(int uid);
+        FriendList getfriends(int uid);
         [OperationContract]
         [WebInvoke(UriTemplate = "addFriendById?myuid={uid}&touid={touid}", ResponseFormat = WebMessageFormat.Json, Method = "PUT")]
         ReturnStatus addFriendById(int uid, int touid);
@@ -65,5 +65,21 @@ namespace WebService
             get { return mmsg; }
             set { mmsg = value; }
         }
+    }
+    [DataContract]
+    public class FriendList
+    {
+        private LinkedList<FriendData> mLis = new LinkedList<FriendData>();
+        public void add(FriendData s)
+        {
+            mLis.AddFirst(s);
+        }
+        [DataMember]
+        public LinkedList<FriendData> Friends
+        {
+            get { return mLis; }
+            set { mLis = value; }
+        }
+    
     }
 }
