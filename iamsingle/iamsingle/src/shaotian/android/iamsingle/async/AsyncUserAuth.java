@@ -126,6 +126,7 @@ public class AsyncUserAuth extends AsyncTask<Void, Void, JSONObject> {
 			      editor.putInt(SharedUtil.SHARED_UID, uid);
 			      editor.commit();
 			      Intent i=new Intent(context, MapActivity.class);
+			     // i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			      context.startActivity(i);
 				
 			} catch (JSONException e) {

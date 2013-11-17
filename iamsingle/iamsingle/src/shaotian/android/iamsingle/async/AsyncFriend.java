@@ -40,6 +40,10 @@ public class AsyncFriend extends AsyncTask<Void, Void, IModel> {
 		int uid=-1;
 		int touid=-1;
 		private FriendList pointer;
+    	public AsyncFriend(int uid )
+    	{
+    		this.uid=uid;
+     	}
     	public AsyncFriend(IListener liser, int uid, int touid)
     	{
     		this.uid=uid;
@@ -57,7 +61,7 @@ public class AsyncFriend extends AsyncTask<Void, Void, IModel> {
 		protected IModel doInBackground(Void... params) {
 			try {
 				switch(touid){
-				case -1:return WSFactory.Instance().getFriendManager().getFriendList(uid);
+				case -1:return WSFactory.Instance().getFriendManager().updateFriendList(uid);
 				default:return WSFactory.Instance().getFriendManager().addFriend(uid,touid);
 				}
 			} catch (Exception e) {
@@ -70,6 +74,8 @@ public class AsyncFriend extends AsyncTask<Void, Void, IModel> {
 		@Override
 		protected void onPostExecute(IModel result) {
 			super.onPostExecute(result); 
+			if(liser==null)
+				return;
 			liser.handleChange(result);
 			
 		}

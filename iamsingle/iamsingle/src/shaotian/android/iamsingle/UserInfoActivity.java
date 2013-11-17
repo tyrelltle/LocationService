@@ -1,11 +1,14 @@
 package shaotian.android.iamsingle;
 
+import java.util.Iterator;
+
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.async.AsyncFriend;
 import shaotian.android.iamsingle.async.AsyncUpdateLocation;
 import shaotian.android.iamsingle.async.AsyncInfoCtrUpdate;
 import shaotian.android.iamsingle.async.AsyncUserAuth;
 
+import shaotian.android.iamsingle.netsdk.model.Friend;
 import shaotian.android.iamsingle.netsdk.model.IModel;
 import shaotian.android.iamsingle.netsdk.model.ReturnStatus;
 import shaotian.android.iamsingle.netsdk.model.UserInfo;
@@ -35,6 +38,8 @@ public class UserInfoActivity extends Activity implements IInfoContainer, IListe
 	Context context;
 	IListener lisref;
 	int uid;ReturnStatus stat;
+	boolean is_friend=false;
+	Button friend;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,7 +49,9 @@ public class UserInfoActivity extends Activity implements IInfoContainer, IListe
 		Bundle extras=this.getIntent().getExtras();
 		uid=extras.getInt("uid");
 		handler=new Handler();
-		Button friend=(Button)this.findViewById(R.id.btn_friend);
+		isFriend();
+		
+		friend=(Button)this.findViewById(R.id.btn_friend);
 		friend.setVisibility(View.INVISIBLE);
 		friend.setOnClickListener(new View.OnClickListener(){
 		SharedPreferences settings = context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0);
@@ -55,6 +62,7 @@ public class UserInfoActivity extends Activity implements IInfoContainer, IListe
 					else
 						new AsyncFriend(lisref, settings.getInt(SharedUtil.SHARED_UID, -1),uid ).execute();		
 			}});
+		
 		Button chat=(Button)this.findViewById(R.id.btn_chat);
 		chat.setOnClickListener(new View.OnClickListener(){
 
@@ -67,12 +75,41 @@ public class UserInfoActivity extends Activity implements IInfoContainer, IListe
 			}});
 		
 		
+		Button find=(Button)this.findViewById(R.id.btn_find);
+		find.setOnClickListener(new View.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent i=new Intent(context, MapActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);				
+				i.putExtra("specificMarker", uid);
+			    context.startActivity(i);				
+			}});
+		
+		
 		AsyncInfoCtrUpdate task=new AsyncInfoCtrUpdate(uid,	this);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		else
 			 task.execute();	
 		
+	}
+
+	private void isFriend() {
+		//determine if this user is friend
+		Iterator i=WSFactory.Instance().getFriendManager().list.getIterator();
+		while(i.hasNext()){
+			if(((Friend)i.next()).uid==uid)
+			{
+				this.is_friend=true;
+				break;
+			}
+		
+		}
+	
+		
+		
+
 	}
 
 	@Override
@@ -98,8 +135,17 @@ public class UserInfoActivity extends Activity implements IInfoContainer, IListe
 		((ImageView) this.findViewById(R.id.img_usericon)).setImageBitmap(bm);
 		((TextView)this.findViewById(R.id.txt_desc)).setText(result.selfintro);
 		((TextView)this.findViewById(R.id.txt_hobby)).setText(result.hobby);
-		((TextView)this.findViewById(R.id.txt_username)).setText("test user name");
-		((Button)this.findViewById(R.id.btn_friend)).setVisibility(View.VISIBLE);
+		if(!this.is_friend){
+			((TextView)this.findViewById(R.id.txt_username)).setText(result.username);
+			friend.setVisibility(View.VISIBLE);
+
+		}
+		else{			
+			((TextView)this.findViewById(R.id.txt_username)).setText(result.username+" (friend)");
+			friend.setVisibility(View.INVISIBLE);
+
+		}
+
 
 	
 		

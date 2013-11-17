@@ -58,8 +58,9 @@ int id TableRow02 0x7f050023
 int id TextView02 0x7f050021
 int id TextView03 0x7f050027
 int id TextView05 0x7f050024
-int id action_settings 0x7f05002c
+int id action_settings 0x7f05002d
 int id btn_chat 0x7f050029
+int id btn_find 0x7f05002b
 int id btn_friend 0x7f05002a
 int id btn_sex 0x7f050017
 int id btn_submitmsg 0x7f05000b
@@ -75,7 +76,7 @@ int id hybrid 0x7f050004
 int id img_usericon 0x7f050020
 int id lst_msgs 0x7f05000c
 int id map 0x7f05001f
-int id menu_message 0x7f05002d
+int id menu_message 0x7f05002e
 int id none 0x7f050000
 int id normal 0x7f050001
 int id pwd 0x7f050006
@@ -93,7 +94,7 @@ int id textView2 0x7f050013
 int id textView3 0x7f050016
 int id textView4 0x7f05001a
 int id textView5 0x7f05001d
-int id txt_chat_msg 0x7f05002b
+int id txt_chat_msg 0x7f05002c
 int id txt_desc 0x7f050028
 int id txt_entermsg 0x7f05000a
 int id txt_hobby 0x7f050025

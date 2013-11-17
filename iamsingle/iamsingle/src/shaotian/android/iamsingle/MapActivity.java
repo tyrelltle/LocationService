@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import shaotian.android.iamsingle.UIShared.MapMarkerManager;
 import shaotian.android.iamsingle.UIShared.SharedUtil;
 import shaotian.android.iamsingle.UIShared.TimedMarker;
+import shaotian.android.iamsingle.async.AsyncFriend;
 import shaotian.android.iamsingle.async.GetLocManager;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation;
 import shaotian.android.iamsingle.async.ServiceUpdateLocation.ServiceUpdateLocBinder;
@@ -18,6 +19,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -34,6 +38,8 @@ import android.widget.Toast;
 
 public class MapActivity extends Activity implements IListener{
 	
+
+
 
 	private GoogleMap mMap;
 	private ServiceUpdateLocation mService=null;
@@ -98,6 +104,7 @@ public class MapActivity extends Activity implements IListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initializeMap();
         context=this;
         handler=new Handler();
@@ -141,6 +148,14 @@ public class MapActivity extends Activity implements IListener{
 	        
 	        startGetLocTimer();
 	    }
+        
+        //load friend list
+	    SharedPreferences settings = context.getSharedPreferences(SharedUtil.SHARED_PREFERENCES, 0);
+
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			new AsyncFriend(settings.getInt(SharedUtil.SHARED_UID, -1) ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		else
+			new AsyncFriend(settings.getInt(SharedUtil.SHARED_UID, -1) ).execute();
     }
 
     public void startGetLocTimer() {
@@ -214,9 +229,10 @@ public class MapActivity extends Activity implements IListener{
     @Override
 	protected void onResume() {
 
+    	
     	bindService();
     	super.onResume();
-    	
+
     }
 
     private void bindService(){
@@ -239,6 +255,21 @@ public class MapActivity extends Activity implements IListener{
 		this.handler.post(new UpdateMapLocTask((LocationList)result,mMap));
     }
 
-   
+ 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		
+	   	if(intent.hasExtra("specificMarker"))
+	   	{
+	   		TimedMarker m=MapMarkerManager.Instance().getMarkerByUid(intent.getIntExtra("specificMarker", -1));
+	   		if(m==null){
+	   			Toast.makeText(this, "Sorry,  your friend not within your view range",Toast.LENGTH_LONG).show();	   			
+	   		}else{
+		   		Marker mm=m.getMarker();
+		   		mm.showInfoWindow();  	
+	   		}
+	   	}
+	   	super.onNewIntent(intent);
+	}
     
 }

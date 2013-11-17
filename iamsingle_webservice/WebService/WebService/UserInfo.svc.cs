@@ -18,7 +18,16 @@ namespace WebService
             return "hello world";
         }
 
+        public UserIP getuserip(int uid)
+        {
+            DataClassesDataContext context = new DataClassesDataContext();
+            var a = (from i in context.Locations
+                    where i.userid == uid
+                    select i).First();
+            return new UserIP{ip=a.}
 
+        
+        }
         public UserInfo getuserinfofull(SecureUserInfoParam input)
         {
             UserInfo ret = new UserInfo(UserInfo.Action.POST);

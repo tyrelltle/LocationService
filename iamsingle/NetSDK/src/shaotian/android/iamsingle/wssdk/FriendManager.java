@@ -16,13 +16,14 @@ import org.json.JSONObject;
 import shaotian.android.iamsingle.wssdk.IWSProvider;
 import shaotian.android.iamsingle.wssdk.WSManager;
 import shaotian.android.iamsingle.wssdk.WSProvider;
+import shaotian.android.iamsingle.netsdk.model.Friend;
 import shaotian.android.iamsingle.netsdk.model.FriendList;
 import shaotian.android.iamsingle.netsdk.model.ReturnStatus;
 import shaotian.android.iamsingle.netsdk.model.UserInfo;
 import shaotian.android.iamsingle.netsdk.util.WSUtil;
 public class FriendManager extends WSManager{
 	private static FriendManager instance=null;
-	
+	public FriendList list=null;
 	public static FriendManager Instance(IWSProvider provider){
 		if(instance==null)
 			instance = new FriendManager(provider);
@@ -35,7 +36,7 @@ public class FriendManager extends WSManager{
 		super(wsProvider);
 	}
 	
-	public FriendList getFriendList(int uid) throws Exception
+	public ReturnStatus updateFriendList(int uid) throws Exception
 	{
 				
 		this.mWsProvider.setAction(WSProvider.METHOD.GET, "/webservice/friendservice.svc/getfriends?uid="+uid);
@@ -44,9 +45,8 @@ public class FriendManager extends WSManager{
 		JSONObject json=this.mWsProvider.getJSONFromResult();
 		
 		
-		FriendList ret=new FriendList(json);
-		
-		return ret;
+		list=new FriendList(json);
+		return new ReturnStatus( "success",0);
 
 	}
 	
@@ -60,7 +60,9 @@ public class FriendManager extends WSManager{
 		
 		
 		ReturnStatus ret=new ReturnStatus(json);
-		
+		if(ret.errno!=0)
+		//add new friend to list
+			this.list.add(new Friend("",touid));
 		return ret;
 
 	}

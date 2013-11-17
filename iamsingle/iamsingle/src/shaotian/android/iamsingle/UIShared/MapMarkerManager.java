@@ -157,7 +157,15 @@ public class MapMarkerManager<T extends TimedMarker> {
 	}
 
 	
-
+	public T getMarkerByUid(int uid)
+	{
+		T ret=null;
+		if((ret=keeplist.get(uid))==null)
+		{
+			ret=dellist.get(uid);
+		}
+		return ret;
+	}
 	
 	
 }

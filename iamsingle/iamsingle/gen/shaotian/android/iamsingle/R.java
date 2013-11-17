@@ -189,8 +189,9 @@ containing a value of this type.
         public static final int TextView02=0x7f050021;
         public static final int TextView03=0x7f050027;
         public static final int TextView05=0x7f050024;
-        public static final int action_settings=0x7f05002c;
+        public static final int action_settings=0x7f05002d;
         public static final int btn_chat=0x7f050029;
+        public static final int btn_find=0x7f05002b;
         public static final int btn_friend=0x7f05002a;
         public static final int btn_sex=0x7f050017;
         public static final int btn_submitmsg=0x7f05000b;
@@ -206,7 +207,7 @@ containing a value of this type.
         public static final int img_usericon=0x7f050020;
         public static final int lst_msgs=0x7f05000c;
         public static final int map=0x7f05001f;
-        public static final int menu_message=0x7f05002d;
+        public static final int menu_message=0x7f05002e;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
         public static final int pwd=0x7f050006;
@@ -224,7 +225,7 @@ containing a value of this type.
         public static final int textView3=0x7f050016;
         public static final int textView4=0x7f05001a;
         public static final int textView5=0x7f05001d;
-        public static final int txt_chat_msg=0x7f05002b;
+        public static final int txt_chat_msg=0x7f05002c;
         public static final int txt_desc=0x7f050028;
         public static final int txt_entermsg=0x7f05000a;
         public static final int txt_hobby=0x7f050025;

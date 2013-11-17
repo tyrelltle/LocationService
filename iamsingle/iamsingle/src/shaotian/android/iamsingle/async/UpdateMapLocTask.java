@@ -47,7 +47,6 @@ public class UpdateMapLocTask implements Runnable{
 				
 			    int uid=loc.userid;
 			    Marker m=null;
-			    
 			    if(!mgn.contains(uid))
 				{	
 			    	m=mMap.addMarker(new MarkerOptions()

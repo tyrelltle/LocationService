@@ -46,7 +46,9 @@ namespace WebService
             Boolean exist = this.recordexists(context, uid, touid);
             if (!exist) {
                 Friend newf = new Friend { uid = uid, fuid = touid };
+                Friend newf2 = new Friend { uid = touid, fuid = uid };
                 context.Friends.InsertOnSubmit(newf);
+                context.Friends.InsertOnSubmit(newf2);
                 context.SubmitChanges();
             
             }
@@ -68,7 +70,10 @@ namespace WebService
             if (!exists)
             {
                 Friend newf = new Friend { uid = uid, fuid = touid };
+                Friend newf2 = new Friend { uid = touid, fuid = uid };
                 context.Friends.InsertOnSubmit(newf);
+                context.Friends.InsertOnSubmit(newf2);
+
                 context.SubmitChanges();
 
             }

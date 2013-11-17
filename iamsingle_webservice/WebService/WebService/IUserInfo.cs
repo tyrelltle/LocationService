@@ -33,8 +33,25 @@ namespace WebService
         [OperationContract]
         [WebInvoke(UriTemplate = "getuserinfofull", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
         UserInfo getuserinfofull(SecureUserInfoParam input);
-    }
 
+       /* [OperationContract]
+        [WebInvoke(UriTemplate = "getuserloc?uid={uid}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "GET")]
+        UserLoc getuserloc(int uid);*/
+    }
+    /*
+    [DataContract]
+    public class UserLoc
+    {
+        float mlat,mlon;
+        [DataMember]
+        public string lat 
+        {
+            get { return mip; }
+            set { mip = value; }
+        
+        }
+    }
+    */
     [DataContract]
     public class SecureUserInfoParam
     {
